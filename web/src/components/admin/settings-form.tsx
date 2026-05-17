@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-// import { NICHES } from "@/lib/constants"; // used by AI settings (disabled)
+import { NICHES } from "@/lib/constants";
 
 type Settings = {
   siteName: string;
@@ -47,46 +47,50 @@ export function SettingsForm({ settings }: { settings: Settings }) {
           className="mt-1 h-11 w-full rounded-xl border border-border bg-background px-4"
         />
       </label>
-      {/* AI / cron settings disabled for deploy-only mode
-      <label className="block text-sm">
-        Default niche for AI generation
-        <select
-          value={form.defaultNiche}
-          onChange={(e) => setForm({ ...form, defaultNiche: e.target.value })}
-          className="mt-1 h-11 w-full rounded-xl border border-border bg-background px-4"
-        >
-          {NICHES.map((n) => (
-            <option key={n.value} value={n.value}>
-              {n.label}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label className="flex items-center gap-2 text-sm">
-        <input
-          type="checkbox"
-          checked={form.autoPublish}
-          onChange={(e) => setForm({ ...form, autoPublish: e.target.checked })}
-        />
-        Auto-publish AI articles
-      </label>
-      <label className="flex items-center gap-2 text-sm">
-        <input
-          type="checkbox"
-          checked={form.cronEnabled}
-          onChange={(e) => setForm({ ...form, cronEnabled: e.target.checked })}
-        />
-        Enable cron generation
-      </label>
-      <label className="block text-sm">
-        OpenAI model
-        <input
-          value={form.openaiModel}
-          onChange={(e) => setForm({ ...form, openaiModel: e.target.value })}
-          className="mt-1 h-11 w-full rounded-xl border border-border bg-background px-4"
-        />
-      </label>
-      */}
+      <div className="rounded-xl border border-border bg-muted/30 p-4 space-y-4">
+        <p className="text-sm font-semibold">AI article cron</p>
+        <p className="text-xs text-muted-foreground">
+          Publishes 1000+ word EEAT articles with news sources, SEO, images, and optional affiliates.
+        </p>
+        <label className="block text-sm">
+          Default niche (fallback; cron rotates all categories)
+          <select
+            value={form.defaultNiche}
+            onChange={(e) => setForm({ ...form, defaultNiche: e.target.value })}
+            className="mt-1 h-11 w-full rounded-xl border border-border bg-background px-4"
+          >
+            {NICHES.map((n) => (
+              <option key={n.value} value={n.value}>
+                {n.label}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={form.autoPublish}
+            onChange={(e) => setForm({ ...form, autoPublish: e.target.checked })}
+          />
+          Auto-publish AI articles (live immediately)
+        </label>
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={form.cronEnabled}
+            onChange={(e) => setForm({ ...form, cronEnabled: e.target.checked })}
+          />
+          Enable scheduled cron (Vercel: daily 09:00 UTC)
+        </label>
+        <label className="block text-sm">
+          OpenAI model
+          <input
+            value={form.openaiModel}
+            onChange={(e) => setForm({ ...form, openaiModel: e.target.value })}
+            className="mt-1 h-11 w-full rounded-xl border border-border bg-background px-4"
+          />
+        </label>
+      </div>
       <button
         type="submit"
         className="rounded-xl bg-accent px-6 py-2.5 text-sm font-semibold text-accent-foreground"

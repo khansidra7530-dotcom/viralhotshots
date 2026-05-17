@@ -1,65 +1,59 @@
-import { NextResponse } from "next/server";
-
-export const dynamic = "force-dynamic";
-
-/** AI cron disabled — deploy-only mode. Re-enable the block below when ready. */
-export async function GET() {
-  return NextResponse.json(
-    { disabled: true, message: "AI cron generation is disabled." },
-    { status: 503 }
-  );
-}
-
-/*
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { generateArticle } from "@/lib/ai/generate-article";
-import type { Niche } from "@/generated/prisma/client";
+import { pickCategoryForCron } from "@/lib/ai/pick-category";
+import { ARTICLE_MIN_WORDS } from "@/lib/ai/prompts";
 
+export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
-export async function GET(req: NextRequest) {
+function authorize(req: NextRequest): boolean {
   const authHeader = req.headers.get("authorization");
   const cronSecret = process.env.CRON_SECRET;
+  if (!cronSecret) return false;
+  if (authHeader === `Bearer ${cronSecret}`) return true;
+  const querySecret = req.nextUrl.searchParams.get("secret");
+  return querySecret === cronSecret;
+}
 
-  if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
+export async function GET(req: NextRequest) {
+  if (!authorize(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (!process.env.OPENAI_API_KEY) {
+    return NextResponse.json(
+      { error: "OPENAI_API_KEY is not configured on the server" },
+      { status: 500 }
+    );
   }
 
   const settings = await prisma.siteSettings.findUnique({ where: { id: "default" } });
   if (settings && !settings.cronEnabled) {
-    return NextResponse.json({ skipped: true, reason: "Cron disabled" });
+    return NextResponse.json({ skipped: true, reason: "Cron disabled in admin settings" });
   }
 
   try {
     const admin = await prisma.user.findFirst({ where: { role: "ADMIN" } });
     if (!admin) {
-      return NextResponse.json({ error: "No admin user found" }, { status: 500 });
+      return NextResponse.json({ error: "No admin user found. Run db:seed" }, { status: 500 });
     }
 
-    const niche = (settings?.defaultNiche ?? "TECH") as Niche;
-    const category = await prisma.category.findFirst({
-      where: { niche },
-      orderBy: { updatedAt: "desc" },
-    });
+    const category = await pickCategoryForCron();
 
-    if (!category) {
-      return NextResponse.json({ error: "No category for niche" }, { status: 500 });
-    }
-
-    const article = await generateArticle({
+    const { article, wordCount, newsHeadline } = await generateArticle({
       niche: category.niche,
       categoryId: category.id,
       categoryName: category.name,
       authorId: admin.id,
-      autoPublish: settings?.autoPublish,
+      autoPublish: settings?.autoPublish ?? true,
     });
 
     await prisma.cronLog.create({
       data: {
         job: "generate-article",
         status: "success",
-        message: `Generated: ${article.title}`,
+        message: `Published: ${article.title} (${wordCount} words)${newsHeadline ? ` · News: ${newsHeadline.slice(0, 80)}` : ""}`,
         articleId: article.id,
       },
     });
@@ -68,7 +62,12 @@ export async function GET(req: NextRequest) {
       success: true,
       articleId: article.id,
       slug: article.slug,
+      title: article.title,
       status: article.status,
+      wordCount,
+      minWords: ARTICLE_MIN_WORDS,
+      newsHeadline,
+      url: `/blog/${article.slug}`,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
@@ -78,4 +77,3 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-*/

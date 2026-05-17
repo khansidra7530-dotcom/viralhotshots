@@ -8,18 +8,18 @@ export const dynamic = "force-dynamic";
 export default async function AdminDashboard() {
   const session = await requireAdminPage();
 
-  const [articleCount, pendingCount, customerCount, subscriberCount, topArticles] =
+  const [articleCount, pendingCount, customerCount, subscriberCount, topArticles, cronLogs] =
     await Promise.all([
       prisma.article.count(),
       prisma.article.count({ where: { status: "PENDING" } }),
       prisma.user.count({ where: { role: "CUSTOMER" } }),
       prisma.newsletterSubscriber.count(),
-      // prisma.cronLog.findMany({ orderBy: { createdAt: "desc" }, take: 5 }),
       prisma.article.findMany({
         orderBy: { viewCount: "desc" },
         take: 5,
         select: { id: true, title: true, slug: true, viewCount: true, seoScore: true },
       }),
+      prisma.cronLog.findMany({ orderBy: { createdAt: "desc" }, take: 5 }),
     ]);
 
   const stats = [
@@ -69,12 +69,25 @@ export default async function AdminDashboard() {
           </ul>
         </section>
 
-        {/* Cron log section disabled for deploy-only mode
         <section className="rounded-2xl border border-border bg-card p-6">
-          <h2 className="font-semibold">Recent cron jobs</h2>
-          ...
+          <h2 className="font-semibold">Recent AI cron jobs</h2>
+          <ul className="mt-4 space-y-2 text-sm">
+            {cronLogs.length === 0 ? (
+              <li className="text-muted-foreground">No cron runs yet.</li>
+            ) : (
+              cronLogs.map((log) => (
+                <li key={log.id} className="flex justify-between gap-2 border-b border-border/50 pb-2">
+                  <span className={log.status === "error" ? "text-red-600" : ""}>
+                    {log.message ?? log.status}
+                  </span>
+                  <span className="shrink-0 text-xs text-muted-foreground">
+                    {new Date(log.createdAt).toLocaleString()}
+                  </span>
+                </li>
+              ))
+            )}
+          </ul>
         </section>
-        */}
       </div>
     </div>
   );

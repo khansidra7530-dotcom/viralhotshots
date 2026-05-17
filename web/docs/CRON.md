@@ -1,46 +1,51 @@
-# Cron Job Setup (AI Article Generation)
+# AI Article Cron
 
-## What It Does
+Automatically publishes articles via `GET /api/cron/generate`.
 
-`GET /api/cron/generate` runs on a schedule and:
-1. Picks the default niche from site settings
-2. Calls OpenAI with EEAT-optimized prompts
-3. Creates article (PENDING or PUBLISHED based on `autoPublish` setting)
-4. Logs result to `CronLog` table
+## What each run does
 
-## Vercel Cron (Hobby = once per day)
+1. Picks the category with the oldest last article (rotation across niches)
+2. Fetches **latest news** from Google News RSS for that niche
+3. Calls **OpenAI** with EEAT + SEO + easy-English prompts
+4. Ensures **≥ 1000 words** (auto-expands if too short)
+5. Adds a **high-quality hero image** (Unsplash API or niche fallback)
+6. Injects **affiliate** product table when relevant + DB affiliate links
+7. Lists **reliable sources** (news URLs + AI citations)
+8. **Auto-publishes** when enabled in admin settings
 
-Configured in `vercel.json`:
-```json
-{ "path": "/api/cron/generate", "schedule": "0 9 * * *" }
+## Vercel schedule
+
+`vercel.json` — daily at **09:00 UTC** (Hobby plan limit: 1 cron/day).
+
+For more runs, use [cron-job.org](https://cron-job.org):
+
+```bash
+curl -H "Authorization: Bearer YOUR_CRON_SECRET" \
+  https://viralhotshots.com/api/cron/generate
 ```
-Runs daily at **09:00 UTC**. Vercel Hobby does not allow hourly crons.
 
-Vercel automatically sends `Authorization: Bearer <CRON_SECRET>` when `CRON_SECRET` is set in project env.
+## Required env vars (Vercel Production)
 
-**More than once per day?** Use [cron-job.org](https://cron-job.org) (free) to HTTP GET your endpoint every 4 hours, or upgrade to Vercel Pro.
+| Variable | Purpose |
+|----------|---------|
+| `OPENAI_API_KEY` | Article generation |
+| `CRON_SECRET` | Secures the endpoint |
+| `DATABASE_URL` | Save articles |
+| `UNSPLASH_ACCESS_KEY` | Optional — better hero images |
 
-## Manual Test
+## Manual test (local)
 
 ```bash
 curl -H "Authorization: Bearer YOUR_CRON_SECRET" \
   http://localhost:3000/api/cron/generate
 ```
 
-## VPS Crontab
+## Admin
 
-```
-0 */4 * * * curl -s -H "Authorization: Bearer YOUR_CRON_SECRET" https://yoursite.com/api/cron/generate >> /var/log/insightpress-cron.log 2>&1
-```
+**Settings → AI article cron**
 
-## Admin Controls
+- Enable scheduled cron
+- Auto-publish (recommended ON)
+- OpenAI model (default `gpt-4o-mini`)
 
-- **Settings → Enable 4-hour cron** — toggle `cronEnabled`
-- **Settings → Auto-publish** — skip manual review
-- **Settings → Default niche** — which category niche to target
-
-## Requirements
-
-- Valid `OPENAI_API_KEY`
-- At least one admin user (seed creates one)
-- Categories seeded for the selected niche
+**Dashboard → Recent AI cron jobs** — success/error logs.

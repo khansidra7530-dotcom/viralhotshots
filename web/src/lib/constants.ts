@@ -19,5 +19,5 @@ export const ARTICLE_STATUSES = [
   "SCHEDULED",
 ] as const;
 
-export const WORD_COUNT_MIN = 1200;
+export const WORD_COUNT_MIN = 1000;
 export const WORD_COUNT_MAX = 2500;

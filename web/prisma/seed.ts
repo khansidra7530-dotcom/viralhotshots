@@ -46,11 +46,13 @@ async function main() {
 
   await prisma.siteSettings.upsert({
     where: { id: "default" },
-    update: {},
+    update: { cronEnabled: true, autoPublish: true },
     create: {
       id: "default",
       siteName: process.env.NEXT_PUBLIC_SITE_NAME ?? "ViralHotshots",
       siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+      cronEnabled: true,
+      autoPublish: true,
     },
   });
 

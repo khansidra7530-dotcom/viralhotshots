@@ -115,6 +115,7 @@ export function calculateSeoScore(input: {
   else if (metaLen > 50) score += 8;
 
   if (wordCount >= 1200) score += 20;
+  else if (wordCount >= 1000) score += 16;
   else if (wordCount >= 800) score += 10;
 
   if (h2Count >= 3) score += 10;
