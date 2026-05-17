@@ -8,7 +8,7 @@ import {
 import { fetchNewsBrief } from "@/lib/ai/news";
 import { fetchHeroImageUrl, getUsedImageFingerprints } from "@/lib/ai/hero-image";
 import { applyKeywordsToArticle, buildKeywordSet } from "@/lib/ai/keywords";
-import { slugify, estimateReadingTime, countWords } from "@/lib/utils";
+import { slugify, estimateReadingTime, countWords, stripMarkdownCodeFence } from "@/lib/utils";
 import { calculateSeoScore } from "@/lib/seo";
 import { comparisonTableMarkdown, buildAmazonUrl } from "@/lib/affiliate";
 import type { Niche } from "@/generated/prisma/client";
@@ -119,7 +119,7 @@ export async function generateArticle(input: {
   });
   parsed.title = optimized.title;
   parsed.metaDescription = optimized.metaDescription;
-  let content = optimized.content;
+  let content = stripMarkdownCodeFence(optimized.content);
 
   if (countWords(content) < ARTICLE_MIN_WORDS) {
     const expandRaw = await callAiModel(

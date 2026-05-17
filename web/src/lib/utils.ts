@@ -15,6 +15,13 @@ export function estimateReadingTime(content: string): number {
   return Math.max(1, Math.ceil(words / 220));
 }
 
+/** Remove accidental ``` wrappers from AI-generated markdown bodies. */
+export function stripMarkdownCodeFence(text: string): string {
+  const trimmed = text.trim();
+  const match = trimmed.match(/^```(?:markdown|md|text)?\s*\n([\s\S]*?)\n```\s*$/i);
+  return match ? match[1].trim() : trimmed;
+}
+
 export function countWords(content: string): number {
   return content.trim().split(/\s+/).filter(Boolean).length;
 }

@@ -91,12 +91,15 @@ export default async function ArticlePage({ params }: Props) {
               { label: article.title },
             ]}
           />
-          <header className="max-w-4xl break-words">
+
+          <header className="mt-2 w-full break-words">
             <p className="section-label w-fit">{article.category.name}</p>
             <h1 className="mt-4 break-words font-display text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
               {article.title}
             </h1>
-            <p className="mt-4 break-words text-lg text-muted-foreground">{article.excerpt}</p>
+            <p className="mt-4 break-words text-lg text-muted-foreground">
+              {article.excerpt}
+            </p>
             <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
               <span>By {article.author.name}</span>
               {article.publishedAt && (
@@ -121,54 +124,57 @@ export default async function ArticlePage({ params }: Props) {
             priority
             className="mt-8"
           />
-        </div>
 
-        <div className="mx-auto mt-10 w-full max-w-4xl px-4 sm:px-6 lg:px-8">
-          <MarkdownContent content={article.content} />
+          <div className="mt-10 w-full min-w-0">
+            <MarkdownContent content={article.content} />
 
-          {faq.length > 0 && (
-            <section className="mt-12 break-words">
-              <h2 className="text-2xl font-bold">Frequently Asked Questions</h2>
-              <dl className="mt-6 space-y-6">
-                {faq.map((item) => (
-                  <div key={item.question}>
-                    <dt className="break-words font-semibold">{item.question}</dt>
-                    <dd className="mt-2 break-words text-muted-foreground">{item.answer}</dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
-          )}
+            {faq.length > 0 && (
+              <section className="mt-12 w-full break-words">
+                <h2 className="font-display text-2xl font-bold">Frequently Asked Questions</h2>
+                <dl className="mt-6 space-y-6">
+                  {faq.map((item) => (
+                    <div key={item.question}>
+                      <dt className="break-words font-semibold">{item.question}</dt>
+                      <dd className="mt-2 break-words text-muted-foreground">{item.answer}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+            )}
 
-          {related.length > 0 && (
-            <section className="mt-12 break-words border-t border-border pt-8">
-              <h2 className="text-lg font-semibold">Related articles</h2>
-              <ul className="mt-4 space-y-2">
-                {related.map((r) => (
-                  <li key={r.id}>
-                    <a href={`/blog/${r.slug}`} className="break-words text-sm hover:text-accent">
-                      {r.title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+            {related.length > 0 && (
+              <section className="mt-12 w-full break-words border-t border-border pt-8">
+                <h2 className="text-lg font-semibold">Related articles</h2>
+                <ul className="mt-4 space-y-2">
+                  {related.map((r) => (
+                    <li key={r.id}>
+                      <a
+                        href={`/blog/${r.slug}`}
+                        className="break-words text-sm hover:text-accent"
+                      >
+                        {r.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
-          <CommentSection
-            articleId={article.id}
-            initialComments={article.comments.map((c) => ({
-              id: c.id,
-              name: c.name,
-              content: c.content,
-              createdAt: c.createdAt.toISOString(),
-            }))}
-          />
+            <CommentSection
+              articleId={article.id}
+              initialComments={article.comments.map((c) => ({
+                id: c.id,
+                name: c.name,
+                content: c.content,
+                createdAt: c.createdAt.toISOString(),
+              }))}
+            />
+          </div>
         </div>
 
         {related.length > 0 && (
-          <section className="mx-auto mt-16 w-full max-w-screen-2xl border-t border-border px-4 pt-12 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-bold">You might also like</h2>
+          <section className="mt-16 w-full border-t border-border pt-12">
+            <h2 className="font-display text-2xl font-bold">You might also like</h2>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {related.map((r) => (
                 <ArticleCard
