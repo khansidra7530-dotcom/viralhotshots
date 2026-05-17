@@ -8,7 +8,10 @@ function isLoggedIn(auth: { user?: { id?: string | null; email?: string | null }
 
 export const authConfig = {
   trustHost: true,
-  pages: { signIn: "/login" },
+  pages: {
+    signIn: "/login",
+    error: "/auth/error",
+  },
   session: { strategy: "jwt" },
   providers: [],
   callbacks: {

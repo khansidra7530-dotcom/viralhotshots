@@ -1,13 +1,16 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
+import { getAuthConfigProblems, getAuthSecret, getAuthUrl } from "@/lib/auth-env";
 
-/** Safe auth diagnostics (no secrets exposed). */
 export async function GET() {
   const session = await auth();
+  const problems = getAuthConfigProblems();
+
   return NextResponse.json({
-    authSecretConfigured: Boolean(
-      process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET
-    ),
+    ok: problems.length === 0,
+    problems,
+    authSecretConfigured: Boolean(getAuthSecret()),
+    authUrl: getAuthUrl() ?? null,
     loggedIn: Boolean(session?.user?.id),
     email: session?.user?.email ?? null,
     role: (session?.user as { role?: string })?.role ?? null,

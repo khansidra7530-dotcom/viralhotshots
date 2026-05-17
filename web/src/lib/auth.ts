@@ -4,13 +4,14 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { authConfig } from "@/lib/auth.config";
+import { getAuthSecret, getAuthUrl } from "@/lib/auth-env";
 
 const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
 });
 
-const authSecret = process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET;
+const authSecret = getAuthSecret();
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
