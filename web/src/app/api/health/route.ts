@@ -12,9 +12,10 @@ export async function GET() {
     ai: {
       engine: "groq",
       groqKeyConfigured,
+      groqKeyLooksValid: groqKeyConfigured && groqKey!.startsWith("gsk_"),
       /** Remove OPENAI_API_KEY from Vercel if true */
       legacyOpenAiKeyStillSet: legacyOpenAiKey,
-      ready: groqKeyConfigured && !legacyOpenAiKey,
+      ready: groqKeyConfigured && groqKey!.startsWith("gsk_") && !legacyOpenAiKey,
     },
   });
 }

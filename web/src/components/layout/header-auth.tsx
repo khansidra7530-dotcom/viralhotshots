@@ -10,15 +10,12 @@ export async function HeaderAuth() {
       <div className="flex shrink-0 items-center gap-2">
         <Link
           href="/login"
-          className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+          className="rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition hover:text-foreground"
         >
           Sign in
         </Link>
-        <Link
-          href="/register"
-          className="rounded-lg bg-accent px-3 py-2 text-sm font-semibold text-accent-foreground"
-        >
-          Register
+        <Link href="/register" className="btn-primary !px-4 !py-2 text-xs">
+          Join free
         </Link>
       </div>
     );
@@ -28,7 +25,7 @@ export async function HeaderAuth() {
     return (
       <Link
         href="/admin"
-        className="shrink-0 rounded-lg border border-border px-3 py-2 text-sm font-medium hover:bg-muted"
+        className="shrink-0 rounded-full border border-border bg-muted px-4 py-2 text-sm font-semibold transition hover:border-accent/40"
       >
         Admin
       </Link>
@@ -39,9 +36,9 @@ export async function HeaderAuth() {
     <Link
       href="/account"
       title="Your profile"
-      className="shrink-0 rounded-lg border border-border px-3 py-2 text-sm font-medium hover:bg-muted"
+      className="shrink-0 rounded-full border border-border bg-muted px-4 py-2 text-sm font-semibold transition hover:border-accent/40"
     >
-      My profile
+      Profile
     </Link>
   );
 }

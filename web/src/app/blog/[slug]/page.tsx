@@ -94,10 +94,8 @@ export default async function ArticlePage({ params }: Props) {
               ]}
             />
             <header>
-              <p className="text-sm font-semibold uppercase tracking-wider text-accent">
-                {article.category.name}
-              </p>
-              <h1 className="mt-3 font-serif text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+              <p className="section-label w-fit">{article.category.name}</p>
+              <h1 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
                 {article.title}
               </h1>
               <p className="mt-4 text-lg text-muted-foreground">{article.excerpt}</p>
@@ -119,7 +117,7 @@ export default async function ArticlePage({ params }: Props) {
               <ArticleActions articleId={article.id} isLoggedIn={Boolean(session?.user)} />
             </header>
 
-            <div className="relative mt-8 aspect-[21/9] overflow-hidden rounded-2xl">
+            <div className="relative mt-8 aspect-[21/9] overflow-hidden rounded-3xl shadow-2xl ring-1 ring-border">
               <Image
                 src={article.featuredImage ?? "/og-default.png"}
                 alt={article.title}
