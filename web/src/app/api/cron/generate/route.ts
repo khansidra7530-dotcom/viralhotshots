@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { isAiConfigured } from "@/lib/ai/client";
+import { isAiConfigured, resolveAiProvider } from "@/lib/ai/client";
 import { generateArticle } from "@/lib/ai/generate-article";
 import { pickCategoryForCron } from "@/lib/ai/pick-category";
 import { ARTICLE_MIN_WORDS } from "@/lib/ai/prompts";
@@ -64,6 +64,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
+      provider: resolveAiProvider(),
       articleId: article.id,
       slug: article.slug,
       title: article.title,
@@ -78,6 +79,17 @@ export async function GET(req: NextRequest) {
     await prisma.cronLog.create({
       data: { job: "generate-article", status: "error", message },
     });
-    return NextResponse.json({ error: message }, { status: 500 });
+    const openAiQuota =
+      /429|quota|billing/i.test(message) && /openai/i.test(message);
+    return NextResponse.json(
+      {
+        error: message,
+        provider: resolveAiProvider(),
+        ...(openAiQuota && {
+          hint: "Vercel is still using OpenAI. Set AI_PROVIDER=groq, add GROQ_API_KEY, delete OPENAI_API_KEY, then redeploy.",
+        }),
+      },
+      { status: 500 }
+    );
   }
 }
