@@ -6,7 +6,7 @@ import {
   buildExpandPrompt,
 } from "@/lib/ai/prompts";
 import { fetchNewsBrief } from "@/lib/ai/news";
-import { fetchHeroImageUrl } from "@/lib/ai/hero-image";
+import { fetchHeroImageUrl, getRecentFeaturedImageUrls } from "@/lib/ai/hero-image";
 import { slugify, estimateReadingTime, countWords } from "@/lib/utils";
 import { calculateSeoScore } from "@/lib/seo";
 import { comparisonTableMarkdown, buildAmazonUrl } from "@/lib/affiliate";
@@ -70,7 +70,16 @@ export async function generateArticle(input: {
   const settings = await prisma.siteSettings.findUnique({ where: { id: "default" } });
   const model = getGroqModel(settings?.aiModel);
 
-  const news = await fetchNewsBrief(input.niche, input.categoryName);
+  const [news, recentArticles, usedImages] = await Promise.all([
+    fetchNewsBrief(input.niche, input.categoryName),
+    prisma.article.findMany({
+      where: { categoryId: input.categoryId },
+      orderBy: { createdAt: "desc" },
+      take: 12,
+      select: { title: true },
+    }),
+    getRecentFeaturedImageUrls(),
+  ]);
 
   const affiliates = await prisma.affiliateLink.findMany({
     where: { isActive: true, OR: [{ niche: input.niche }, { niche: null }] },
@@ -84,11 +93,12 @@ export async function generateArticle(input: {
     news,
     affiliateKeywords: affiliates.map((a) => a.name),
     siteName: settings?.siteName,
+    recentTitles: recentArticles.map((a) => a.title),
   });
 
   let raw = await callAiModel(
     model,
-    "You are a senior editor. Output only valid JSON.",
+    "You write helpful articles in very simple English. Output only valid JSON.",
     prompt
   );
   let parsed = parseJson<GeneratedArticlePayload>(raw);
@@ -98,7 +108,7 @@ export async function generateArticle(input: {
   if (countWords(content) < ARTICLE_MIN_WORDS) {
     const expandRaw = await callAiModel(
       model,
-      "You expand articles. Output only valid JSON.",
+      "Expand in very simple English (grade 6–8). Output only valid JSON.",
       buildExpandPrompt(content, ARTICLE_MIN_WORDS)
     );
     const expanded = parseJson<{ content: string }>(expandRaw);
@@ -139,8 +149,14 @@ export async function generateArticle(input: {
     "\n\n---\n\n*This article is for informational purposes only. We may earn a commission from links on this page at no extra cost to you.*\n";
 
   const imageQuery =
-    parsed.featuredImageSearchQuery ?? parsed.title ?? input.categoryName;
-  const featuredImage = await fetchHeroImageUrl(input.niche, imageQuery);
+    parsed.featuredImageSearchQuery?.trim() ||
+    `${parsed.title} ${input.categoryName}`.slice(0, 80);
+  const featuredImage = await fetchHeroImageUrl({
+    niche: input.niche,
+    query: imageQuery,
+    uniqueSeed: `${parsed.title}-${parsed.slug}-${Date.now()}`,
+    excludeUrls: usedImages,
+  });
 
   const baseSlug = slugify(parsed.slug || parsed.title);
   let slug = baseSlug;

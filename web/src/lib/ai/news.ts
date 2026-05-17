@@ -1,3 +1,4 @@
+import { prisma } from "@/lib/prisma";
 import type { Niche } from "@/generated/prisma/client";
 
 export type NewsBrief = {
@@ -24,7 +25,7 @@ function stripHtml(text: string): string {
 function parseRssItems(xml: string): { title: string; link: string; description: string }[] {
   const items: { title: string; link: string; description: string }[] = [];
   const blocks = xml.match(/<item>[\s\S]*?<\/item>/gi) ?? [];
-  for (const block of blocks.slice(0, 8)) {
+  for (const block of blocks.slice(0, 12)) {
     const title = stripHtml(block.match(/<title>([\s\S]*?)<\/title>/i)?.[1] ?? "");
     const link = stripHtml(block.match(/<link>([\s\S]*?)<\/link>/i)?.[1] ?? "");
     const description = stripHtml(
@@ -37,7 +38,7 @@ function parseRssItems(xml: string): { title: string; link: string; description:
   return items;
 }
 
-/** Fetch recent headlines from Google News RSS for timely, source-backed angles. */
+/** Fetch recent headlines — rotates story so cron posts do not repeat the same angle. */
 export async function fetchNewsBrief(
   niche: Niche,
   categoryName: string
@@ -56,8 +57,12 @@ export async function fetchNewsBrief(
     const items = parseRssItems(xml);
     if (items.length === 0) return null;
 
-    const lead = items[0];
-    const sources = items.slice(0, 5).map((item) => ({
+    const recentCount = await prisma.article.count({
+      where: { category: { niche } },
+    });
+    const lead = items[recentCount % items.length];
+
+    const sources = items.slice(0, 6).map((item) => ({
       title: item.title.replace(/ - .*$/, "").slice(0, 120),
       url: item.link,
     }));
