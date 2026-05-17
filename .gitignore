@@ -36,3 +36,6 @@ next-env.d.ts
 
 # Testing
 coverage/
+
+# Restore artifacts
+_extracted_from_transcript/

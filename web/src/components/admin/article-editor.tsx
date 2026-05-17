@@ -1,0 +1,111 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+type Article = {
+  id: string;
+  title: string;
+  excerpt: string;
+  metaDescription: string;
+  content: string;
+  status: string;
+  slug: string;
+};
+
+export function ArticleEditor({ article }: { article: Article }) {
+  const router = useRouter();
+  const [form, setForm] = useState({
+    title: article.title,
+    excerpt: article.excerpt,
+    metaDescription: article.metaDescription,
+    content: article.content,
+    status: article.status,
+  });
+  const [saving, setSaving] = useState(false);
+
+  async function save() {
+    setSaving(true);
+    await fetch(`/api/admin/articles/${article.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
+    setSaving(false);
+    router.refresh();
+  }
+
+  async function publish() {
+    setForm((f) => ({ ...f, status: "PUBLISHED" }));
+    await fetch(`/api/admin/articles/${article.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...form, status: "PUBLISHED" }),
+    });
+    router.refresh();
+  }
+
+  return (
+    <div className="mt-6 space-y-4">
+      <input
+        value={form.title}
+        onChange={(e) => setForm({ ...form, title: e.target.value })}
+        className="h-11 w-full rounded-xl border border-border bg-background px-4 text-lg font-semibold"
+      />
+      <textarea
+        value={form.excerpt}
+        onChange={(e) => setForm({ ...form, excerpt: e.target.value })}
+        rows={2}
+        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm"
+        placeholder="Excerpt"
+      />
+      <input
+        value={form.metaDescription}
+        onChange={(e) => setForm({ ...form, metaDescription: e.target.value })}
+        className="h-11 w-full rounded-xl border border-border bg-background px-4 text-sm"
+        placeholder="Meta description"
+      />
+      <select
+        value={form.status}
+        onChange={(e) => setForm({ ...form, status: e.target.value })}
+        className="h-11 rounded-xl border border-border bg-background px-4 text-sm"
+      >
+        <option value="DRAFT">Draft</option>
+        <option value="PENDING">Pending</option>
+        <option value="PUBLISHED">Published</option>
+        <option value="SCHEDULED">Scheduled</option>
+      </select>
+      <textarea
+        value={form.content}
+        onChange={(e) => setForm({ ...form, content: e.target.value })}
+        rows={20}
+        className="w-full rounded-xl border border-border bg-background px-4 py-3 font-mono text-sm"
+      />
+      <div className="flex gap-3">
+        <button
+          type="button"
+          onClick={save}
+          disabled={saving}
+          className="rounded-xl bg-muted px-6 py-2.5 text-sm font-semibold"
+        >
+          {saving ? "Saving..." : "Save"}
+        </button>
+        <button
+          type="button"
+          onClick={publish}
+          className="rounded-xl bg-accent px-6 py-2.5 text-sm font-semibold text-accent-foreground"
+        >
+          Approve & Publish
+        </button>
+        <a
+          href={`/blog/${article.slug}`}
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-xl border border-border px-6 py-2.5 text-sm"
+        >
+          Preview
+        </a>
+      </div>
+    </div>
+  );
+}
