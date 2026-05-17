@@ -38,9 +38,10 @@ export async function HeaderAuth() {
   return (
     <Link
       href="/account"
+      title="Your profile"
       className="shrink-0 rounded-lg border border-border px-3 py-2 text-sm font-medium hover:bg-muted"
     >
-      Account
+      My profile
     </Link>
   );
 }
