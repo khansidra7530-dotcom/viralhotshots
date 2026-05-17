@@ -117,14 +117,14 @@ export default async function ArticlePage({ params }: Props) {
               <ArticleActions articleId={article.id} isLoggedIn={Boolean(session?.user)} />
             </header>
 
-            <div className="relative mt-8 aspect-[21/9] overflow-hidden rounded-3xl shadow-2xl ring-1 ring-border">
+            <div className="relative mt-8 aspect-[2/1] max-h-[min(420px,55vh)] w-full overflow-hidden rounded-2xl shadow-lg ring-1 ring-border sm:rounded-3xl">
               <Image
                 src={article.featuredImage ?? "/og-default.png"}
                 alt={article.title}
                 fill
                 priority
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 900px"
+                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 800px"
               />
             </div>
 

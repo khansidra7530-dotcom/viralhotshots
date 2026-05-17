@@ -7,6 +7,7 @@ import {
 } from "@/lib/ai/prompts";
 import { fetchNewsBrief } from "@/lib/ai/news";
 import { fetchHeroImageUrl, getRecentFeaturedImageUrls } from "@/lib/ai/hero-image";
+import { applyKeywordsToArticle, buildKeywordSet } from "@/lib/ai/keywords";
 import { slugify, estimateReadingTime, countWords } from "@/lib/utils";
 import { calculateSeoScore } from "@/lib/seo";
 import { comparisonTableMarkdown, buildAmazonUrl } from "@/lib/affiliate";
@@ -86,6 +87,12 @@ export async function generateArticle(input: {
     take: 8,
   });
 
+  const keywords = buildKeywordSet({
+    niche: input.niche,
+    categoryName: input.categoryName,
+    newsHeadline: news?.headline,
+  });
+
   const prompt = buildArticlePrompt({
     niche: input.niche,
     category: input.categoryName,
@@ -94,6 +101,7 @@ export async function generateArticle(input: {
     affiliateKeywords: affiliates.map((a) => a.name),
     siteName: settings?.siteName,
     recentTitles: recentArticles.map((a) => a.title),
+    keywords,
   });
 
   let raw = await callAiModel(
@@ -103,7 +111,15 @@ export async function generateArticle(input: {
   );
   let parsed = parseJson<GeneratedArticlePayload>(raw);
 
-  let content = parsed.content.trim();
+  const optimized = applyKeywordsToArticle({
+    title: parsed.title,
+    metaDescription: parsed.metaDescription,
+    content: parsed.content.trim(),
+    keywords,
+  });
+  parsed.title = optimized.title;
+  parsed.metaDescription = optimized.metaDescription;
+  let content = optimized.content;
 
   if (countWords(content) < ARTICLE_MIN_WORDS) {
     const expandRaw = await callAiModel(
@@ -165,12 +181,17 @@ export async function generateArticle(input: {
     slug = `${baseSlug}-${suffix++}`;
   }
 
+  const mergedTags = [
+    ...new Set([keywords.primary, ...(parsed.tags ?? []), ...keywords.secondary.slice(0, 3)]),
+  ].slice(0, 10);
+
   const seoScore = calculateSeoScore({
     title: parsed.title,
     metaDescription: parsed.metaDescription,
     content,
     slug,
-    tags: parsed.tags ?? [],
+    tags: mergedTags,
+    primaryKeyword: keywords.primary,
     hasFeaturedImage: true,
     hasFaq: (parsed.faq?.length ?? 0) > 0,
     hasSources: uniqueSources.length > 0,
@@ -193,7 +214,7 @@ export async function generateArticle(input: {
       metaDescription: parsed.metaDescription,
       featuredImage,
       featuredImagePrompt: imageQuery,
-      tags: parsed.tags ?? [],
+      tags: mergedTags,
       faq: (parsed.faq ?? []) as Prisma.InputJsonValue,
       sources: uniqueSources as Prisma.InputJsonValue,
       internalLinks: (parsed.internalLinkSuggestions ?? []) as Prisma.InputJsonValue,

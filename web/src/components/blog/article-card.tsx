@@ -32,14 +32,14 @@ export function ArticleCard({
     >
       <Link
         href={`/blog/${slug}`}
-        className={`relative block overflow-hidden ${featured ? "min-h-[260px]" : "aspect-[16/10]"}`}
+        className={`relative block overflow-hidden ${featured ? "min-h-[200px] max-h-72" : "aspect-[16/9] max-h-48"}`}
       >
         <Image
-          src={featuredImage ?? "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80"}
+          src={featuredImage ?? "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=640&h=400&fit=crop&q=80"}
           alt={title}
           fill
-          className="object-cover transition duration-700 group-hover:scale-110"
-          sizes={featured ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 33vw"}
+          className="object-cover object-center transition duration-700 group-hover:scale-105"
+          sizes={featured ? "(max-width: 768px) 100vw, 400px" : "(max-width: 768px) 100vw, 320px"}
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />

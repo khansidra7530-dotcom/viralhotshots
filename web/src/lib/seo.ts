@@ -98,6 +98,7 @@ export function calculateSeoScore(input: {
   content: string;
   slug: string;
   tags: string[];
+  primaryKeyword?: string;
   hasFeaturedImage: boolean;
   hasFaq: boolean;
   hasSources: boolean;
@@ -119,6 +120,19 @@ export function calculateSeoScore(input: {
   else if (wordCount >= 800) score += 10;
 
   if (h2Count >= 3) score += 10;
+
+  if (input.primaryKeyword) {
+    const kw = input.primaryKeyword.toLowerCase();
+    const inTitle = input.title.toLowerCase().includes(kw);
+    const inMeta = input.metaDescription.toLowerCase().includes(kw);
+    const h2WithKw = (input.content.match(/^## .+$/gm) ?? []).filter((h) =>
+      h.toLowerCase().includes(kw)
+    ).length;
+    if (inTitle) score += 8;
+    if (inMeta) score += 8;
+    if (h2WithKw >= 2) score += 9;
+  }
+
   if (input.slug.length > 3) score += 5;
   if (input.tags.length >= 3) score += 10;
   if (input.hasFeaturedImage) score += 10;

@@ -1,5 +1,6 @@
 import type { Niche } from "@/generated/prisma/client";
 import type { NewsBrief } from "@/lib/ai/news";
+import type { KeywordSet } from "@/lib/ai/keywords";
 
 const MIN_WORDS = 1000;
 const MAX_WORDS = 2500;
@@ -12,6 +13,7 @@ export function buildArticlePrompt(input: {
   affiliateKeywords?: string[];
   siteName?: string;
   recentTitles?: string[];
+  keywords: KeywordSet;
 }): string {
   const site = input.siteName ?? "Viral Hotshots";
   const today = new Date().toISOString().slice(0, 10);
@@ -54,12 +56,15 @@ ${newsSources}
 - No fake degrees, fake studies, or made-up quotes. No medical or financial guarantees.
 - Author voice: experienced friend who did the research — not a robot.
 
-## SEO (required)
-- LENGTH: ${MIN_WORDS}–${MAX_WORDS} words in "content" (markdown body only).
-- One clear primary keyword in the first 80 words and in one H2.
-- Meta title 50–60 chars, meta description 120–160 chars.
-- Use ## and ### headings (no H1 in content). Descriptive, searchable headings.
-- 5–8 relevant tags.
+## SEO keywords (required — use these exact phrases naturally)
+- PRIMARY KEYWORD (must use): "${input.keywords.primary}"
+- SECONDARY KEYWORDS (use 2–4 across H2/H3): ${input.keywords.secondary.join(", ")}
+- "title" (HTML title tag): MUST include the primary keyword near the start. 50–60 characters.
+- "metaDescription": MUST include the primary keyword once. 120–160 characters.
+- "content": PRIMARY keyword in the first 60 words. PRIMARY or secondary keyword in at least 4 different ## H2 headings (word naturally, not stuffed).
+- Use ### subheadings under H2s where helpful; include a secondary keyword in 1–2 H3s.
+- LENGTH: ${MIN_WORDS}–${MAX_WORDS} words in "content" (markdown body only, no H1).
+- 5–8 tags including the primary keyword and related terms.
 
 ## Structure
 - Hook in the first paragraph: why this matters right now.
