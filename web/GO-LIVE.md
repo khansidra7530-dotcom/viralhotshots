@@ -84,9 +84,11 @@ Login: email/password from seed (`admin@viralhotshots.com` unless you changed `A
 
 ## Step 5 — AI articles (cron)
 
-**Vercel Hobby:** one cron per day (`0 9 * * *` = 09:00 UTC daily in `vercel.json`).
+**Schedule:** every 4 hours (`0 */4 * * *` in `vercel.json` → 6 posts/day at 00:00, 04:00, 08:00, 12:00, 16:00, 20:00 UTC).
 
-For more posts without Pro, use a free external scheduler (e.g. [cron-job.org](https://cron-job.org)) to call your endpoint every few hours:
+**Vercel Hobby** may only trigger crons once per day. If you stay on Hobby, use [cron-job.org](https://cron-job.org) every 4 hours instead:
+
+For more reliability on Hobby, use a free external scheduler (e.g. [cron-job.org](https://cron-job.org)) every 4 hours:
 
 ```bash
 curl -H "Authorization: Bearer YOUR_CRON_SECRET" https://www.viralhotshots.com/api/cron/generate

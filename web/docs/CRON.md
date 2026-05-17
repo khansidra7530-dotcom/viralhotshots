@@ -15,9 +15,13 @@ Automatically publishes articles via `GET /api/cron/generate`.
 
 ## Vercel schedule
 
-`vercel.json` — daily at **09:00 UTC** (Hobby plan limit: 1 cron/day).
+`vercel.json` — **every 4 hours** (`0 */4 * * *` → 00:00, 04:00, 08:00, 12:00, 16:00, 20:00 UTC). That is **6 articles per day**.
 
-For more runs, use [cron-job.org](https://cron-job.org):
+**Vercel Hobby** may only run scheduled crons once per day. If posts are not appearing every 4 hours, upgrade to **Pro** or use a free external scheduler:
+
+1. [cron-job.org](https://cron-job.org) → new job every **4 hours**
+2. URL: `https://viralhotshots.com/api/cron/generate`
+3. Header: `Authorization: Bearer YOUR_CRON_SECRET`
 
 ```bash
 curl -H "Authorization: Bearer YOUR_CRON_SECRET" \

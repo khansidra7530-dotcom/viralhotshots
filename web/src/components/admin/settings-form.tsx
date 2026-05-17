@@ -80,7 +80,7 @@ export function SettingsForm({ settings }: { settings: Settings }) {
             checked={form.cronEnabled}
             onChange={(e) => setForm({ ...form, cronEnabled: e.target.checked })}
           />
-          Enable scheduled cron (Vercel: daily 09:00 UTC)
+          Enable scheduled cron (every 4 hours UTC)
         </label>
         <label className="block text-sm">
           OpenAI model
