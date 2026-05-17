@@ -27,10 +27,12 @@ You should see `Seed complete!`
 
 1. Push project to **GitHub** (the `web` folder or whole repo).
 2. https://vercel.com → **Add New Project** → import repo.
-3. **Root Directory:** `web` ← **required**
+3. **Root Directory:** `web` ← **required** (Settings → General → Root Directory)
 4. **Framework Preset:** Next.js (auto-detected)
-5. **Do not** set a custom Output Directory — leave default
-6. **Environment Variables** — copy from `.env.production.example`:
+5. **Build Command:** leave default (`npm run build`)
+6. **Install Command:** leave default (`npm install`)
+7. **Do not** set a custom Output Directory
+8. **Environment Variables** — copy from `.env.production.example`:
 
 | Variable | Value |
 |----------|--------|
