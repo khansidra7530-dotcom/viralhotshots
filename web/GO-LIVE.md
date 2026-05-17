@@ -27,8 +27,10 @@ You should see `Seed complete!`
 
 1. Push project to **GitHub** (the `web` folder or whole repo).
 2. https://vercel.com → **Add New Project** → import repo.
-3. **Root Directory:** `web` ← **required** (fixes build error 127)
-4. **Environment Variables** — copy from `.env.production.example`:
+3. **Root Directory:** `web` ← **required**
+4. **Framework Preset:** Next.js (auto-detected)
+5. **Do not** set a custom Output Directory — leave default
+6. **Environment Variables** — copy from `.env.production.example`:
 
 | Variable | Value |
 |----------|--------|
@@ -42,7 +44,14 @@ You should see `Seed complete!`
 | `ADMIN_EMAIL` | Your email |
 | `ADMIN_PASSWORD` | Strong password (only if re-seeding) |
 
-5. Click **Deploy**.
+7. Click **Deploy**.
+
+### If deploy fails
+
+- Confirm **Root Directory** = `web` (not empty, not `/web/web`)
+- Confirm `DATABASE_URL` is set in Vercel env vars
+- Redeploy from **Deployments → … → Redeploy**
+- View logs: Vercel dashboard → failed deployment → **Building** tab
 
 ---
 
