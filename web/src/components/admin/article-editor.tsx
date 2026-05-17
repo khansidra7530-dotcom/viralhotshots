@@ -45,6 +45,13 @@ export function ArticleEditor({ article }: { article: Article }) {
     router.refresh();
   }
 
+  async function remove() {
+    if (!confirm("Delete this article permanently?")) return;
+    await fetch(`/api/admin/articles/${article.id}`, { method: "DELETE" });
+    router.push("/admin/articles");
+    router.refresh();
+  }
+
   return (
     <div className="mt-6 space-y-4">
       <input
@@ -105,6 +112,13 @@ export function ArticleEditor({ article }: { article: Article }) {
         >
           Preview
         </a>
+        <button
+          type="button"
+          onClick={remove}
+          className="rounded-xl border border-red-300 px-6 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-50 dark:border-red-800 dark:hover:bg-red-950/30"
+        >
+          Delete
+        </button>
       </div>
     </div>
   );

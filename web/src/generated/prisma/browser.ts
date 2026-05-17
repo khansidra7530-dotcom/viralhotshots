@@ -33,6 +33,16 @@ export type Category = Prisma.CategoryModel
  */
 export type Article = Prisma.ArticleModel
 /**
+ * Model ArticleLike
+ * 
+ */
+export type ArticleLike = Prisma.ArticleLikeModel
+/**
+ * Model ArticleSubscription
+ * 
+ */
+export type ArticleSubscription = Prisma.ArticleSubscriptionModel
+/**
  * Model AffiliateLink
  * 
  */

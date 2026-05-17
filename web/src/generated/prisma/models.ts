@@ -11,6 +11,8 @@
 export type * from './models/User'
 export type * from './models/Category'
 export type * from './models/Article'
+export type * from './models/ArticleLike'
+export type * from './models/ArticleSubscription'
 export type * from './models/AffiliateLink'
 export type * from './models/Comment'
 export type * from './models/NewsletterSubscriber'

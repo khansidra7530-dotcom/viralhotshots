@@ -215,6 +215,8 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   articles?: Prisma.ArticleListRelationFilter
+  articleLikes?: Prisma.ArticleLikeListRelationFilter
+  articleSubscriptions?: Prisma.ArticleSubscriptionListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -228,6 +230,8 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   articles?: Prisma.ArticleOrderByRelationAggregateInput
+  articleLikes?: Prisma.ArticleLikeOrderByRelationAggregateInput
+  articleSubscriptions?: Prisma.ArticleSubscriptionOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -244,6 +248,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   articles?: Prisma.ArticleListRelationFilter
+  articleLikes?: Prisma.ArticleLikeListRelationFilter
+  articleSubscriptions?: Prisma.ArticleSubscriptionListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -287,6 +293,8 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   articles?: Prisma.ArticleCreateNestedManyWithoutAuthorInput
+  articleLikes?: Prisma.ArticleLikeCreateNestedManyWithoutUserInput
+  articleSubscriptions?: Prisma.ArticleSubscriptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -300,6 +308,8 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   articles?: Prisma.ArticleUncheckedCreateNestedManyWithoutAuthorInput
+  articleLikes?: Prisma.ArticleLikeUncheckedCreateNestedManyWithoutUserInput
+  articleSubscriptions?: Prisma.ArticleSubscriptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -313,6 +323,8 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   articles?: Prisma.ArticleUpdateManyWithoutAuthorNestedInput
+  articleLikes?: Prisma.ArticleLikeUpdateManyWithoutUserNestedInput
+  articleSubscriptions?: Prisma.ArticleSubscriptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -326,6 +338,8 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   articles?: Prisma.ArticleUncheckedUpdateManyWithoutAuthorNestedInput
+  articleLikes?: Prisma.ArticleLikeUncheckedUpdateManyWithoutUserNestedInput
+  articleSubscriptions?: Prisma.ArticleSubscriptionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -435,6 +449,34 @@ export type UserUpdateOneRequiredWithoutArticlesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutArticlesInput, Prisma.UserUpdateWithoutArticlesInput>, Prisma.UserUncheckedUpdateWithoutArticlesInput>
 }
 
+export type UserCreateNestedOneWithoutArticleLikesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutArticleLikesInput, Prisma.UserUncheckedCreateWithoutArticleLikesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutArticleLikesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutArticleLikesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutArticleLikesInput, Prisma.UserUncheckedCreateWithoutArticleLikesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutArticleLikesInput
+  upsert?: Prisma.UserUpsertWithoutArticleLikesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutArticleLikesInput, Prisma.UserUpdateWithoutArticleLikesInput>, Prisma.UserUncheckedUpdateWithoutArticleLikesInput>
+}
+
+export type UserCreateNestedOneWithoutArticleSubscriptionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutArticleSubscriptionsInput, Prisma.UserUncheckedCreateWithoutArticleSubscriptionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutArticleSubscriptionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutArticleSubscriptionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutArticleSubscriptionsInput, Prisma.UserUncheckedCreateWithoutArticleSubscriptionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutArticleSubscriptionsInput
+  upsert?: Prisma.UserUpsertWithoutArticleSubscriptionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutArticleSubscriptionsInput, Prisma.UserUpdateWithoutArticleSubscriptionsInput>, Prisma.UserUncheckedUpdateWithoutArticleSubscriptionsInput>
+}
+
 export type UserCreateWithoutArticlesInput = {
   id?: string
   email: string
@@ -445,6 +487,8 @@ export type UserCreateWithoutArticlesInput = {
   avatar?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  articleLikes?: Prisma.ArticleLikeCreateNestedManyWithoutUserInput
+  articleSubscriptions?: Prisma.ArticleSubscriptionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutArticlesInput = {
@@ -457,6 +501,8 @@ export type UserUncheckedCreateWithoutArticlesInput = {
   avatar?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  articleLikes?: Prisma.ArticleLikeUncheckedCreateNestedManyWithoutUserInput
+  articleSubscriptions?: Prisma.ArticleSubscriptionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutArticlesInput = {
@@ -485,6 +531,8 @@ export type UserUpdateWithoutArticlesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  articleLikes?: Prisma.ArticleLikeUpdateManyWithoutUserNestedInput
+  articleSubscriptions?: Prisma.ArticleSubscriptionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutArticlesInput = {
@@ -497,6 +545,152 @@ export type UserUncheckedUpdateWithoutArticlesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  articleLikes?: Prisma.ArticleLikeUncheckedUpdateManyWithoutUserNestedInput
+  articleSubscriptions?: Prisma.ArticleSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutArticleLikesInput = {
+  id?: string
+  email: string
+  name: string
+  passwordHash: string
+  role?: $Enums.UserRole
+  bio?: string | null
+  avatar?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  articles?: Prisma.ArticleCreateNestedManyWithoutAuthorInput
+  articleSubscriptions?: Prisma.ArticleSubscriptionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutArticleLikesInput = {
+  id?: string
+  email: string
+  name: string
+  passwordHash: string
+  role?: $Enums.UserRole
+  bio?: string | null
+  avatar?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  articles?: Prisma.ArticleUncheckedCreateNestedManyWithoutAuthorInput
+  articleSubscriptions?: Prisma.ArticleSubscriptionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutArticleLikesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutArticleLikesInput, Prisma.UserUncheckedCreateWithoutArticleLikesInput>
+}
+
+export type UserUpsertWithoutArticleLikesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutArticleLikesInput, Prisma.UserUncheckedUpdateWithoutArticleLikesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutArticleLikesInput, Prisma.UserUncheckedCreateWithoutArticleLikesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutArticleLikesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutArticleLikesInput, Prisma.UserUncheckedUpdateWithoutArticleLikesInput>
+}
+
+export type UserUpdateWithoutArticleLikesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  articles?: Prisma.ArticleUpdateManyWithoutAuthorNestedInput
+  articleSubscriptions?: Prisma.ArticleSubscriptionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutArticleLikesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  articles?: Prisma.ArticleUncheckedUpdateManyWithoutAuthorNestedInput
+  articleSubscriptions?: Prisma.ArticleSubscriptionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutArticleSubscriptionsInput = {
+  id?: string
+  email: string
+  name: string
+  passwordHash: string
+  role?: $Enums.UserRole
+  bio?: string | null
+  avatar?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  articles?: Prisma.ArticleCreateNestedManyWithoutAuthorInput
+  articleLikes?: Prisma.ArticleLikeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutArticleSubscriptionsInput = {
+  id?: string
+  email: string
+  name: string
+  passwordHash: string
+  role?: $Enums.UserRole
+  bio?: string | null
+  avatar?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  articles?: Prisma.ArticleUncheckedCreateNestedManyWithoutAuthorInput
+  articleLikes?: Prisma.ArticleLikeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutArticleSubscriptionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutArticleSubscriptionsInput, Prisma.UserUncheckedCreateWithoutArticleSubscriptionsInput>
+}
+
+export type UserUpsertWithoutArticleSubscriptionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutArticleSubscriptionsInput, Prisma.UserUncheckedUpdateWithoutArticleSubscriptionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutArticleSubscriptionsInput, Prisma.UserUncheckedCreateWithoutArticleSubscriptionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutArticleSubscriptionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutArticleSubscriptionsInput, Prisma.UserUncheckedUpdateWithoutArticleSubscriptionsInput>
+}
+
+export type UserUpdateWithoutArticleSubscriptionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  articles?: Prisma.ArticleUpdateManyWithoutAuthorNestedInput
+  articleLikes?: Prisma.ArticleLikeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutArticleSubscriptionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  articles?: Prisma.ArticleUncheckedUpdateManyWithoutAuthorNestedInput
+  articleLikes?: Prisma.ArticleLikeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -506,10 +700,14 @@ export type UserUncheckedUpdateWithoutArticlesInput = {
 
 export type UserCountOutputType = {
   articles: number
+  articleLikes: number
+  articleSubscriptions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   articles?: boolean | UserCountOutputTypeCountArticlesArgs
+  articleLikes?: boolean | UserCountOutputTypeCountArticleLikesArgs
+  articleSubscriptions?: boolean | UserCountOutputTypeCountArticleSubscriptionsArgs
 }
 
 /**
@@ -529,6 +727,20 @@ export type UserCountOutputTypeCountArticlesArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.ArticleWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountArticleLikesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ArticleLikeWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountArticleSubscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ArticleSubscriptionWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -541,6 +753,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   articles?: boolean | Prisma.User$articlesArgs<ExtArgs>
+  articleLikes?: boolean | Prisma.User$articleLikesArgs<ExtArgs>
+  articleSubscriptions?: boolean | Prisma.User$articleSubscriptionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -583,6 +797,8 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "passwordHash" | "role" | "bio" | "avatar" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   articles?: boolean | Prisma.User$articlesArgs<ExtArgs>
+  articleLikes?: boolean | Prisma.User$articleLikesArgs<ExtArgs>
+  articleSubscriptions?: boolean | Prisma.User$articleSubscriptionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -592,6 +808,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     articles: Prisma.$ArticlePayload<ExtArgs>[]
+    articleLikes: Prisma.$ArticleLikePayload<ExtArgs>[]
+    articleSubscriptions: Prisma.$ArticleSubscriptionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -998,6 +1216,8 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   articles<T extends Prisma.User$articlesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$articlesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ArticlePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  articleLikes<T extends Prisma.User$articleLikesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$articleLikesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ArticleLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  articleSubscriptions<T extends Prisma.User$articleSubscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$articleSubscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ArticleSubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1450,6 +1670,54 @@ export type User$articlesArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.ArticleScalarFieldEnum | Prisma.ArticleScalarFieldEnum[]
+}
+
+/**
+ * User.articleLikes
+ */
+export type User$articleLikesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ArticleLike
+   */
+  select?: Prisma.ArticleLikeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ArticleLike
+   */
+  omit?: Prisma.ArticleLikeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ArticleLikeInclude<ExtArgs> | null
+  where?: Prisma.ArticleLikeWhereInput
+  orderBy?: Prisma.ArticleLikeOrderByWithRelationInput | Prisma.ArticleLikeOrderByWithRelationInput[]
+  cursor?: Prisma.ArticleLikeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ArticleLikeScalarFieldEnum | Prisma.ArticleLikeScalarFieldEnum[]
+}
+
+/**
+ * User.articleSubscriptions
+ */
+export type User$articleSubscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ArticleSubscription
+   */
+  select?: Prisma.ArticleSubscriptionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ArticleSubscription
+   */
+  omit?: Prisma.ArticleSubscriptionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ArticleSubscriptionInclude<ExtArgs> | null
+  where?: Prisma.ArticleSubscriptionWhereInput
+  orderBy?: Prisma.ArticleSubscriptionOrderByWithRelationInput | Prisma.ArticleSubscriptionOrderByWithRelationInput[]
+  cursor?: Prisma.ArticleSubscriptionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ArticleSubscriptionScalarFieldEnum | Prisma.ArticleSubscriptionScalarFieldEnum[]
 }
 
 /**

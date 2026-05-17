@@ -1,6 +1,6 @@
-import { auth } from "@/lib/auth";
+import { requireAdminPage } from "@/lib/auth-helpers";
 import { prisma } from "@/lib/prisma";
-import { redirect, notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import { ArticleEditor } from "@/components/admin/article-editor";
 
 export const dynamic = "force-dynamic";
@@ -10,8 +10,7 @@ export default async function AdminArticleEditPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const session = await auth();
-  if (!session) redirect("/admin/login");
+  await requireAdminPage();
 
   const { id } = await params;
   const article = await prisma.article.findUnique({

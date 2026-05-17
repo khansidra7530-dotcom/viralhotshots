@@ -1,6 +1,7 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import Link from "next/link";
+import { signIn, signOut } from "next-auth/react";
 import { FormEvent, useState } from "react";
 
 export default function AdminLoginPage() {
@@ -17,9 +18,16 @@ export default function AdminLoginPage() {
     });
     if (res?.error) {
       setError("Invalid credentials");
-    } else {
-      window.location.href = "/admin";
+      return;
     }
+    const sessionRes = await fetch("/api/auth/session");
+    const session = await sessionRes.json();
+    if (session?.user?.role !== "ADMIN") {
+      await signOut({ redirect: false });
+      setError("Admin access only. Use customer sign in.");
+      return;
+    }
+    window.location.href = "/admin";
   }
 
   return (
@@ -50,6 +58,11 @@ export default function AdminLoginPage() {
         >
           Sign in
         </button>
+        <p className="text-center text-xs text-muted-foreground">
+          <Link href="/login" className="hover:underline">
+            Customer sign in
+          </Link>
+        </p>
       </form>
     </div>
   );

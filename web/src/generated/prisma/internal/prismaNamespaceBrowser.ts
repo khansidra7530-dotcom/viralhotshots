@@ -54,6 +54,8 @@ export const ModelName = {
   User: 'User',
   Category: 'Category',
   Article: 'Article',
+  ArticleLike: 'ArticleLike',
+  ArticleSubscription: 'ArticleSubscription',
   AffiliateLink: 'AffiliateLink',
   Comment: 'Comment',
   NewsletterSubscriber: 'NewsletterSubscriber',
@@ -135,6 +137,26 @@ export const ArticleScalarFieldEnum = {
 } as const
 
 export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
+
+
+export const ArticleLikeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  articleId: 'articleId',
+  createdAt: 'createdAt'
+} as const
+
+export type ArticleLikeScalarFieldEnum = (typeof ArticleLikeScalarFieldEnum)[keyof typeof ArticleLikeScalarFieldEnum]
+
+
+export const ArticleSubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  articleId: 'articleId',
+  createdAt: 'createdAt'
+} as const
+
+export type ArticleSubscriptionScalarFieldEnum = (typeof ArticleSubscriptionScalarFieldEnum)[keyof typeof ArticleSubscriptionScalarFieldEnum]
 
 
 export const AffiliateLinkScalarFieldEnum = {

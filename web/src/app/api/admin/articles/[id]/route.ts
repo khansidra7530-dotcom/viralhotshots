@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { requireAdminApi } from "@/lib/auth-helpers";
 import { calculateSeoScore } from "@/lib/seo";
 import { z } from "zod";
 
@@ -16,10 +16,8 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await auth();
-  if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const { error } = await requireAdminApi();
+  if (error) return error;
 
   const { id } = await params;
   const body = await req.json();
@@ -64,10 +62,8 @@ export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const session = await auth();
-  if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const { error } = await requireAdminApi();
+  if (error) return error;
 
   const { id } = await params;
   await prisma.article.delete({ where: { id } });

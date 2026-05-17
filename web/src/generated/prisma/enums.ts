@@ -35,7 +35,7 @@ export type ArticleStatus = (typeof ArticleStatus)[keyof typeof ArticleStatus]
 
 export const UserRole = {
   ADMIN: 'ADMIN',
-  EDITOR: 'EDITOR'
+  CUSTOMER: 'CUSTOMER'
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]

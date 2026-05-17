@@ -4,7 +4,9 @@ import { Breadcrumbs } from "@/components/blog/breadcrumbs";
 import { MarkdownContent } from "@/components/blog/markdown-content";
 import { SocialShare } from "@/components/blog/social-share";
 import { ArticleCard } from "@/components/blog/article-card";
+import { ArticleActions } from "@/components/blog/article-actions";
 import { CommentSection } from "@/components/blog/comment-section";
+import { auth } from "@/lib/auth";
 import { AdSlot } from "@/components/ads/ad-slot";
 import { prisma } from "@/lib/prisma";
 import { buildMetadata, articleJsonLd, faqJsonLd, breadcrumbJsonLd } from "@/lib/seo";
@@ -47,6 +49,7 @@ export default async function ArticlePage({ params }: Props) {
 
   if (!article) notFound();
 
+  const session = await auth();
   await incrementViewCount(article.id);
 
   const related = await getRelatedArticles(article.id, article.categoryId);
@@ -113,6 +116,7 @@ export default async function ArticlePage({ params }: Props) {
               <div className="mt-6">
                 <SocialShare title={article.title} slug={article.slug} />
               </div>
+              <ArticleActions articleId={article.id} isLoggedIn={Boolean(session?.user)} />
             </header>
 
             <div className="relative mt-8 aspect-[21/9] overflow-hidden rounded-2xl">

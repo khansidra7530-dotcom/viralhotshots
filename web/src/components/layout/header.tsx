@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HeaderAuth } from "@/components/layout/header-auth";
 import { SearchBar } from "@/components/search/search-bar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
@@ -45,6 +46,7 @@ export function Header() {
         </nav>
         <div className="flex flex-1 items-center gap-3 sm:max-w-md md:ml-auto">
           <SearchBar className="flex-1" />
+          <HeaderAuth />
           <div className="hidden md:block">
             <ThemeToggle />
           </div>

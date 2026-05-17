@@ -1,14 +1,12 @@
-import { auth } from "@/lib/auth";
+import { requireAdminPage } from "@/lib/auth-helpers";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminArticlesPage() {
-  const session = await auth();
-  if (!session) redirect("/admin/login");
+  await requireAdminPage();
 
   const articles = await prisma.article.findMany({
     include: { category: true },
@@ -20,12 +18,17 @@ export default async function AdminArticlesPage() {
     <div>
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Articles</h1>
-        <Link
-          href="/"
-          className="text-sm text-muted-foreground hover:text-accent"
-        >
-          View site →
-        </Link>
+        <div className="flex gap-4">
+          <Link
+            href="/admin/articles/new"
+            className="rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground"
+          >
+            New article
+          </Link>
+          <Link href="/" className="text-sm text-muted-foreground hover:text-accent">
+            View site →
+          </Link>
+        </div>
       </div>
       <div className="mt-8 overflow-x-auto rounded-2xl border border-border bg-card">
         <table className="w-full text-left text-sm">

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { requireAdminApi } from "@/lib/auth-helpers";
 import { Niche } from "@/generated/prisma/client";
 import { z } from "zod";
 
@@ -16,10 +16,8 @@ const schema = z.object({
 });
 
 export async function PATCH(req: NextRequest) {
-  const session = await auth();
-  if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const { error } = await requireAdminApi();
+  if (error) return error;
 
   const body = await req.json();
   const data = schema.parse(body);

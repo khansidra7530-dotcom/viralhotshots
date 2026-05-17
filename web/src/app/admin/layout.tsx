@@ -8,11 +8,12 @@ import {
   LogOut,
   Settings,
   Sparkles,
+  Users,
 } from "lucide-react";
-
 const nav = [
   { href: "/admin", label: "Dashboard", icon: BarChart3 },
   { href: "/admin/articles", label: "Articles", icon: FileText },
+  { href: "/admin/customers", label: "Customers", icon: Users },
   { href: "/admin/affiliates", label: "Affiliates", icon: Link2 },
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];

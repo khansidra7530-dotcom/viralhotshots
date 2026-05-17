@@ -387,6 +387,8 @@ export const ModelName = {
   User: 'User',
   Category: 'Category',
   Article: 'Article',
+  ArticleLike: 'ArticleLike',
+  ArticleSubscription: 'ArticleSubscription',
   AffiliateLink: 'AffiliateLink',
   Comment: 'Comment',
   NewsletterSubscriber: 'NewsletterSubscriber',
@@ -409,7 +411,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "category" | "article" | "affiliateLink" | "comment" | "newsletterSubscriber" | "siteSettings" | "analyticsEvent" | "cronLog" | "media"
+    modelProps: "user" | "category" | "article" | "articleLike" | "articleSubscription" | "affiliateLink" | "comment" | "newsletterSubscriber" | "siteSettings" | "analyticsEvent" | "cronLog" | "media"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -632,6 +634,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ArticleCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ArticleCountAggregateOutputType> | number
+        }
+      }
+    }
+    ArticleLike: {
+      payload: Prisma.$ArticleLikePayload<ExtArgs>
+      fields: Prisma.ArticleLikeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ArticleLikeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleLikePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ArticleLikeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleLikePayload>
+        }
+        findFirst: {
+          args: Prisma.ArticleLikeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleLikePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ArticleLikeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleLikePayload>
+        }
+        findMany: {
+          args: Prisma.ArticleLikeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleLikePayload>[]
+        }
+        create: {
+          args: Prisma.ArticleLikeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleLikePayload>
+        }
+        createMany: {
+          args: Prisma.ArticleLikeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ArticleLikeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleLikePayload>[]
+        }
+        delete: {
+          args: Prisma.ArticleLikeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleLikePayload>
+        }
+        update: {
+          args: Prisma.ArticleLikeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleLikePayload>
+        }
+        deleteMany: {
+          args: Prisma.ArticleLikeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ArticleLikeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ArticleLikeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleLikePayload>[]
+        }
+        upsert: {
+          args: Prisma.ArticleLikeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleLikePayload>
+        }
+        aggregate: {
+          args: Prisma.ArticleLikeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateArticleLike>
+        }
+        groupBy: {
+          args: Prisma.ArticleLikeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ArticleLikeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ArticleLikeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ArticleLikeCountAggregateOutputType> | number
+        }
+      }
+    }
+    ArticleSubscription: {
+      payload: Prisma.$ArticleSubscriptionPayload<ExtArgs>
+      fields: Prisma.ArticleSubscriptionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ArticleSubscriptionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleSubscriptionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ArticleSubscriptionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleSubscriptionPayload>
+        }
+        findFirst: {
+          args: Prisma.ArticleSubscriptionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleSubscriptionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ArticleSubscriptionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleSubscriptionPayload>
+        }
+        findMany: {
+          args: Prisma.ArticleSubscriptionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleSubscriptionPayload>[]
+        }
+        create: {
+          args: Prisma.ArticleSubscriptionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleSubscriptionPayload>
+        }
+        createMany: {
+          args: Prisma.ArticleSubscriptionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ArticleSubscriptionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleSubscriptionPayload>[]
+        }
+        delete: {
+          args: Prisma.ArticleSubscriptionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleSubscriptionPayload>
+        }
+        update: {
+          args: Prisma.ArticleSubscriptionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleSubscriptionPayload>
+        }
+        deleteMany: {
+          args: Prisma.ArticleSubscriptionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ArticleSubscriptionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ArticleSubscriptionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleSubscriptionPayload>[]
+        }
+        upsert: {
+          args: Prisma.ArticleSubscriptionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleSubscriptionPayload>
+        }
+        aggregate: {
+          args: Prisma.ArticleSubscriptionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateArticleSubscription>
+        }
+        groupBy: {
+          args: Prisma.ArticleSubscriptionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ArticleSubscriptionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ArticleSubscriptionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ArticleSubscriptionCountAggregateOutputType> | number
         }
       }
     }
@@ -1250,6 +1400,26 @@ export const ArticleScalarFieldEnum = {
 export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
 
 
+export const ArticleLikeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  articleId: 'articleId',
+  createdAt: 'createdAt'
+} as const
+
+export type ArticleLikeScalarFieldEnum = (typeof ArticleLikeScalarFieldEnum)[keyof typeof ArticleLikeScalarFieldEnum]
+
+
+export const ArticleSubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  articleId: 'articleId',
+  createdAt: 'createdAt'
+} as const
+
+export type ArticleSubscriptionScalarFieldEnum = (typeof ArticleSubscriptionScalarFieldEnum)[keyof typeof ArticleSubscriptionScalarFieldEnum]
+
+
 export const AffiliateLinkScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -1618,6 +1788,8 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   category?: Prisma.CategoryOmit
   article?: Prisma.ArticleOmit
+  articleLike?: Prisma.ArticleLikeOmit
+  articleSubscription?: Prisma.ArticleSubscriptionOmit
   affiliateLink?: Prisma.AffiliateLinkOmit
   comment?: Prisma.CommentOmit
   newsletterSubscriber?: Prisma.NewsletterSubscriberOmit

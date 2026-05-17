@@ -20,19 +20,19 @@ const categories = [
 ];
 
 async function main() {
-  const email = process.env.ADMIN_EMAIL ?? "admin@insightpress.com";
+  const email = process.env.ADMIN_EMAIL ?? "admin@viralhotshots.com";
   const password = process.env.ADMIN_PASSWORD ?? "ChangeMe123!";
   const hash = await bcrypt.hash(password, 12);
 
   const admin = await prisma.user.upsert({
     where: { email },
-    update: {},
+    update: { role: "ADMIN", name: process.env.ADMIN_NAME ?? "Viral Hotshots Editorial" },
     create: {
       email,
-      name: "Editorial Team",
+      name: process.env.ADMIN_NAME ?? "Viral Hotshots Editorial",
       passwordHash: hash,
       role: "ADMIN",
-      bio: "Our editorial team delivers expert, EEAT-compliant content across multiple niches.",
+      bio: "Official editorial account for Viral Hotshots.",
     },
   });
 

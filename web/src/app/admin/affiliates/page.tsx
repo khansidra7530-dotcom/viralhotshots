@@ -1,13 +1,11 @@
-import { auth } from "@/lib/auth";
+import { requireAdminPage } from "@/lib/auth-helpers";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
 import { buildAmazonUrl } from "@/lib/affiliate";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminAffiliatesPage() {
-  const session = await auth();
-  if (!session) redirect("/admin/login");
+  await requireAdminPage();
 
   const links = await prisma.affiliateLink.findMany({ orderBy: { createdAt: "desc" } });
   const tag = process.env.AMAZON_ASSOCIATE_TAG;
