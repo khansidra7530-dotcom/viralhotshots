@@ -1,3 +1,16 @@
+/** AI prompts disabled — deploy-only mode. */
+import type { Niche } from "@/generated/prisma/client";
+
+export function buildArticlePrompt(_input: {
+  niche: Niche;
+  category: string;
+  topic?: string;
+  affiliateKeywords?: string[];
+}): string {
+  return "";
+}
+
+/*
 import type { Niche } from "@/generated/prisma/client";
 
 export function buildArticlePrompt(input: {
@@ -48,3 +61,4 @@ Return ONLY valid JSON with this exact structure:
 
 ${input.affiliateKeywords?.length ? `Naturally mention these affiliate topics where relevant: ${input.affiliateKeywords.join(", ")}` : ""}`;
 }
+*/

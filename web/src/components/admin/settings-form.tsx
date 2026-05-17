@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { NICHES } from "@/lib/constants";
+// import { NICHES } from "@/lib/constants"; // used by AI settings (disabled)
 
 type Settings = {
   siteName: string;
@@ -47,6 +47,7 @@ export function SettingsForm({ settings }: { settings: Settings }) {
           className="mt-1 h-11 w-full rounded-xl border border-border bg-background px-4"
         />
       </label>
+      {/* AI / cron settings disabled for deploy-only mode
       <label className="block text-sm">
         Default niche for AI generation
         <select
@@ -75,7 +76,7 @@ export function SettingsForm({ settings }: { settings: Settings }) {
           checked={form.cronEnabled}
           onChange={(e) => setForm({ ...form, cronEnabled: e.target.checked })}
         />
-        Enable 4-hour cron generation
+        Enable cron generation
       </label>
       <label className="block text-sm">
         OpenAI model
@@ -85,6 +86,7 @@ export function SettingsForm({ settings }: { settings: Settings }) {
           className="mt-1 h-11 w-full rounded-xl border border-border bg-background px-4"
         />
       </label>
+      */}
       <button
         type="submit"
         className="rounded-xl bg-accent px-6 py-2.5 text-sm font-semibold text-accent-foreground"

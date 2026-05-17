@@ -15,7 +15,7 @@ export default async function AdminSettingsPage() {
     <div>
       <h1 className="text-2xl font-bold">Site Settings</h1>
       <p className="mt-2 text-sm text-muted-foreground">
-        SEO, cron, and publishing configuration
+        Site and publishing configuration
       </p>
       {settings && <SettingsForm settings={settings} />}
     </div>

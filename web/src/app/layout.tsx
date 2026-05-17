@@ -12,7 +12,7 @@ const serif = Source_Serif_4({ subsets: ["latin"], variable: "--font-serif" });
 export const metadata: Metadata = buildMetadata({
   title: `${process.env.NEXT_PUBLIC_SITE_NAME ?? "InsightPress"} — Expert Guides & Reviews`,
   description:
-    "Premium affiliate blog with expert guides, honest reviews, and AI-powered insights across finance, tech, health, and more.",
+    "Premium affiliate blog with expert guides, honest reviews, and insights across finance, tech, health, and more.",
   path: "/",
 });
 

@@ -1,12 +1,5 @@
-import OpenAI from "openai";
-import { prisma } from "@/lib/prisma";
-import { buildArticlePrompt } from "@/lib/ai/prompts";
-import { slugify, estimateReadingTime } from "@/lib/utils";
-import { calculateSeoScore } from "@/lib/seo";
-import { comparisonTableMarkdown } from "@/lib/affiliate";
-import type { Niche, Prisma } from "@/generated/prisma/client";
-
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+/** AI article generation disabled — deploy-only mode. */
+import type { Niche } from "@/generated/prisma/client";
 
 export type GeneratedArticle = {
   title: string;
@@ -27,6 +20,28 @@ export type GeneratedArticle = {
     badge?: string;
   }[];
 };
+
+export async function generateArticle(_input: {
+  niche: Niche;
+  categoryId: string;
+  categoryName: string;
+  authorId: string;
+  topic?: string;
+  autoPublish?: boolean;
+}): Promise<never> {
+  throw new Error("AI article generation is disabled.");
+}
+
+/*
+import OpenAI from "openai";
+import { prisma } from "@/lib/prisma";
+import { buildArticlePrompt } from "@/lib/ai/prompts";
+import { slugify, estimateReadingTime } from "@/lib/utils";
+import { calculateSeoScore } from "@/lib/seo";
+import { comparisonTableMarkdown } from "@/lib/affiliate";
+import type { Prisma } from "@/generated/prisma/client";
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function generateArticle(input: {
   niche: Niche;
@@ -126,3 +141,4 @@ export async function generateArticle(input: {
 
   return article;
 }
+*/

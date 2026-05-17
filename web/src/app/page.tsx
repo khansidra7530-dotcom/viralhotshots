@@ -23,7 +23,7 @@ export default async function HomePage() {
           <div className="max-w-3xl">
             <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
               <Sparkles className="h-3.5 w-3.5 text-accent" />
-              AI-powered · EEAT-optimized · AdSense-ready
+              Expert guides · EEAT-optimized · AdSense-ready
             </p>
             <h1 className="font-serif text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
               Insights that earn trust—and conversions
@@ -62,7 +62,7 @@ export default async function HomePage() {
         </div>
         {latest.length === 0 ? (
           <p className="rounded-2xl border border-dashed border-border p-12 text-center text-muted-foreground">
-            No articles yet. Run the seed script and cron job to generate content.
+            No articles yet. Add articles from the admin panel.
           </p>
         ) : (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

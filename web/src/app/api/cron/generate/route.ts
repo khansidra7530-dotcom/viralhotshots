@@ -1,9 +1,21 @@
+import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
+
+/** AI cron disabled — deploy-only mode. Re-enable the block below when ready. */
+export async function GET() {
+  return NextResponse.json(
+    { disabled: true, message: "AI cron generation is disabled." },
+    { status: 503 }
+  );
+}
+
+/*
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { generateArticle } from "@/lib/ai/generate-article";
 import type { Niche } from "@/generated/prisma/client";
 
-export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
 export async function GET(req: NextRequest) {
@@ -66,3 +78,4 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
+*/
