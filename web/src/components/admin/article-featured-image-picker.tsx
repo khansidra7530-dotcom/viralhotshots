@@ -3,11 +3,6 @@
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { ImageIcon, Loader2, RefreshCw, Search } from "lucide-react";
-import {
-  ARTICLE_FEATURED_HEIGHT,
-  ARTICLE_FEATURED_WIDTH,
-} from "@/components/blog/article-featured-image";
-
 type Props = {
   articleId: string;
   niche: string;
@@ -123,23 +118,18 @@ export function ArticleFeaturedImagePicker({
         <h2 className="font-semibold">Featured image</h2>
       </div>
 
-      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-muted">
+      <div className="relative mt-4 aspect-[900/560] w-full overflow-hidden rounded-xl border border-border bg-muted">
         {featuredImage ? (
-          <div
-            className="relative w-full max-w-[900px]"
-            style={{ aspectRatio: `${ARTICLE_FEATURED_WIDTH} / ${ARTICLE_FEATURED_HEIGHT}` }}
-          >
-            <Image
-              src={featuredImage}
-              alt="Featured preview"
-              fill
-              className="object-cover object-center"
-              sizes="900px"
-              unoptimized={featuredImage.includes("picsum.photos")}
-            />
-          </div>
+          <Image
+            src={featuredImage}
+            alt="Featured preview"
+            fill
+            className="object-cover object-center"
+            sizes="(max-width: 768px) 100vw, 900px"
+            unoptimized={featuredImage.includes("picsum.photos")}
+          />
         ) : (
-          <div className="flex aspect-[900/560] items-center justify-center text-sm text-muted-foreground">
+          <div className="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
             No image selected
           </div>
         )}
