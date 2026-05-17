@@ -83,7 +83,7 @@ export default async function ArticlePage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
         />
       ))}
-      <article className="w-full py-8">
+      <article className="w-full overflow-x-hidden py-8">
         <div className="mx-auto w-full max-w-screen-2xl px-4 sm:px-6 lg:px-8">
           <Breadcrumbs
             items={[
@@ -125,8 +125,8 @@ export default async function ArticlePage({ params }: Props) {
         </div>
 
         <div className="mx-auto mt-10 w-full max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-12">
-            <div className="min-w-0">
+          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_280px] lg:items-start lg:gap-12">
+            <div className="min-w-0 w-full max-w-full overflow-hidden">
               <AdSlot slot="in-article-top" className="mb-8" />
 
               <MarkdownContent content={article.content} />
@@ -134,7 +134,7 @@ export default async function ArticlePage({ params }: Props) {
               <AdSlot slot="in-article-bottom" className="my-8" />
 
               {faq.length > 0 && (
-                <section className="mt-12">
+                <section className="mt-12 break-words">
                   <h2 className="text-2xl font-bold">Frequently Asked Questions</h2>
                   <dl className="mt-6 space-y-6">
                     {faq.map((item) => (
@@ -158,7 +158,7 @@ export default async function ArticlePage({ params }: Props) {
               />
             </div>
 
-            <aside className="mt-10 space-y-8 lg:mt-0">
+            <aside className="mt-10 min-w-0 space-y-8 lg:mt-0 lg:max-w-[280px]">
               <div className="sticky top-24 space-y-6">
                 <AdSlot slot="sidebar-sticky" format="vertical" />
                 <div>

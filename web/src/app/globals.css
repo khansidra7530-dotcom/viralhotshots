@@ -190,6 +190,21 @@ body::before {
   text-underline-offset: 3px;
 }
 
+.article-body {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.article-body :where(p, li, h2, h3, a, strong, td, th) {
+  overflow-wrap: anywhere;
+}
+
+.article-body :where(table) {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 .ad-container {
   contain: layout style;
   min-height: 90px;
