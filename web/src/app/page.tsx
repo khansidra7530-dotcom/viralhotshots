@@ -3,6 +3,7 @@ import { ArticleCard } from "@/components/blog/article-card";
 import { NewsletterForm } from "@/components/blog/newsletter-form";
 import { getPublishedArticles, getTrendingArticles } from "@/lib/articles";
 import { prisma } from "@/lib/prisma";
+import { SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
 import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -25,8 +26,11 @@ export default async function HomePage() {
               <Sparkles className="h-3.5 w-3.5 text-accent" />
               Expert guides · EEAT-optimized · AdSense-ready
             </p>
-            <h1 className="font-serif text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-              Insights that earn trust—and conversions
+            <p className="text-sm font-bold uppercase tracking-widest text-accent">
+              {SITE_NAME}
+            </p>
+            <h1 className="mt-2 font-serif text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+              {SITE_TAGLINE}
             </h1>
             <p className="mt-6 text-lg text-muted-foreground">
               In-depth guides, honest comparisons, and expert analysis across finance,

@@ -1,4 +1,5 @@
-export const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME ?? "InsightPress";
+export const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME ?? "Viral Hotshots";
+export const SITE_TAGLINE = "Trending news & expert guides daily";
 
 export const NICHES = [
   { value: "FINANCE", label: "Finance" },

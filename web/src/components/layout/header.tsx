@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { SearchBar } from "@/components/search/search-bar";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { SITE_NAME } from "@/lib/constants";
+import { SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
 
 const nav = [
   { href: "/blog", label: "Articles" },
@@ -15,13 +15,18 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-4">
-          <Link href="/" className="group flex items-center gap-2">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent font-bold text-accent-foreground">
-              IP
+          <Link href="/" className="group flex items-center gap-3">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent text-sm font-bold text-accent-foreground">
+              VH
             </span>
-            <span className="text-lg font-semibold tracking-tight group-hover:text-accent">
-              {SITE_NAME}
-            </span>
+            <div>
+              <span className="block text-lg font-bold uppercase tracking-wide group-hover:text-accent">
+                {SITE_NAME}
+              </span>
+              <span className="block text-xs font-medium text-muted-foreground">
+                {SITE_TAGLINE}
+              </span>
+            </div>
           </Link>
           <div className="md:hidden">
             <ThemeToggle />
