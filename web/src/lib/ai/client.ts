@@ -16,13 +16,20 @@ export function isAiConfigured(): boolean {
   return Boolean(getGroqApiKey());
 }
 
+const NON_GROQ_MODEL_PREFIXES = /^(gpt-|o[0-9]|claude-|gemini-)/i;
+
 export function getGroqModel(settingsModel?: string | null): string {
-  return (
+  const requested =
     settingsModel?.trim() ||
     process.env.GROQ_MODEL?.trim() ||
     process.env.AI_MODEL?.trim() ||
-    DEFAULT_GROQ_MODEL
-  );
+    "";
+
+  if (requested && !NON_GROQ_MODEL_PREFIXES.test(requested)) {
+    return requested;
+  }
+
+  return DEFAULT_GROQ_MODEL;
 }
 
 function getGroqClient(): OpenAI {
