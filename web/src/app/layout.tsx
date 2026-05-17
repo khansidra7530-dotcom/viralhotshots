@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthSessionProvider>
           <ThemeProvider>
             <Header />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 overflow-x-hidden">{children}</main>
             <Footer />
           </ThemeProvider>
         </AuthSessionProvider>

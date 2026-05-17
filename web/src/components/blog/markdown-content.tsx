@@ -27,8 +27,14 @@ export function MarkdownContent({ content }: { content: string }) {
             ),
             table: ({ children }) => (
               <div className="my-6 w-full max-w-full overflow-x-auto rounded-xl border border-border">
-                <table className="w-full min-w-0 text-left text-sm">{children}</table>
+                <table className="w-full min-w-0 table-fixed text-left text-sm">{children}</table>
               </div>
+            ),
+            th: ({ children }) => (
+              <th className="break-words px-3 py-2 align-top">{children}</th>
+            ),
+            td: ({ children }) => (
+              <td className="break-words px-3 py-2 align-top">{children}</td>
             ),
             pre: ({ children }) => (
               <pre className="max-w-full overflow-x-auto rounded-xl bg-muted p-4 text-sm">

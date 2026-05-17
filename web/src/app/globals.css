@@ -205,10 +205,6 @@ body::before {
   overflow-x: auto;
 }
 
-.ad-container {
-  contain: layout style;
-  min-height: 90px;
-}
 
 /* Animations */
 @keyframes float {

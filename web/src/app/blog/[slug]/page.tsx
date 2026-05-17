@@ -7,7 +7,6 @@ import { ArticleCard } from "@/components/blog/article-card";
 import { ArticleActions } from "@/components/blog/article-actions";
 import { CommentSection } from "@/components/blog/comment-section";
 import { auth } from "@/lib/auth";
-import { AdSlot } from "@/components/ads/ad-slot";
 import { prisma } from "@/lib/prisma";
 import { buildMetadata, articleJsonLd, faqJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import { formatDate, absoluteUrl } from "@/lib/utils";
@@ -92,12 +91,12 @@ export default async function ArticlePage({ params }: Props) {
               { label: article.title },
             ]}
           />
-          <header className="max-w-4xl">
+          <header className="max-w-4xl break-words">
             <p className="section-label w-fit">{article.category.name}</p>
-            <h1 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+            <h1 className="mt-4 break-words font-display text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
               {article.title}
             </h1>
-            <p className="mt-4 text-lg text-muted-foreground">{article.excerpt}</p>
+            <p className="mt-4 break-words text-lg text-muted-foreground">{article.excerpt}</p>
             <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
               <span>By {article.author.name}</span>
               {article.publishedAt && (
@@ -124,79 +123,68 @@ export default async function ArticlePage({ params }: Props) {
           />
         </div>
 
-        <div className="mx-auto mt-10 w-full max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_280px] lg:items-start lg:gap-12">
-            <div className="min-w-0 w-full max-w-full overflow-hidden">
-              <AdSlot slot="in-article-top" className="mb-8" />
+        <div className="mx-auto mt-10 w-full max-w-4xl px-4 sm:px-6 lg:px-8">
+          <MarkdownContent content={article.content} />
 
-              <MarkdownContent content={article.content} />
-
-              <AdSlot slot="in-article-bottom" className="my-8" />
-
-              {faq.length > 0 && (
-                <section className="mt-12 break-words">
-                  <h2 className="text-2xl font-bold">Frequently Asked Questions</h2>
-                  <dl className="mt-6 space-y-6">
-                    {faq.map((item) => (
-                      <div key={item.question}>
-                        <dt className="font-semibold">{item.question}</dt>
-                        <dd className="mt-2 text-muted-foreground">{item.answer}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </section>
-              )}
-
-              <CommentSection
-                articleId={article.id}
-                initialComments={article.comments.map((c) => ({
-                  id: c.id,
-                  name: c.name,
-                  content: c.content,
-                  createdAt: c.createdAt.toISOString(),
-                }))}
-              />
-            </div>
-
-            <aside className="mt-10 min-w-0 space-y-8 lg:mt-0 lg:max-w-[280px]">
-              <div className="sticky top-24 space-y-6">
-                <AdSlot slot="sidebar-sticky" format="vertical" />
-                <div>
-                  <h3 className="font-semibold">Related articles</h3>
-                  <ul className="mt-4 space-y-3">
-                    {related.map((r) => (
-                      <li key={r.id}>
-                        <a href={`/blog/${r.slug}`} className="text-sm hover:text-accent">
-                          {r.title}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </aside>
-          </div>
-
-          {related.length > 0 && (
-            <section className="mt-16 border-t border-border pt-12">
-              <h2 className="text-2xl font-bold">You might also like</h2>
-              <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {related.map((r) => (
-                  <ArticleCard
-                    key={r.id}
-                    slug={r.slug}
-                    title={r.title}
-                    excerpt={r.excerpt}
-                    featuredImage={r.featuredImage}
-                    category={r.category}
-                    publishedAt={r.publishedAt}
-                    readingTimeMinutes={r.readingTimeMinutes}
-                  />
+          {faq.length > 0 && (
+            <section className="mt-12 break-words">
+              <h2 className="text-2xl font-bold">Frequently Asked Questions</h2>
+              <dl className="mt-6 space-y-6">
+                {faq.map((item) => (
+                  <div key={item.question}>
+                    <dt className="break-words font-semibold">{item.question}</dt>
+                    <dd className="mt-2 break-words text-muted-foreground">{item.answer}</dd>
+                  </div>
                 ))}
-              </div>
+              </dl>
             </section>
           )}
+
+          {related.length > 0 && (
+            <section className="mt-12 break-words border-t border-border pt-8">
+              <h2 className="text-lg font-semibold">Related articles</h2>
+              <ul className="mt-4 space-y-2">
+                {related.map((r) => (
+                  <li key={r.id}>
+                    <a href={`/blog/${r.slug}`} className="break-words text-sm hover:text-accent">
+                      {r.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          <CommentSection
+            articleId={article.id}
+            initialComments={article.comments.map((c) => ({
+              id: c.id,
+              name: c.name,
+              content: c.content,
+              createdAt: c.createdAt.toISOString(),
+            }))}
+          />
         </div>
+
+        {related.length > 0 && (
+          <section className="mx-auto mt-16 w-full max-w-screen-2xl border-t border-border px-4 pt-12 sm:px-6 lg:px-8">
+            <h2 className="text-2xl font-bold">You might also like</h2>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {related.map((r) => (
+                <ArticleCard
+                  key={r.id}
+                  slug={r.slug}
+                  title={r.title}
+                  excerpt={r.excerpt}
+                  featuredImage={r.featuredImage}
+                  category={r.category}
+                  publishedAt={r.publishedAt}
+                  readingTimeMinutes={r.readingTimeMinutes}
+                />
+              ))}
+            </div>
+          </section>
+        )}
       </article>
     </>
   );

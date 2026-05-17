@@ -38,13 +38,13 @@ export function CommentSection({
   }
 
   return (
-    <section className="mt-12 border-t border-border pt-10">
+    <section className="mt-12 break-words border-t border-border pt-10">
       <h2 className="text-xl font-semibold">Comments ({comments.length})</h2>
       <ul className="mt-6 space-y-4">
         {comments.map((c) => (
           <li key={c.id} className="rounded-xl border border-border bg-card p-4">
             <p className="font-medium">{c.name}</p>
-            <p className="mt-2 text-sm text-muted-foreground">{c.content}</p>
+            <p className="mt-2 break-words text-sm text-muted-foreground">{c.content}</p>
           </li>
         ))}
       </ul>
