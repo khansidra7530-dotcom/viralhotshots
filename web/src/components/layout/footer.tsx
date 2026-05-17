@@ -24,7 +24,7 @@ export function Footer() {
   return (
     <footer className="relative mt-auto overflow-hidden border-t border-border bg-foreground text-background">
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-accent/20 via-transparent to-accent-secondary/10" />
-      <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+      <div className="relative mx-auto w-full max-w-screen-2xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid gap-12 md:grid-cols-4">
           <div className="md:col-span-1">
             <Link href="/" className="inline-flex items-center gap-2">

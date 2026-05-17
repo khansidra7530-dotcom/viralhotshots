@@ -15,7 +15,7 @@ const nav = [
 export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/70 backdrop-blur-xl backdrop-saturate-150">
-      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
+      <div className="mx-auto flex w-full max-w-screen-2xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="group flex shrink-0 items-center gap-3">
           <span className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-accent to-accent-secondary shadow-lg shadow-accent/25 transition group-hover:scale-105 group-hover:shadow-accent/40">
             <Flame className="h-5 w-5 text-accent-foreground" strokeWidth={2.5} />

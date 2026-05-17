@@ -75,7 +75,7 @@ export default async function ArticlePage({ params }: Props) {
   ];
 
   return (
-  <>
+    <>
       {jsonLd.map((data, i) => (
         <script
           key={i}
@@ -83,117 +83,120 @@ export default async function ArticlePage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
         />
       ))}
-      <article className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="lg:grid lg:grid-cols-[1fr_300px] lg:gap-10">
-          <div>
-            <Breadcrumbs
-              items={[
-                { label: "Home", href: "/" },
-                { label: article.category.name, href: `/category/${article.category.slug}` },
-                { label: article.title },
-              ]}
-            />
-            <header>
-              <p className="section-label w-fit">{article.category.name}</p>
-              <h1 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-                {article.title}
-              </h1>
-              <p className="mt-4 text-lg text-muted-foreground">{article.excerpt}</p>
-              <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                <span>By {article.author.name}</span>
-                {article.publishedAt && (
-                  <time dateTime={article.publishedAt.toISOString()}>
-                    {formatDate(article.publishedAt)}
-                  </time>
-                )}
-                <span className="flex items-center gap-1">
-                  <Clock className="h-4 w-4" />
-                  {article.readingTimeMinutes} min read
-                </span>
-              </div>
-              <div className="mt-6">
-                <SocialShare title={article.title} slug={article.slug} />
-              </div>
-              <ArticleActions articleId={article.id} isLoggedIn={Boolean(session?.user)} />
-            </header>
-
-            <ArticleFeaturedImage
-              src={article.featuredImage ?? "/og-default.png"}
-              alt={article.title}
-              priority
-            />
-
-            <AdSlot slot="in-article-top" className="my-8" />
-
-            <div className="mt-8">
-              <MarkdownContent content={article.content} />
+      <article className="w-full py-8">
+        <div className="mx-auto w-full max-w-screen-2xl px-4 sm:px-6 lg:px-8">
+          <Breadcrumbs
+            items={[
+              { label: "Home", href: "/" },
+              { label: article.category.name, href: `/category/${article.category.slug}` },
+              { label: article.title },
+            ]}
+          />
+          <header className="max-w-4xl">
+            <p className="section-label w-fit">{article.category.name}</p>
+            <h1 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+              {article.title}
+            </h1>
+            <p className="mt-4 text-lg text-muted-foreground">{article.excerpt}</p>
+            <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+              <span>By {article.author.name}</span>
+              {article.publishedAt && (
+                <time dateTime={article.publishedAt.toISOString()}>
+                  {formatDate(article.publishedAt)}
+                </time>
+              )}
+              <span className="flex items-center gap-1">
+                <Clock className="h-4 w-4" />
+                {article.readingTimeMinutes} min read
+              </span>
             </div>
-
-            <AdSlot slot="in-article-bottom" className="my-8" />
-
-            {faq.length > 0 && (
-              <section className="mt-12">
-                <h2 className="text-2xl font-bold">Frequently Asked Questions</h2>
-                <dl className="mt-6 space-y-6">
-                  {faq.map((item) => (
-                    <div key={item.question}>
-                      <dt className="font-semibold">{item.question}</dt>
-                      <dd className="mt-2 text-muted-foreground">{item.answer}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </section>
-            )}
-
-            <CommentSection
-              articleId={article.id}
-              initialComments={article.comments.map((c) => ({
-                id: c.id,
-                name: c.name,
-                content: c.content,
-                createdAt: c.createdAt.toISOString(),
-              }))}
-            />
-          </div>
-
-          <aside className="mt-10 space-y-8 lg:mt-0">
-            <div className="sticky top-24 space-y-6">
-              <AdSlot slot="sidebar-sticky" format="vertical" />
-              <div>
-                <h3 className="font-semibold">Related articles</h3>
-                <ul className="mt-4 space-y-3">
-                  {related.map((r) => (
-                    <li key={r.id}>
-                      <a href={`/blog/${r.slug}`} className="text-sm hover:text-accent">
-                        {r.title}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div className="mt-6">
+              <SocialShare title={article.title} slug={article.slug} />
             </div>
-          </aside>
+            <ArticleActions articleId={article.id} isLoggedIn={Boolean(session?.user)} />
+          </header>
+
+          <ArticleFeaturedImage
+            src={article.featuredImage ?? "/og-default.png"}
+            alt={article.title}
+            priority
+            className="mt-8"
+          />
         </div>
 
-        {related.length > 0 && (
-          <section className="mt-16 border-t border-border pt-12">
-            <h2 className="text-2xl font-bold">You might also like</h2>
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {related.map((r) => (
-                <ArticleCard
-                  key={r.id}
-                  slug={r.slug}
-                  title={r.title}
-                  excerpt={r.excerpt}
-                  featuredImage={r.featuredImage}
-                  category={r.category}
-                  publishedAt={r.publishedAt}
-                  readingTimeMinutes={r.readingTimeMinutes}
-                />
-              ))}
+        <div className="mx-auto mt-10 w-full max-w-screen-2xl px-4 sm:px-6 lg:px-8">
+          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-12">
+            <div className="min-w-0">
+              <AdSlot slot="in-article-top" className="mb-8" />
+
+              <MarkdownContent content={article.content} />
+
+              <AdSlot slot="in-article-bottom" className="my-8" />
+
+              {faq.length > 0 && (
+                <section className="mt-12">
+                  <h2 className="text-2xl font-bold">Frequently Asked Questions</h2>
+                  <dl className="mt-6 space-y-6">
+                    {faq.map((item) => (
+                      <div key={item.question}>
+                        <dt className="font-semibold">{item.question}</dt>
+                        <dd className="mt-2 text-muted-foreground">{item.answer}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </section>
+              )}
+
+              <CommentSection
+                articleId={article.id}
+                initialComments={article.comments.map((c) => ({
+                  id: c.id,
+                  name: c.name,
+                  content: c.content,
+                  createdAt: c.createdAt.toISOString(),
+                }))}
+              />
             </div>
-          </section>
-        )}
+
+            <aside className="mt-10 space-y-8 lg:mt-0">
+              <div className="sticky top-24 space-y-6">
+                <AdSlot slot="sidebar-sticky" format="vertical" />
+                <div>
+                  <h3 className="font-semibold">Related articles</h3>
+                  <ul className="mt-4 space-y-3">
+                    {related.map((r) => (
+                      <li key={r.id}>
+                        <a href={`/blog/${r.slug}`} className="text-sm hover:text-accent">
+                          {r.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </aside>
+          </div>
+
+          {related.length > 0 && (
+            <section className="mt-16 border-t border-border pt-12">
+              <h2 className="text-2xl font-bold">You might also like</h2>
+              <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {related.map((r) => (
+                  <ArticleCard
+                    key={r.id}
+                    slug={r.slug}
+                    title={r.title}
+                    excerpt={r.excerpt}
+                    featuredImage={r.featuredImage}
+                    category={r.category}
+                    publishedAt={r.publishedAt}
+                    readingTimeMinutes={r.readingTimeMinutes}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
       </article>
     </>
   );

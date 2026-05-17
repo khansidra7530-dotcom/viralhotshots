@@ -20,7 +20,7 @@ export function ArticleFeaturedImage({
 }: Props) {
   return (
     <div
-      className={`relative mt-8 aspect-[900/560] w-full max-w-[900px] overflow-hidden rounded-2xl bg-muted shadow-lg ring-1 ring-border sm:rounded-3xl ${className}`}
+      className={`relative mt-8 aspect-[900/560] w-full overflow-hidden rounded-2xl bg-muted shadow-lg ring-1 ring-border sm:rounded-3xl ${className}`}
     >
       <Image
         src={src}
@@ -28,7 +28,7 @@ export function ArticleFeaturedImage({
         fill
         priority={priority}
         className="object-cover object-center"
-        sizes="(max-width: 1024px) 100vw, 900px"
+        sizes="100vw"
       />
     </div>
   );
