@@ -32,7 +32,7 @@ export function ArticleCard({
     >
       <Link
         href={`/blog/${slug}`}
-        className={`relative block overflow-hidden ${featured ? "min-h-[200px] max-h-72" : "aspect-[16/9] max-h-48"}`}
+        className={`relative block w-full overflow-hidden ${featured ? "aspect-[900/560] min-h-[200px]" : "aspect-[900/560]"}`}
       >
         <Image
           src={featuredImage ?? "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=640&h=400&fit=crop&q=80"}

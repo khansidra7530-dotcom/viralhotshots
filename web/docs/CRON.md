@@ -4,7 +4,7 @@ Automatically publishes articles via `GET /api/cron/generate`.
 
 ## What each run does
 
-1. Picks the category with the oldest last article (rotation across niches)
+1. Picks the **next niche in order** (Finance → Tech → AI → Health → Gaming → Crypto → Business → Travel → repeat)
 2. Fetches **latest news** from Google News RSS for that niche
 3. Calls **Groq** (free) with EEAT + SEO + easy-English prompts
 4. Ensures **≥ 1000 words** (auto-expands if too short)
@@ -37,6 +37,35 @@ curl -H "Authorization: Bearer YOUR_CRON_SECRET" \
 | `CRON_SECRET` | Secures the endpoint |
 | `DATABASE_URL` | Save articles |
 | `UNSPLASH_ACCESS_KEY` | Optional — better hero images |
+
+## Niche rotation (one per cron run)
+
+Each call publishes **one** article for the **next** niche in this order:
+
+Finance → Tech → AI → Health → Gaming → Crypto → Business → Travel → (repeat)
+
+With cron every **4 hours**, each niche gets a new post about every **32 hours**.
+
+## Publish all niches at once (local)
+
+```bash
+cd web
+npm run publish:all-niches
+```
+
+Or via API (needs ~3–15 min, Vercel Pro timeout):
+
+```bash
+curl -H "Authorization: Bearer YOUR_CRON_SECRET" \
+  "https://viralhotshots.com/api/cron/generate?all=1"
+```
+
+## Publish one niche only
+
+```bash
+curl -H "Authorization: Bearer YOUR_CRON_SECRET" \
+  "https://viralhotshots.com/api/cron/generate?niche=HEALTH"
+```
 
 ## Manual test (local)
 

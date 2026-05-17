@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ArticleFeaturedImagePicker } from "@/components/admin/article-featured-image-picker";
 
 type Article = {
   id: string;
@@ -11,6 +12,9 @@ type Article = {
   content: string;
   status: string;
   slug: string;
+  featuredImage: string | null;
+  featuredImagePrompt: string | null;
+  category: { niche: string; name: string };
 };
 
 export function ArticleEditor({ article }: { article: Article }) {
@@ -21,6 +25,8 @@ export function ArticleEditor({ article }: { article: Article }) {
     metaDescription: article.metaDescription,
     content: article.content,
     status: article.status,
+    featuredImage: article.featuredImage,
+    featuredImagePrompt: article.featuredImagePrompt,
   });
   const [saving, setSaving] = useState(false);
 
@@ -36,11 +42,12 @@ export function ArticleEditor({ article }: { article: Article }) {
   }
 
   async function publish() {
-    setForm((f) => ({ ...f, status: "PUBLISHED" }));
+    const payload = { ...form, status: "PUBLISHED" };
+    setForm(payload);
     await fetch(`/api/admin/articles/${article.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...form, status: "PUBLISHED" }),
+      body: JSON.stringify(payload),
     });
     router.refresh();
   }
@@ -53,7 +60,22 @@ export function ArticleEditor({ article }: { article: Article }) {
   }
 
   return (
-    <div className="mt-6 space-y-4">
+    <div className="mt-6 space-y-6">
+      <ArticleFeaturedImagePicker
+        articleId={article.id}
+        niche={article.category.niche}
+        title={form.title}
+        featuredImage={form.featuredImage}
+        featuredImagePrompt={form.featuredImagePrompt}
+        onChange={(featuredImage, featuredImagePrompt) =>
+          setForm((f) => ({
+            ...f,
+            featuredImage,
+            featuredImagePrompt: featuredImagePrompt ?? f.featuredImagePrompt,
+          }))
+        }
+      />
+
       <input
         value={form.title}
         onChange={(e) => setForm({ ...form, title: e.target.value })}
@@ -88,7 +110,7 @@ export function ArticleEditor({ article }: { article: Article }) {
         rows={20}
         className="w-full rounded-xl border border-border bg-background px-4 py-3 font-mono text-sm"
       />
-      <div className="flex gap-3">
+      <div className="flex flex-wrap gap-3">
         <button
           type="button"
           onClick={save}

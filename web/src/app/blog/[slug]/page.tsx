@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
+import { ArticleFeaturedImage } from "@/components/blog/article-featured-image";
 import { Breadcrumbs } from "@/components/blog/breadcrumbs";
 import { MarkdownContent } from "@/components/blog/markdown-content";
 import { SocialShare } from "@/components/blog/social-share";
@@ -117,16 +117,11 @@ export default async function ArticlePage({ params }: Props) {
               <ArticleActions articleId={article.id} isLoggedIn={Boolean(session?.user)} />
             </header>
 
-            <div className="relative mt-8 aspect-[2/1] max-h-[min(420px,55vh)] w-full overflow-hidden rounded-2xl shadow-lg ring-1 ring-border sm:rounded-3xl">
-              <Image
-                src={article.featuredImage ?? "/og-default.png"}
-                alt={article.title}
-                fill
-                priority
-                className="object-cover object-center"
-                sizes="(max-width: 1024px) 100vw, 800px"
-              />
-            </div>
+            <ArticleFeaturedImage
+              src={article.featuredImage ?? "/og-default.png"}
+              alt={article.title}
+              priority
+            />
 
             <AdSlot slot="in-article-top" className="my-8" />
 

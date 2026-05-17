@@ -6,7 +6,7 @@ import {
   buildExpandPrompt,
 } from "@/lib/ai/prompts";
 import { fetchNewsBrief } from "@/lib/ai/news";
-import { fetchHeroImageUrl, getRecentFeaturedImageUrls } from "@/lib/ai/hero-image";
+import { fetchHeroImageUrl, getUsedImageFingerprints } from "@/lib/ai/hero-image";
 import { applyKeywordsToArticle, buildKeywordSet } from "@/lib/ai/keywords";
 import { slugify, estimateReadingTime, countWords } from "@/lib/utils";
 import { calculateSeoScore } from "@/lib/seo";
@@ -79,7 +79,7 @@ export async function generateArticle(input: {
       take: 12,
       select: { title: true },
     }),
-    getRecentFeaturedImageUrls(),
+    getUsedImageFingerprints(),
   ]);
 
   const affiliates = await prisma.affiliateLink.findMany({

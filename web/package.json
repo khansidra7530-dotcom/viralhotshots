@@ -11,6 +11,9 @@
     "db:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
+    "publish:all-niches": "tsx scripts/publish-all-niches.ts",
+    "publish:niches": "tsx scripts/publish-niches.ts",
+    "fix:duplicate-images": "tsx scripts/fix-duplicate-images.ts",
     "postinstall": "prisma generate"
   },
   "prisma": {

@@ -1,0 +1,263 @@
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
+import { ImageIcon, Loader2, RefreshCw, Search } from "lucide-react";
+import {
+  ARTICLE_FEATURED_HEIGHT,
+  ARTICLE_FEATURED_WIDTH,
+} from "@/components/blog/article-featured-image";
+
+type Props = {
+  articleId: string;
+  niche: string;
+  title: string;
+  featuredImage: string | null;
+  featuredImagePrompt: string | null;
+  onChange: (image: string | null, prompt: string | null) => void;
+};
+
+export function ArticleFeaturedImagePicker({
+  articleId,
+  niche,
+  title,
+  featuredImage,
+  featuredImagePrompt,
+  onChange,
+}: Props) {
+  const [urlInput, setUrlInput] = useState(featuredImage ?? "");
+  const [searchQuery, setSearchQuery] = useState(
+    featuredImagePrompt ?? title.slice(0, 60)
+  );
+  const [pool, setPool] = useState<string[]>([]);
+  const [searchResults, setSearchResults] = useState<string[]>([]);
+  const [hasUnsplash, setHasUnsplash] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+
+  const loadSuggestions = useCallback(async () => {
+    setLoading(true);
+    setMessage(null);
+    try {
+      const params = new URLSearchParams({ niche });
+      if (searchQuery.trim().length >= 2) params.set("q", searchQuery.trim());
+      const res = await fetch(`/api/admin/featured-images?${params}`);
+      if (!res.ok) throw new Error("Failed to load images");
+      const data = (await res.json()) as {
+        pool: string[];
+        search: string[];
+        hasUnsplash: boolean;
+      };
+      setPool(data.pool);
+      setSearchResults(data.search);
+      setHasUnsplash(data.hasUnsplash);
+    } catch {
+      setMessage("Could not load image suggestions.");
+    } finally {
+      setLoading(false);
+    }
+  }, [niche, searchQuery]);
+
+  useEffect(() => {
+    loadSuggestions();
+  }, [loadSuggestions]);
+
+  useEffect(() => {
+    setUrlInput(featuredImage ?? "");
+  }, [featuredImage]);
+
+  function selectImage(url: string, prompt?: string | null) {
+    onChange(url, prompt ?? featuredImagePrompt);
+    setUrlInput(url);
+    setMessage("Image selected — click Save to apply.");
+  }
+
+  function applyCustomUrl() {
+    const trimmed = urlInput.trim();
+    if (!trimmed) {
+      onChange(null, featuredImagePrompt);
+      setMessage("Image cleared — click Save to apply.");
+      return;
+    }
+    try {
+      new URL(trimmed);
+      onChange(trimmed, featuredImagePrompt);
+      setMessage("Custom URL selected — click Save to apply.");
+    } catch {
+      setMessage("Enter a valid image URL (https://...).");
+    }
+  }
+
+  async function generateUnique() {
+    setGenerating(true);
+    setMessage(null);
+    try {
+      const res = await fetch(`/api/admin/articles/${articleId}/generate-image`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: searchQuery.trim() || undefined }),
+      });
+      if (!res.ok) throw new Error("Generate failed");
+      const data = (await res.json()) as {
+        featuredImage: string;
+        featuredImagePrompt: string;
+      };
+      onChange(data.featuredImage, data.featuredImagePrompt);
+      setUrlInput(data.featuredImage);
+      setSearchQuery(data.featuredImagePrompt);
+      setMessage("New unique image generated — click Save to apply.");
+    } catch {
+      setMessage("Could not generate image. Try again or pick manually.");
+    } finally {
+      setGenerating(false);
+    }
+  }
+
+  const gallery = [...new Set([...searchResults, ...pool])];
+
+  return (
+    <section className="rounded-2xl border border-border bg-card p-5">
+      <div className="flex items-center gap-2">
+        <ImageIcon className="h-5 w-5 text-accent" />
+        <h2 className="font-semibold">Featured image</h2>
+      </div>
+
+      <div className="mt-4 overflow-hidden rounded-xl border border-border bg-muted">
+        {featuredImage ? (
+          <div
+            className="relative w-full max-w-[900px]"
+            style={{ aspectRatio: `${ARTICLE_FEATURED_WIDTH} / ${ARTICLE_FEATURED_HEIGHT}` }}
+          >
+            <Image
+              src={featuredImage}
+              alt="Featured preview"
+              fill
+              className="object-cover object-center"
+              sizes="900px"
+              unoptimized={featuredImage.includes("picsum.photos")}
+            />
+          </div>
+        ) : (
+          <div className="flex aspect-[900/560] items-center justify-center text-sm text-muted-foreground">
+            No image selected
+          </div>
+        )}
+      </div>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={generateUnique}
+          disabled={generating}
+          className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground disabled:opacity-60"
+        >
+          {generating ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <RefreshCw className="h-4 w-4" />
+          )}
+          Generate unique image
+        </button>
+        <button
+          type="button"
+          onClick={() => onChange(null, featuredImagePrompt)}
+          className="rounded-xl border border-border px-4 py-2 text-sm font-medium hover:bg-muted"
+        >
+          Remove image
+        </button>
+      </div>
+
+      <div className="mt-5">
+        <label className="text-sm font-medium">Custom image URL</label>
+        <div className="mt-2 flex gap-2">
+          <input
+            value={urlInput}
+            onChange={(e) => setUrlInput(e.target.value)}
+            placeholder="https://images.unsplash.com/..."
+            className="h-11 min-w-0 flex-1 rounded-xl border border-border bg-background px-4 text-sm"
+          />
+          <button
+            type="button"
+            onClick={applyCustomUrl}
+            className="shrink-0 rounded-xl border border-border px-4 py-2 text-sm font-semibold hover:bg-muted"
+          >
+            Use URL
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-5">
+        <label className="text-sm font-medium">Search images</label>
+        <div className="mt-2 flex gap-2">
+          <input
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), loadSuggestions())}
+            placeholder="e.g. laptop workspace, fitness yoga"
+            className="h-11 min-w-0 flex-1 rounded-xl border border-border bg-background px-4 text-sm"
+          />
+          <button
+            type="button"
+            onClick={loadSuggestions}
+            disabled={loading}
+            className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-border px-4 py-2 text-sm font-semibold hover:bg-muted disabled:opacity-60"
+          >
+            {loading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Search className="h-4 w-4" />
+            )}
+            Search
+          </button>
+        </div>
+        {!hasUnsplash && (
+          <p className="mt-2 text-xs text-muted-foreground">
+            Add UNSPLASH_ACCESS_KEY in env for live search. Curated picks below still work.
+          </p>
+        )}
+      </div>
+
+      {message && (
+        <p className="mt-3 text-sm text-muted-foreground">{message}</p>
+      )}
+
+      {gallery.length > 0 && (
+        <div className="mt-5">
+          <p className="text-sm font-medium">
+            {searchResults.length > 0 ? "Search results & curated" : "Curated for this niche"}
+          </p>
+          <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {gallery.map((url) => {
+              const selected = featuredImage === url;
+              return (
+                <button
+                  key={url}
+                  type="button"
+                  onClick={() => selectImage(url, searchQuery.trim() || null)}
+                  className={`relative aspect-[900/560] overflow-hidden rounded-lg ring-2 transition hover:opacity-90 ${
+                    selected ? "ring-accent" : "ring-transparent"
+                  }`}
+                >
+                  <Image
+                    src={url}
+                    alt=""
+                    fill
+                    className="object-cover"
+                    sizes="200px"
+                    unoptimized={url.includes("picsum.photos")}
+                  />
+                  {selected && (
+                    <span className="absolute inset-0 flex items-center justify-center bg-accent/20 text-xs font-bold text-accent-foreground">
+                      Selected
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}

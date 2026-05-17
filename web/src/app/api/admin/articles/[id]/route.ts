@@ -10,6 +10,8 @@ const updateSchema = z.object({
   metaDescription: z.string().optional(),
   status: z.enum(["DRAFT", "PENDING", "PUBLISHED", "SCHEDULED"]).optional(),
   excerpt: z.string().optional(),
+  featuredImage: z.string().url().nullable().optional(),
+  featuredImagePrompt: z.string().nullable().optional(),
 });
 
 export async function PATCH(
@@ -32,13 +34,16 @@ export async function PATCH(
   const title = data.title ?? existing.title;
   const metaDescription = data.metaDescription ?? existing.metaDescription;
 
+  const featuredImage =
+    data.featuredImage !== undefined ? data.featuredImage : existing.featuredImage;
+
   const seoScore = calculateSeoScore({
     title,
     metaDescription,
     content,
     slug: existing.slug,
     tags: existing.tags,
-    hasFeaturedImage: Boolean(existing.featuredImage),
+    hasFeaturedImage: Boolean(featuredImage),
     hasFaq: Boolean(existing.faq),
     hasSources: Boolean(existing.sources),
   });
