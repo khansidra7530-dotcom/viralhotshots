@@ -1,39 +1,23 @@
-"use client";
-
 import Link from "next/link";
-import { signIn, signOut } from "next-auth/react";
-import { FormEvent, useState } from "react";
+import { adminLoginAction } from "./actions";
 
-export default function AdminLoginPage() {
-  const [error, setError] = useState("");
+const errors: Record<string, string> = {
+  credentials: "Invalid credentials.",
+  notadmin: "Admin access only. Use customer sign in at /login.",
+};
 
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setError("");
-    const form = new FormData(e.currentTarget);
-    const res = await signIn("credentials", {
-      email: form.get("email"),
-      password: form.get("password"),
-      redirect: false,
-    });
-    if (res?.error) {
-      setError("Invalid credentials");
-      return;
-    }
-    const sessionRes = await fetch("/api/auth/session");
-    const session = await sessionRes.json();
-    if (session?.user?.role !== "ADMIN") {
-      await signOut({ redirect: false });
-      setError("Admin access only. Use customer sign in.");
-      return;
-    }
-    window.location.href = "/admin";
-  }
+export default async function AdminLoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const params = await searchParams;
+  const errorMsg = params.error ? errors[params.error] : null;
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center px-4">
       <form
-        onSubmit={onSubmit}
+        action={adminLoginAction}
         className="w-full max-w-md space-y-4 rounded-2xl border border-border bg-card p-8 shadow-lg"
       >
         <h1 className="text-2xl font-bold">Admin Login</h1>
@@ -41,6 +25,7 @@ export default function AdminLoginPage() {
           name="email"
           type="email"
           required
+          autoComplete="email"
           placeholder="Email"
           className="h-11 w-full rounded-xl border border-border bg-background px-4 text-sm"
         />
@@ -48,10 +33,11 @@ export default function AdminLoginPage() {
           name="password"
           type="password"
           required
+          autoComplete="current-password"
           placeholder="Password"
           className="h-11 w-full rounded-xl border border-border bg-background px-4 text-sm"
         />
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {errorMsg && <p className="text-sm text-red-600">{errorMsg}</p>}
         <button
           type="submit"
           className="h-11 w-full rounded-xl bg-accent font-semibold text-accent-foreground"

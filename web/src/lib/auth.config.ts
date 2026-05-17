@@ -2,8 +2,8 @@ import type { NextAuthConfig } from "next-auth";
 import { isAdminRole } from "@/lib/roles";
 
 /** Valid session must include user id (avoids redirect loops with stale JWT cookies). */
-function isLoggedIn(auth: { user?: { id?: string | null } } | null) {
-  return Boolean(auth?.user?.id);
+function isLoggedIn(auth: { user?: { id?: string | null; email?: string | null } } | null) {
+  return Boolean(auth?.user?.id ?? auth?.user?.email);
 }
 
 export const authConfig = {
@@ -48,17 +48,19 @@ export const authConfig = {
     },
     jwt({ token, user }) {
       if (user) {
+        token.sub = user.id;
         token.id = user.id;
         token.role = (user as { role?: string }).role;
       }
       return token;
     },
     session({ session, token }) {
-      if (!token.id) {
+      const userId = (token.id ?? token.sub) as string | undefined;
+      if (!userId) {
         return { ...session, user: undefined };
       }
       if (session.user) {
-        session.user.id = token.id as string;
+        session.user.id = userId;
         session.user.role = token.role as string;
       }
       return session;

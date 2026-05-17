@@ -10,9 +10,11 @@ const loginSchema = z.object({
   password: z.string().min(8),
 });
 
+const authSecret = process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET;
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
-  secret: process.env.AUTH_SECRET,
+  secret: authSecret,
   providers: [
     Credentials({
       name: "credentials",
