@@ -27,7 +27,7 @@ You should see `Seed complete!`
 
 1. Push project to **GitHub** (the `web` folder or whole repo).
 2. https://vercel.com → **Add New Project** → import repo.
-3. **Root Directory:** `web`
+3. **Root Directory:** `web` ← **required** (fixes build error 127)
 4. **Environment Variables** — copy from `.env.production.example`:
 
 | Variable | Value |
