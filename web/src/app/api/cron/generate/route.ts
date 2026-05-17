@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { isAiConfigured } from "@/lib/ai/client";
 import { generateArticle } from "@/lib/ai/generate-article";
 import { pickCategoryForCron } from "@/lib/ai/pick-category";
 import { ARTICLE_MIN_WORDS } from "@/lib/ai/prompts";
@@ -21,9 +22,12 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  if (!process.env.OPENAI_API_KEY) {
+  if (!isAiConfigured()) {
     return NextResponse.json(
-      { error: "OPENAI_API_KEY is not configured on the server" },
+      {
+        error:
+          "No AI API key on server. Add GROQ_API_KEY (free at console.groq.com) or GEMINI_API_KEY or OPENAI_API_KEY in Vercel, then redeploy.",
+      },
       { status: 500 }
     );
   }

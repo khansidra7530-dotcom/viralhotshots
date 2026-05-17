@@ -83,12 +83,16 @@ export function SettingsForm({ settings }: { settings: Settings }) {
           Enable scheduled cron (every 4 hours UTC)
         </label>
         <label className="block text-sm">
-          OpenAI model
+          AI model
           <input
             value={form.openaiModel}
             onChange={(e) => setForm({ ...form, openaiModel: e.target.value })}
+            placeholder="llama-3.3-70b-versatile or gemini-2.0-flash"
             className="mt-1 h-11 w-full rounded-xl border border-border bg-background px-4"
           />
+          <span className="mt-1 block text-xs text-muted-foreground">
+            Groq (free): llama-3.3-70b-versatile · Gemini (free): gemini-2.0-flash
+          </span>
         </label>
       </div>
       <button

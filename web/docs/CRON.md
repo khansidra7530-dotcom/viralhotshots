@@ -6,7 +6,7 @@ Automatically publishes articles via `GET /api/cron/generate`.
 
 1. Picks the category with the oldest last article (rotation across niches)
 2. Fetches **latest news** from Google News RSS for that niche
-3. Calls **OpenAI** with EEAT + SEO + easy-English prompts
+3. Calls **AI** (Groq free, Gemini free, or OpenAI) with EEAT + SEO + easy-English prompts
 4. Ensures **≥ 1000 words** (auto-expands if too short)
 5. Adds a **high-quality hero image** (Unsplash API or niche fallback)
 6. Injects **affiliate** product table when relevant + DB affiliate links
@@ -32,7 +32,10 @@ curl -H "Authorization: Bearer YOUR_CRON_SECRET" \
 
 | Variable | Purpose |
 |----------|---------|
-| `OPENAI_API_KEY` | Article generation |
+| `GROQ_API_KEY` | **Free** article generation ([console.groq.com](https://console.groq.com)) |
+| `GEMINI_API_KEY` | **Free** alternative ([aistudio.google.com/apikey](https://aistudio.google.com/apikey)) |
+| `AI_PROVIDER` | `groq` \| `gemini` \| `openai` (auto-detected from keys if omitted) |
+| `OPENAI_API_KEY` | Optional paid OpenAI |
 | `CRON_SECRET` | Secures the endpoint |
 | `DATABASE_URL` | Save articles |
 | `UNSPLASH_ACCESS_KEY` | Optional — better hero images |
@@ -50,6 +53,6 @@ curl -H "Authorization: Bearer YOUR_CRON_SECRET" \
 
 - Enable scheduled cron
 - Auto-publish (recommended ON)
-- OpenAI model (default `gpt-4o-mini`)
+- AI model (default `llama-3.3-70b-versatile` on Groq)
 
 **Dashboard → Recent AI cron jobs** — success/error logs.

@@ -1,5 +1,5 @@
-import OpenAI from "openai";
 import { prisma } from "@/lib/prisma";
+import { callAiModel, resolveModel } from "@/lib/ai/client";
 import {
   ARTICLE_MIN_WORDS,
   buildArticlePrompt,
@@ -33,35 +33,9 @@ export type GeneratedArticlePayload = {
   }[];
 };
 
-function getOpenAI() {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) throw new Error("OPENAI_API_KEY is not configured");
-  return new OpenAI({ apiKey });
-}
-
 function parseJson<T>(raw: string): T {
   const trimmed = raw.trim().replace(/^```json\s*/i, "").replace(/```\s*$/i, "");
   return JSON.parse(trimmed) as T;
-}
-
-async function callModel(
-  openai: OpenAI,
-  model: string,
-  system: string,
-  user: string
-): Promise<string> {
-  const completion = await openai.chat.completions.create({
-    model,
-    messages: [
-      { role: "system", content: system },
-      { role: "user", content: user },
-    ],
-    temperature: 0.75,
-    response_format: { type: "json_object" },
-  });
-  const raw = completion.choices[0]?.message?.content;
-  if (!raw) throw new Error("Empty AI response");
-  return raw;
 }
 
 function mergeAffiliateUrls(
@@ -94,8 +68,7 @@ export async function generateArticle(input: {
   autoPublish?: boolean;
 }) {
   const settings = await prisma.siteSettings.findUnique({ where: { id: "default" } });
-  const model = settings?.openaiModel ?? process.env.OPENAI_MODEL ?? "gpt-4o-mini";
-  const openai = getOpenAI();
+  const { model } = resolveModel(settings?.openaiModel);
 
   const news = await fetchNewsBrief(input.niche, input.categoryName);
 
@@ -113,8 +86,7 @@ export async function generateArticle(input: {
     siteName: settings?.siteName,
   });
 
-  let raw = await callModel(
-    openai,
+  let raw = await callAiModel(
     model,
     "You are a senior editor. Output only valid JSON.",
     prompt
@@ -124,8 +96,7 @@ export async function generateArticle(input: {
   let content = parsed.content.trim();
 
   if (countWords(content) < ARTICLE_MIN_WORDS) {
-    const expandRaw = await callModel(
-      openai,
+    const expandRaw = await callAiModel(
       model,
       "You expand articles. Output only valid JSON.",
       buildExpandPrompt(content, ARTICLE_MIN_WORDS)
