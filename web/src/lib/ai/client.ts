@@ -3,8 +3,17 @@ import OpenAI from "openai";
 const GROQ_BASE_URL = "https://api.groq.com/openai/v1";
 const DEFAULT_GROQ_MODEL = "llama-3.3-70b-versatile";
 
+/** Reads GROQ_API_KEY (also accepts common Vercel typo Groq_API_KEY). */
+export function getGroqApiKey(): string | undefined {
+  return (
+    process.env.GROQ_API_KEY?.trim() ||
+    process.env.Groq_API_KEY?.trim() ||
+    undefined
+  );
+}
+
 export function isAiConfigured(): boolean {
-  return Boolean(process.env.GROQ_API_KEY?.trim());
+  return Boolean(getGroqApiKey());
 }
 
 export function getGroqModel(settingsModel?: string | null): string {
@@ -17,7 +26,7 @@ export function getGroqModel(settingsModel?: string | null): string {
 }
 
 function getGroqClient(): OpenAI {
-  const apiKey = process.env.GROQ_API_KEY?.trim();
+  const apiKey = getGroqApiKey();
   if (!apiKey) {
     throw new Error(
       "GROQ_API_KEY is not configured. Get a free key at https://console.groq.com/keys"

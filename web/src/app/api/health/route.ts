@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
+import { getGroqApiKey } from "@/lib/ai/client";
 
 export async function GET() {
-  const groqKeyConfigured = Boolean(process.env.GROQ_API_KEY?.trim());
+  const groqKey = getGroqApiKey();
+  const groqKeyConfigured = Boolean(groqKey);
   const legacyOpenAiKey = Boolean(process.env.OPENAI_API_KEY?.trim());
 
   return NextResponse.json({
