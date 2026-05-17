@@ -157,7 +157,7 @@ model SiteSettings {
   cronEnabled         Boolean  @default(true)
   amazonAssociateTag  String?
   adsenseClientId     String?
-  openaiModel         String   @default("gpt-4o-mini")
+  aiModel             String   @default("llama-3.3-70b-versatile") @map("openaiModel")
   updatedAt           DateTime @updatedAt
 }
 

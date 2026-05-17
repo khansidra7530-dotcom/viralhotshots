@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { callAiModel, resolveModel } from "@/lib/ai/client";
+import { callAiModel, getGroqModel } from "@/lib/ai/client";
 import {
   ARTICLE_MIN_WORDS,
   buildArticlePrompt,
@@ -68,7 +68,7 @@ export async function generateArticle(input: {
   autoPublish?: boolean;
 }) {
   const settings = await prisma.siteSettings.findUnique({ where: { id: "default" } });
-  const { model } = resolveModel(settings?.openaiModel);
+  const model = getGroqModel(settings?.aiModel);
 
   const news = await fetchNewsBrief(input.niche, input.categoryName);
 

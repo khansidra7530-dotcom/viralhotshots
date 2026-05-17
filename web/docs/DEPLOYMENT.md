@@ -27,7 +27,8 @@ npm run db:seed
 - `AUTH_SECRET`
 - `NEXTAUTH_URL` (your production URL)
 - `NEXT_PUBLIC_SITE_URL`
-- `OPENAI_API_KEY`
+- `GROQ_API_KEY`
+- `GROQ_MODEL`
 - `CRON_SECRET`
 
 ## VPS (Optional backend/cron)

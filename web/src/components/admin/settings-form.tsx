@@ -11,7 +11,7 @@ type Settings = {
   autoPublish: boolean;
   cronEnabled: boolean;
   amazonAssociateTag: string | null;
-  openaiModel: string;
+  aiModel: string;
 };
 
 export function SettingsForm({ settings }: { settings: Settings }) {
@@ -83,15 +83,15 @@ export function SettingsForm({ settings }: { settings: Settings }) {
           Enable scheduled cron (every 4 hours UTC)
         </label>
         <label className="block text-sm">
-          AI model
+          Groq model
           <input
-            value={form.openaiModel}
-            onChange={(e) => setForm({ ...form, openaiModel: e.target.value })}
-            placeholder="llama-3.3-70b-versatile or gemini-2.0-flash"
+            value={form.aiModel}
+            onChange={(e) => setForm({ ...form, aiModel: e.target.value })}
+            placeholder="llama-3.3-70b-versatile"
             className="mt-1 h-11 w-full rounded-xl border border-border bg-background px-4"
           />
           <span className="mt-1 block text-xs text-muted-foreground">
-            Groq (free): llama-3.3-70b-versatile · Gemini (free): gemini-2.0-flash
+            Free at console.groq.com — default: llama-3.3-70b-versatile
           </span>
         </label>
       </div>

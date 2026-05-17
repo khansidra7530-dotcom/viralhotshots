@@ -112,7 +112,8 @@ AUTH_SECRET="paste-long-random-string-here"
 NEXTAUTH_URL="https://viralhotshots.com"
 NEXT_PUBLIC_SITE_NAME="Viral Hotshots"
 NEXT_PUBLIC_SITE_URL="https://viralhotshots.com"
-OPENAI_API_KEY="sk-your-key"
+GROQ_API_KEY="gsk-your-key"
+GROQ_MODEL="llama-3.3-70b-versatile"
 CRON_SECRET="another-long-random-string"
 ADMIN_EMAIL="your@email.com"
 ADMIN_PASSWORD="StrongPassword123!"
@@ -227,5 +228,5 @@ Vercel runs the 4-hour cron automatically via `vercel.json`.
 - [ ] SSL certificate active (HTTPS)
 - [ ] `NEXT_PUBLIC_SITE_URL` and `NEXTAUTH_URL` = `https://viralhotshots.com`
 - [ ] Change default admin password after first login
-- [ ] Add `OPENAI_API_KEY` for AI articles
+- [ ] Add `GROQ_API_KEY` for AI articles
 - [ ] Set up cron for `/api/cron/generate`

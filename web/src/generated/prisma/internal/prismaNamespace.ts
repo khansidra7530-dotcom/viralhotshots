@@ -1468,7 +1468,7 @@ export const SiteSettingsScalarFieldEnum = {
   cronEnabled: 'cronEnabled',
   amazonAssociateTag: 'amazonAssociateTag',
   adsenseClientId: 'adsenseClientId',
-  openaiModel: 'openaiModel',
+  aiModel: 'aiModel',
   updatedAt: 'updatedAt'
 } as const
 

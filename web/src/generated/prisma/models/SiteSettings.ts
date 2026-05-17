@@ -34,7 +34,7 @@ export type SiteSettingsMinAggregateOutputType = {
   cronEnabled: boolean | null
   amazonAssociateTag: string | null
   adsenseClientId: string | null
-  openaiModel: string | null
+  aiModel: string | null
   updatedAt: Date | null
 }
 
@@ -48,7 +48,7 @@ export type SiteSettingsMaxAggregateOutputType = {
   cronEnabled: boolean | null
   amazonAssociateTag: string | null
   adsenseClientId: string | null
-  openaiModel: string | null
+  aiModel: string | null
   updatedAt: Date | null
 }
 
@@ -62,7 +62,7 @@ export type SiteSettingsCountAggregateOutputType = {
   cronEnabled: number
   amazonAssociateTag: number
   adsenseClientId: number
-  openaiModel: number
+  aiModel: number
   updatedAt: number
   _all: number
 }
@@ -78,7 +78,7 @@ export type SiteSettingsMinAggregateInputType = {
   cronEnabled?: true
   amazonAssociateTag?: true
   adsenseClientId?: true
-  openaiModel?: true
+  aiModel?: true
   updatedAt?: true
 }
 
@@ -92,7 +92,7 @@ export type SiteSettingsMaxAggregateInputType = {
   cronEnabled?: true
   amazonAssociateTag?: true
   adsenseClientId?: true
-  openaiModel?: true
+  aiModel?: true
   updatedAt?: true
 }
 
@@ -106,7 +106,7 @@ export type SiteSettingsCountAggregateInputType = {
   cronEnabled?: true
   amazonAssociateTag?: true
   adsenseClientId?: true
-  openaiModel?: true
+  aiModel?: true
   updatedAt?: true
   _all?: true
 }
@@ -193,7 +193,7 @@ export type SiteSettingsGroupByOutputType = {
   cronEnabled: boolean
   amazonAssociateTag: string | null
   adsenseClientId: string | null
-  openaiModel: string
+  aiModel: string
   updatedAt: Date
   _count: SiteSettingsCountAggregateOutputType | null
   _min: SiteSettingsMinAggregateOutputType | null
@@ -228,7 +228,7 @@ export type SiteSettingsWhereInput = {
   cronEnabled?: Prisma.BoolFilter<"SiteSettings"> | boolean
   amazonAssociateTag?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   adsenseClientId?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
-  openaiModel?: Prisma.StringFilter<"SiteSettings"> | string
+  aiModel?: Prisma.StringFilter<"SiteSettings"> | string
   updatedAt?: Prisma.DateTimeFilter<"SiteSettings"> | Date | string
 }
 
@@ -242,7 +242,7 @@ export type SiteSettingsOrderByWithRelationInput = {
   cronEnabled?: Prisma.SortOrder
   amazonAssociateTag?: Prisma.SortOrderInput | Prisma.SortOrder
   adsenseClientId?: Prisma.SortOrderInput | Prisma.SortOrder
-  openaiModel?: Prisma.SortOrder
+  aiModel?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -259,7 +259,7 @@ export type SiteSettingsWhereUniqueInput = Prisma.AtLeast<{
   cronEnabled?: Prisma.BoolFilter<"SiteSettings"> | boolean
   amazonAssociateTag?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   adsenseClientId?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
-  openaiModel?: Prisma.StringFilter<"SiteSettings"> | string
+  aiModel?: Prisma.StringFilter<"SiteSettings"> | string
   updatedAt?: Prisma.DateTimeFilter<"SiteSettings"> | Date | string
 }, "id">
 
@@ -273,7 +273,7 @@ export type SiteSettingsOrderByWithAggregationInput = {
   cronEnabled?: Prisma.SortOrder
   amazonAssociateTag?: Prisma.SortOrderInput | Prisma.SortOrder
   adsenseClientId?: Prisma.SortOrderInput | Prisma.SortOrder
-  openaiModel?: Prisma.SortOrder
+  aiModel?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.SiteSettingsCountOrderByAggregateInput
   _max?: Prisma.SiteSettingsMaxOrderByAggregateInput
@@ -293,7 +293,7 @@ export type SiteSettingsScalarWhereWithAggregatesInput = {
   cronEnabled?: Prisma.BoolWithAggregatesFilter<"SiteSettings"> | boolean
   amazonAssociateTag?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
   adsenseClientId?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
-  openaiModel?: Prisma.StringWithAggregatesFilter<"SiteSettings"> | string
+  aiModel?: Prisma.StringWithAggregatesFilter<"SiteSettings"> | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SiteSettings"> | Date | string
 }
 
@@ -307,7 +307,7 @@ export type SiteSettingsCreateInput = {
   cronEnabled?: boolean
   amazonAssociateTag?: string | null
   adsenseClientId?: string | null
-  openaiModel?: string
+  aiModel?: string
   updatedAt?: Date | string
 }
 
@@ -321,7 +321,7 @@ export type SiteSettingsUncheckedCreateInput = {
   cronEnabled?: boolean
   amazonAssociateTag?: string | null
   adsenseClientId?: string | null
-  openaiModel?: string
+  aiModel?: string
   updatedAt?: Date | string
 }
 
@@ -335,7 +335,7 @@ export type SiteSettingsUpdateInput = {
   cronEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   amazonAssociateTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adsenseClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  openaiModel?: Prisma.StringFieldUpdateOperationsInput | string
+  aiModel?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -349,7 +349,7 @@ export type SiteSettingsUncheckedUpdateInput = {
   cronEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   amazonAssociateTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adsenseClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  openaiModel?: Prisma.StringFieldUpdateOperationsInput | string
+  aiModel?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -363,7 +363,7 @@ export type SiteSettingsCreateManyInput = {
   cronEnabled?: boolean
   amazonAssociateTag?: string | null
   adsenseClientId?: string | null
-  openaiModel?: string
+  aiModel?: string
   updatedAt?: Date | string
 }
 
@@ -377,7 +377,7 @@ export type SiteSettingsUpdateManyMutationInput = {
   cronEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   amazonAssociateTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adsenseClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  openaiModel?: Prisma.StringFieldUpdateOperationsInput | string
+  aiModel?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -391,7 +391,7 @@ export type SiteSettingsUncheckedUpdateManyInput = {
   cronEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   amazonAssociateTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adsenseClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  openaiModel?: Prisma.StringFieldUpdateOperationsInput | string
+  aiModel?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -405,7 +405,7 @@ export type SiteSettingsCountOrderByAggregateInput = {
   cronEnabled?: Prisma.SortOrder
   amazonAssociateTag?: Prisma.SortOrder
   adsenseClientId?: Prisma.SortOrder
-  openaiModel?: Prisma.SortOrder
+  aiModel?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -419,7 +419,7 @@ export type SiteSettingsMaxOrderByAggregateInput = {
   cronEnabled?: Prisma.SortOrder
   amazonAssociateTag?: Prisma.SortOrder
   adsenseClientId?: Prisma.SortOrder
-  openaiModel?: Prisma.SortOrder
+  aiModel?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -433,7 +433,7 @@ export type SiteSettingsMinOrderByAggregateInput = {
   cronEnabled?: Prisma.SortOrder
   amazonAssociateTag?: Prisma.SortOrder
   adsenseClientId?: Prisma.SortOrder
-  openaiModel?: Prisma.SortOrder
+  aiModel?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -449,7 +449,7 @@ export type SiteSettingsSelect<ExtArgs extends runtime.Types.Extensions.Internal
   cronEnabled?: boolean
   amazonAssociateTag?: boolean
   adsenseClientId?: boolean
-  openaiModel?: boolean
+  aiModel?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteSettings"]>
 
@@ -463,7 +463,7 @@ export type SiteSettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   cronEnabled?: boolean
   amazonAssociateTag?: boolean
   adsenseClientId?: boolean
-  openaiModel?: boolean
+  aiModel?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteSettings"]>
 
@@ -477,7 +477,7 @@ export type SiteSettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   cronEnabled?: boolean
   amazonAssociateTag?: boolean
   adsenseClientId?: boolean
-  openaiModel?: boolean
+  aiModel?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteSettings"]>
 
@@ -491,11 +491,11 @@ export type SiteSettingsSelectScalar = {
   cronEnabled?: boolean
   amazonAssociateTag?: boolean
   adsenseClientId?: boolean
-  openaiModel?: boolean
+  aiModel?: boolean
   updatedAt?: boolean
 }
 
-export type SiteSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "siteName" | "siteUrl" | "siteDescription" | "defaultNiche" | "autoPublish" | "cronEnabled" | "amazonAssociateTag" | "adsenseClientId" | "openaiModel" | "updatedAt", ExtArgs["result"]["siteSettings"]>
+export type SiteSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "siteName" | "siteUrl" | "siteDescription" | "defaultNiche" | "autoPublish" | "cronEnabled" | "amazonAssociateTag" | "adsenseClientId" | "aiModel" | "updatedAt", ExtArgs["result"]["siteSettings"]>
 
 export type $SiteSettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SiteSettings"
@@ -510,7 +510,7 @@ export type $SiteSettingsPayload<ExtArgs extends runtime.Types.Extensions.Intern
     cronEnabled: boolean
     amazonAssociateTag: string | null
     adsenseClientId: string | null
-    openaiModel: string
+    aiModel: string
     updatedAt: Date
   }, ExtArgs["result"]["siteSettings"]>
   composites: {}
@@ -944,7 +944,7 @@ export interface SiteSettingsFieldRefs {
   readonly cronEnabled: Prisma.FieldRef<"SiteSettings", 'Boolean'>
   readonly amazonAssociateTag: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly adsenseClientId: Prisma.FieldRef<"SiteSettings", 'String'>
-  readonly openaiModel: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly aiModel: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly updatedAt: Prisma.FieldRef<"SiteSettings", 'DateTime'>
 }
     

@@ -8,14 +8,14 @@ Production-ready Next.js affiliate blogging platform with automated SEO article 
 - **Backend:** Next.js API Routes
 - **Database:** PostgreSQL + Prisma 7
 - **Auth:** NextAuth.js (credentials)
-- **AI:** OpenAI API
+- **AI:** Groq API (free tier)
 
 ## Quick Start
 
 ```bash
 cd web
 cp .env.example .env
-# Edit .env with your DATABASE_URL, AUTH_SECRET, OPENAI_API_KEY
+# Edit .env with your DATABASE_URL, AUTH_SECRET, GROQ_API_KEY
 
 npm install
 npx prisma migrate dev

@@ -41,7 +41,8 @@ You should see `Seed complete!`
 | `NEXTAUTH_URL` | `https://viralhotshots.com` |
 | `NEXT_PUBLIC_SITE_URL` | `https://viralhotshots.com` |
 | `NEXT_PUBLIC_SITE_NAME` | `Viral Hotshots` |
-| `OPENAI_API_KEY` | Your OpenAI key |
+| `GROQ_API_KEY` | Free key from [console.groq.com](https://console.groq.com) |
+| `GROQ_MODEL` | `llama-3.3-70b-versatile` |
 | `CRON_SECRET` | Random string |
 | `ADMIN_EMAIL` | Your email |
 | `ADMIN_PASSWORD` | Strong password (only if re-seeding) |
@@ -100,7 +101,7 @@ Manual test anytime:
 curl -H "Authorization: Bearer YOUR_CRON_SECRET" https://www.viralhotshots.com/api/cron/generate
 ```
 
-In admin → **Settings**: enable cron, set default niche, add OpenAI key.
+In admin → **Settings**: enable cron, set default niche, set Groq model.
 
 ---
 
@@ -131,5 +132,5 @@ Use `postgres://postgres:postgres@localhost:51214/...` in `.env` for local only.
 - [ ] IONOS DNS points to Vercel
 - [ ] HTTPS works on viralhotshots.com
 - [ ] Admin login works
-- [ ] OpenAI key added
+- [ ] Groq API key added on Vercel
 - [ ] Cron tested once

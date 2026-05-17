@@ -12,7 +12,7 @@ const schema = z.object({
   autoPublish: z.boolean().optional(),
   cronEnabled: z.boolean().optional(),
   amazonAssociateTag: z.string().nullable().optional(),
-  openaiModel: z.string().optional(),
+  aiModel: z.string().optional(),
 });
 
 export async function PATCH(req: NextRequest) {
