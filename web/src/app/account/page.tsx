@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { signOut } from "@/lib/auth";
-import { requireCustomerPage } from "@/lib/auth-helpers";
+import { auth, signOut } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import { Bell, Heart } from "lucide-react";
@@ -8,8 +7,34 @@ import { Bell, Heart } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 export default async function AccountPage() {
-  const session = await requireCustomerPage();
-  const userId = session.user!.id!;
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    return (
+      <div className="mx-auto max-w-lg px-4 py-16 text-center sm:px-6">
+        <h1 className="text-2xl font-bold">My account</h1>
+        <p className="mt-3 text-muted-foreground">
+          Sign in to save liked articles and manage your subscriptions.
+        </p>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <Link
+            href="/login?callbackUrl=/account"
+            className="rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground"
+          >
+            Sign in
+          </Link>
+          <Link
+            href="/register"
+            className="rounded-xl border border-border px-6 py-3 text-sm font-semibold hover:bg-muted"
+          >
+            Create account
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const userId = session.user.id;
 
   const [likes, subscriptions] = await Promise.all([
     prisma.articleLike.findMany({
@@ -29,7 +54,7 @@ export default async function AccountPage() {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold">My account</h1>
-          <p className="mt-1 text-muted-foreground">{session.user?.email}</p>
+          <p className="mt-1 text-muted-foreground">{session.user.email}</p>
         </div>
         <form
           action={async () => {
@@ -99,4 +124,3 @@ export default async function AccountPage() {
     </div>
   );
 }
-
