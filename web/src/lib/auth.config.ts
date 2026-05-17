@@ -14,6 +14,11 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const path = nextUrl.pathname;
+
+      if (path === "/admin/register") {
+        return Response.redirect(new URL("/admin/login", nextUrl));
+      }
+
       const isAdminArea = path.startsWith("/admin");
       const isAdminLogin = path === "/admin/login";
       const isAccount = path.startsWith("/account");

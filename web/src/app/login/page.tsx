@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { loginAction } from "./actions";
+import { safeCallbackUrl } from "@/lib/safe-callback-url";
 
 const errors: Record<string, string> = {
   credentials: "Invalid email or password.",
@@ -14,7 +15,9 @@ export default async function LoginPage({
 }) {
   const params = await searchParams;
   const errorMsg = params.error ? errors[params.error] : null;
-  const callbackUrl = params.callbackUrl ?? "/account";
+  const callbackUrl = safeCallbackUrl(params.callbackUrl);
+  const hadBadCallback =
+    params.callbackUrl?.includes("/admin/register") ?? false;
 
   return (
     <div className="flex min-h-[70vh] items-center justify-center px-4 py-12">
@@ -26,6 +29,19 @@ export default async function LoginPage({
         <p className="text-sm text-muted-foreground">
           Customer account — like articles and subscribe to updates.
         </p>
+        {hadBadCallback && (
+          <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-200">
+            Admin accounts are not self-registered. Use{" "}
+            <Link href="/register" className="font-medium underline">
+              customer register
+            </Link>{" "}
+            or{" "}
+            <Link href="/admin/login" className="font-medium underline">
+              admin login
+            </Link>
+            .
+          </p>
+        )}
         <input type="hidden" name="callbackUrl" value={callbackUrl} />
         <input
           name="email"
