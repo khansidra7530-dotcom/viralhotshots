@@ -34,7 +34,7 @@ export function SocialShare({ title, slug }: { title: string; slug: string }) {
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex h-9 items-center justify-center rounded-full border border-border px-3 text-xs font-medium transition hover:bg-muted"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-border px-4 text-sm font-medium transition hover:bg-muted"
           aria-label={`Share on ${label}`}
         >
           {label}
@@ -43,7 +43,7 @@ export function SocialShare({ title, slug }: { title: string; slug: string }) {
       <button
         type="button"
         onClick={copyLink}
-        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border transition hover:bg-muted"
+        className="inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-full border border-border transition hover:bg-muted"
         aria-label="Copy link"
       >
         <Link2 className="h-4 w-4" />

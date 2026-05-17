@@ -25,7 +25,7 @@ export function buildMetadata(input: SeoInput): Metadata {
       title: input.title,
       description: input.description,
       url,
-      siteName: process.env.NEXT_PUBLIC_SITE_NAME ?? "InsightPress",
+      siteName: process.env.NEXT_PUBLIC_SITE_NAME ?? "Viral Hotshots",
       images: [{ url: image, width: 1200, height: 630, alt: input.title }],
       locale: "en_US",
       type: input.type === "article" ? "article" : "website",
@@ -62,7 +62,7 @@ export function articleJsonLd(input: {
     author: { "@type": "Person", name: input.authorName },
     publisher: {
       "@type": "Organization",
-      name: process.env.NEXT_PUBLIC_SITE_NAME ?? "InsightPress",
+      name: process.env.NEXT_PUBLIC_SITE_NAME ?? "Viral Hotshots",
     },
   };
 }

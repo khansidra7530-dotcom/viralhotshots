@@ -49,7 +49,7 @@ export function Header() {
           <Link
             key={item.href}
             href={item.href}
-            className="shrink-0 rounded-full bg-muted px-4 py-1.5 text-xs font-semibold text-muted-foreground"
+            className="inline-flex min-h-11 shrink-0 items-center rounded-full bg-muted px-4 py-2.5 text-sm font-semibold text-muted-foreground"
           >
             {item.label}
           </Link>

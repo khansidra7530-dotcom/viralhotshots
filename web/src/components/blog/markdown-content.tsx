@@ -1,6 +1,7 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeSanitize from "rehype-sanitize";
+import { SITE_URL } from "@/lib/constants";
 
 /** Strip accidental code-fence wrappers so the whole article is not one <pre> block. */
 function normalizeArticleMarkdown(content: string): string {
@@ -34,11 +35,23 @@ export function MarkdownContent({ content }: { content: string }) {
             li: ({ children }) => (
               <li className="whitespace-normal break-words">{children}</li>
             ),
-            a: ({ href, children }) => (
-              <a href={href} className="break-words" rel="noopener noreferrer">
-                {children}
-              </a>
-            ),
+            a: ({ href, children }) => {
+              const isExternal =
+                href?.startsWith("http") &&
+                !href.startsWith(SITE_URL) &&
+                !href.includes("viralhotshots.com");
+              return (
+                <a
+                  href={href}
+                  className="break-words"
+                  {...(isExternal
+                    ? { rel: "noopener noreferrer sponsored", target: "_blank" }
+                    : {})}
+                >
+                  {children}
+                </a>
+              );
+            },
             table: ({ children }) => (
               <div className="my-6 w-full max-w-full overflow-x-auto rounded-xl border border-border">
                 <table className="w-full min-w-0 table-fixed text-left text-sm">{children}</table>

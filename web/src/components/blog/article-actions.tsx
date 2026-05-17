@@ -29,7 +29,13 @@ export function ArticleActions({ articleId, isLoggedIn }: Props) {
   }, [articleId]);
 
   useEffect(() => {
-    load();
+    const run = () => load();
+    if (typeof requestIdleCallback !== "undefined") {
+      const id = requestIdleCallback(run, { timeout: 2000 });
+      return () => cancelIdleCallback(id);
+    }
+    const t = setTimeout(run, 100);
+    return () => clearTimeout(t);
   }, [load]);
 
   function requireLogin() {
@@ -67,7 +73,7 @@ export function ArticleActions({ articleId, isLoggedIn }: Props) {
         type="button"
         onClick={toggleLike}
         disabled={loading}
-        className={`inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition ${
+        className={`inline-flex min-h-11 items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition ${
           liked
             ? "border-red-300 bg-red-50 text-red-600 dark:border-red-800 dark:bg-red-950/40 dark:text-red-400"
             : "border-border bg-card hover:bg-muted"
@@ -81,7 +87,7 @@ export function ArticleActions({ articleId, isLoggedIn }: Props) {
         type="button"
         onClick={toggleSubscribe}
         disabled={loading}
-        className={`inline-flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition ${
+        className={`inline-flex min-h-11 items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition ${
           subscribed
             ? "border-accent bg-accent/10 text-accent"
             : "border-border bg-card hover:bg-muted"

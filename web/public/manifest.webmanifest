@@ -1,0 +1,21 @@
+{
+  "name": "Viral Hotshots",
+  "short_name": "ViralHotshots",
+  "description": "Trending news and expert guides daily",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf9f7",
+  "theme_color": "#ff3d57",
+  "icons": [
+    {
+      "src": "/icon",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-icon",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SITE_NAME } from "@/lib/constants";
+import { SocialLinks } from "@/components/layout/social-links";
 import { Flame } from "lucide-react";
 
 const footerLinks = {
@@ -36,6 +37,7 @@ export function Footer() {
             <p className="mt-4 text-sm text-background/70">
               Trending stories and expert guides — fresh every day.
             </p>
+            <SocialLinks className="mt-6" />
           </div>
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
