@@ -1,21 +1,24 @@
-# Cron Job Setup (4-Hour Article Generation)
+# Cron Job Setup (AI Article Generation)
 
 ## What It Does
 
-Every 4 hours, `GET /api/cron/generate`:
+`GET /api/cron/generate` runs on a schedule and:
 1. Picks the default niche from site settings
 2. Calls OpenAI with EEAT-optimized prompts
 3. Creates article (PENDING or PUBLISHED based on `autoPublish` setting)
 4. Logs result to `CronLog` table
 
-## Vercel Cron
+## Vercel Cron (Hobby = once per day)
 
 Configured in `vercel.json`:
 ```json
-{ "path": "/api/cron/generate", "schedule": "0 */4 * * *" }
+{ "path": "/api/cron/generate", "schedule": "0 9 * * *" }
 ```
+Runs daily at **09:00 UTC**. Vercel Hobby does not allow hourly crons.
 
 Vercel automatically sends `Authorization: Bearer <CRON_SECRET>` when `CRON_SECRET` is set in project env.
+
+**More than once per day?** Use [cron-job.org](https://cron-job.org) (free) to HTTP GET your endpoint every 4 hours, or upgrade to Vercel Pro.
 
 ## Manual Test
 

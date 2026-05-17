@@ -84,12 +84,18 @@ Login: email/password from seed (`admin@viralhotshots.com` unless you changed `A
 
 ## Step 5 — AI articles (cron)
 
-Vercel runs cron every 4 hours automatically (`vercel.json`).
+**Vercel Hobby:** one cron per day (`0 9 * * *` = 09:00 UTC daily in `vercel.json`).
 
-Manual test:
+For more posts without Pro, use a free external scheduler (e.g. [cron-job.org](https://cron-job.org)) to call your endpoint every few hours:
 
 ```bash
-curl -H "Authorization: Bearer YOUR_CRON_SECRET" https://viralhotshots.com/api/cron/generate
+curl -H "Authorization: Bearer YOUR_CRON_SECRET" https://www.viralhotshots.com/api/cron/generate
+```
+
+Manual test anytime:
+
+```bash
+curl -H "Authorization: Bearer YOUR_CRON_SECRET" https://www.viralhotshots.com/api/cron/generate
 ```
 
 In admin → **Settings**: enable cron, set default niche, add OpenAI key.
