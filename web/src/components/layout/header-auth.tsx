@@ -5,7 +5,7 @@ import { isAdminRole } from "@/lib/roles";
 export async function HeaderAuth() {
   const session = await auth();
 
-  if (!session?.user) {
+  if (!session?.user?.id) {
     return (
       <div className="flex shrink-0 items-center gap-2">
         <Link

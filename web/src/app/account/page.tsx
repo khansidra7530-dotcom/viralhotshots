@@ -25,10 +25,17 @@ export default async function AccountPage() {
           </Link>
           <Link
             href="/register"
+            prefetch={false}
             className="rounded-xl border border-border px-6 py-3 text-sm font-semibold hover:bg-muted"
           >
             Create account
           </Link>
+          <p className="mt-6 w-full text-xs text-muted-foreground">
+            Stuck on this page?{" "}
+            <Link href="/api/auth/signout-stale?redirect=/register" className="underline">
+              Clear session and register
+            </Link>
+          </p>
         </div>
       </div>
     );

@@ -1,7 +1,13 @@
 import type { NextAuthConfig } from "next-auth";
 import { isAdminRole } from "@/lib/roles";
 
+/** Valid session must include user id (avoids redirect loops with stale JWT cookies). */
+function isLoggedIn(auth: { user?: { id?: string | null } } | null) {
+  return Boolean(auth?.user?.id);
+}
+
 export const authConfig = {
+  trustHost: true,
   pages: { signIn: "/login" },
   session: { strategy: "jwt" },
   providers: [],
@@ -12,27 +18,29 @@ export const authConfig = {
       const isAdminLogin = path === "/admin/login";
       const isAccount = path.startsWith("/account");
       const isCustomerAuth = path === "/login" || path === "/register";
+      const loggedIn = isLoggedIn(auth);
 
       if (isAdminArea && !isAdminLogin) {
-        if (!auth) return false;
-        if (!isAdminRole(auth.user?.role)) {
+        if (!loggedIn) return false;
+        if (!isAdminRole(auth!.user!.role)) {
           return Response.redirect(new URL("/account", nextUrl));
         }
         return true;
       }
 
-      if (isAdminLogin && auth?.user) {
-        if (isAdminRole(auth.user.role)) {
+      if (isAdminLogin && loggedIn) {
+        if (isAdminRole(auth!.user!.role)) {
           return Response.redirect(new URL("/admin", nextUrl));
         }
         return Response.redirect(new URL("/account", nextUrl));
       }
 
+      // /account is public; the page shows sign-in UI when logged out
       if (isAccount) {
-        return !!auth;
+        return true;
       }
 
-      if (isCustomerAuth && auth) {
+      if (isCustomerAuth && loggedIn) {
         return Response.redirect(new URL("/account", nextUrl));
       }
 
@@ -46,6 +54,9 @@ export const authConfig = {
       return token;
     },
     session({ session, token }) {
+      if (!token.id) {
+        return { ...session, user: undefined };
+      }
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
