@@ -1,7 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { callAiModel, getGroqModel } from "@/lib/ai/client";
+import { parseModelJson } from "@/lib/ai/json-parse";
 import {
   ARTICLE_MIN_WORDS,
+  buildArticleBodyPrompt,
   buildArticlePrompt,
   buildExpandPrompt,
 } from "@/lib/ai/prompts";
@@ -19,14 +21,13 @@ import { comparisonTableMarkdown, buildAmazonUrl } from "@/lib/affiliate";
 import type { Niche } from "@/generated/prisma/client";
 import type { Prisma } from "@/generated/prisma/client";
 
-export type GeneratedArticlePayload = {
+export type GeneratedArticleMeta = {
   title: string;
   metaDescription: string;
   slug: string;
   excerpt: string;
   featuredImageSearchQuery?: string;
   tags: string[];
-  content: string;
   faq: { question: string; answer: string }[];
   sources: { title: string; url: string }[];
   internalLinkSuggestions: { anchor: string; topic: string }[];
@@ -39,10 +40,7 @@ export type GeneratedArticlePayload = {
   }[];
 };
 
-function parseJson<T>(raw: string): T {
-  const trimmed = raw.trim().replace(/^```json\s*/i, "").replace(/```\s*$/i, "");
-  return JSON.parse(trimmed) as T;
-}
+export type GeneratedArticlePayload = GeneratedArticleMeta & { content: string };
 
 function mergeAffiliateUrls(
   products: GeneratedArticlePayload["affiliateProducts"],
@@ -109,12 +107,42 @@ export async function generateArticle(input: {
     keywords,
   });
 
-  let raw = await callAiModel(
+  const metaRaw = await callAiModel(
     model,
-    "You write helpful articles in very simple English. Output only valid JSON.",
-    prompt
+    "You write helpful articles in very simple English. Output only valid JSON matching the requested schema.",
+    prompt,
+    { maxTokens: 4096 }
   );
-  let parsed = parseJson<GeneratedArticlePayload>(raw);
+  const meta = parseModelJson<GeneratedArticleMeta>(metaRaw);
+
+  const duplicate = await findSimilarArticle(meta.title, input.categoryId);
+  if (duplicate) {
+    throw new Error(
+      `Skipped duplicate topic (${Math.round(duplicate.score * 100)}% similar to "${duplicate.article.title}"): /blog/${duplicate.article.slug}`
+    );
+  }
+
+  const bodyPrompt = buildArticleBodyPrompt({
+    title: meta.title,
+    excerpt: meta.excerpt,
+    niche: input.niche,
+    category: input.categoryName,
+    keywords,
+    news,
+  });
+
+  const bodyRaw = await callAiModel(
+    model,
+    "You write helpful articles in very simple English. Output only valid JSON with a single content field.",
+    bodyPrompt,
+    { maxTokens: 12000 }
+  );
+  const body = parseModelJson<{ content: string }>(bodyRaw);
+
+  const parsed: GeneratedArticlePayload = {
+    ...meta,
+    content: body.content ?? "",
+  };
 
   const optimized = applyKeywordsToArticle({
     title: parsed.title,
@@ -125,13 +153,6 @@ export async function generateArticle(input: {
   parsed.title = optimized.title;
   parsed.metaDescription = normalizeMetaDescription(optimized.metaDescription);
 
-  const duplicate = await findSimilarArticle(parsed.title, input.categoryId);
-  if (duplicate) {
-    throw new Error(
-      `Skipped duplicate topic (${Math.round(duplicate.score * 100)}% similar to "${duplicate.article.title}"): /blog/${duplicate.article.slug}`
-    );
-  }
-
   let content = sanitizeArticleContent(stripMarkdownCodeFence(optimized.content));
 
   if (countWords(content) < ARTICLE_MIN_WORDS) {
@@ -140,7 +161,7 @@ export async function generateArticle(input: {
       "Expand in very simple English (grade 6–8). Output only valid JSON.",
       buildExpandPrompt(content, ARTICLE_MIN_WORDS)
     );
-    const expanded = parseJson<{ content: string }>(expandRaw);
+    const expanded = parseModelJson<{ content: string }>(expandRaw);
     if (expanded.content && countWords(expanded.content) >= countWords(content)) {
       content = expanded.content.trim();
     }

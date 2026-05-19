@@ -63,19 +63,14 @@ ${newsSources}
 - "metaDescription": MUST include the primary keyword once. 120–160 characters.
 - "content": PRIMARY keyword in the first 60 words. PRIMARY or secondary keyword in at least 4 different ## H2 headings (word naturally, not stuffed).
 - Use ### subheadings under H2s where helpful; include a secondary keyword in 1–2 H3s.
-- LENGTH: ${MIN_WORDS}–${MAX_WORDS} words in "content" (markdown body only, no H1).
 - 5–8 tags including the primary keyword and related terms.
-
-## Structure
-- Hook in the first paragraph: why this matters right now.
-- 5–8 H2 sections with useful detail, lists, and examples.
 - FAQ: 4–6 real questions readers would Google.
 - Soft affiliate mentions only where honest (2–3 max).
 
 ## Hero image
 - "featuredImageSearchQuery" must be a UNIQUE, specific 4–7 word photo search matching THIS article only (not generic "AI technology"). Example: "person budgeting notebook coffee" or "hiking trail mountain sunrise".
 
-Return ONLY valid JSON (no markdown fences):
+Return ONLY valid JSON (no markdown fences, no "content" field — body is generated separately):
 {
   "title": "unique SEO title — not generic",
   "metaDescription": "120-160 chars",
@@ -83,7 +78,6 @@ Return ONLY valid JSON (no markdown fences):
   "excerpt": "2-3 simple sentences",
   "featuredImageSearchQuery": "specific unsplash search query",
   "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"],
-  "content": "full markdown WITHOUT H1",
   "faq": [{"question": "...", "answer": "..."}],
   "sources": [{"title": "Publisher - Topic", "url": "https://..."}],
   "internalLinkSuggestions": [{"anchor": "...", "topic": "..."}],
@@ -91,6 +85,39 @@ Return ONLY valid JSON (no markdown fences):
 }
 
 ${input.affiliateKeywords?.length ? `Affiliate topics (only if truly relevant): ${input.affiliateKeywords.join(", ")}` : ""}`;
+}
+
+export function buildArticleBodyPrompt(input: {
+  title: string;
+  excerpt: string;
+  niche: Niche;
+  category: string;
+  keywords: KeywordSet;
+  news?: NewsBrief | null;
+}): string {
+  const newsNote = input.news
+    ? `\nNews angle: "${input.news.headline}" — ${input.news.summary}`
+    : "";
+
+  return `Write the full article body in markdown for this post.
+
+Title: ${input.title}
+Excerpt: ${input.excerpt}
+Category: ${input.category} (${input.niche})
+Primary keyword: "${input.keywords.primary}"
+Secondary keywords: ${input.keywords.secondary.join(", ")}
+${newsNote}
+
+## Rules
+- VERY EASY ENGLISH (grade 6–8). Short sentences. No AI clichés.
+- ${MIN_WORDS}–${MAX_WORDS} words. Markdown only — NO H1 (title is separate).
+- PRIMARY keyword in the first 60 words.
+- 5–8 ## H2 sections; use ### subheadings where helpful.
+- Include lists, examples, pros/cons. Be practical and trustworthy.
+- Do NOT invent fake experts, studies, or placeholder URLs.
+
+Return ONLY valid JSON:
+{"content": "full markdown article body here"}`;
 }
 
 export function buildExpandPrompt(content: string, targetWords: number): string {
