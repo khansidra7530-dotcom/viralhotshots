@@ -2,7 +2,12 @@ import OpenAI from "openai";
 
 const GROQ_BASE_URL = "https://api.groq.com/openai/v1";
 const DEFAULT_GROQ_MODEL = "llama-3.3-70b-versatile";
+const BODY_GROQ_MODEL = "llama-3.1-8b-instant";
 const FALLBACK_GROQ_MODEL = "llama-3.1-8b-instant";
+
+/** Groq free tier TPM per request is often 12k — keep input + max_tokens under this. */
+export const GROQ_SAFE_MAX_OUTPUT = 5500;
+export const GROQ_META_MAX_OUTPUT = 2048;
 
 /** Reads GROQ_API_KEY (also accepts common Vercel typo Groq_API_KEY). */
 export function getGroqApiKey(): string | undefined {
@@ -33,6 +38,15 @@ export function getGroqModel(settingsModel?: string | null): string {
   return DEFAULT_GROQ_MODEL;
 }
 
+/** Smaller model for long article bodies — fits Groq free-tier TPM limits. */
+export function getGroqBodyModel(): string {
+  const requested = process.env.GROQ_BODY_MODEL?.trim() ?? "";
+  if (requested && !NON_GROQ_MODEL_PREFIXES.test(requested)) {
+    return requested;
+  }
+  return BODY_GROQ_MODEL;
+}
+
 function getGroqClient(): OpenAI {
   const apiKey = getGroqApiKey();
   if (!apiKey) {
@@ -43,14 +57,31 @@ function getGroqClient(): OpenAI {
   return new OpenAI({ apiKey, baseURL: GROQ_BASE_URL });
 }
 
+function groqErrorMessage(err: unknown): string {
+  return err instanceof Error ? err.message.toLowerCase() : String(err).toLowerCase();
+}
+
 function isGroqJsonFailure(err: unknown): boolean {
-  if (!(err instanceof Error)) return false;
-  const msg = err.message.toLowerCase();
+  const msg = groqErrorMessage(err);
   return (
     msg.includes("failed to generate json") ||
     msg.includes("failed_generation") ||
     msg.includes("json_validate_failed")
   );
+}
+
+function isGroqTokenLimit(err: unknown): boolean {
+  const msg = groqErrorMessage(err);
+  return (
+    msg.includes("413") ||
+    msg.includes("too large") ||
+    msg.includes("tpm") ||
+    msg.includes("request too large")
+  );
+}
+
+function isRetryableGroqError(err: unknown): boolean {
+  return isGroqJsonFailure(err) || isGroqTokenLimit(err);
 }
 
 async function callGroqChat(
@@ -68,7 +99,7 @@ async function callGroqChat(
       { role: "user", content: user },
     ],
     temperature: jsonMode ? 0.6 : 0.75,
-    max_tokens: options?.maxTokens ?? (jsonMode ? 8192 : 12000),
+    max_tokens: options?.maxTokens ?? (jsonMode ? GROQ_META_MAX_OUTPUT : GROQ_SAFE_MAX_OUTPUT),
     ...(jsonMode ? { response_format: { type: "json_object" as const } } : {}),
   });
   const raw = completion.choices[0]?.message?.content;
@@ -83,31 +114,46 @@ export async function callAiModel(
   options?: { jsonMode?: boolean; maxTokens?: number }
 ): Promise<string> {
   const client = getGroqClient();
-  const models = [model, model !== FALLBACK_GROQ_MODEL ? FALLBACK_GROQ_MODEL : model];
-  const attempts: { model: string; jsonMode: boolean }[] = [];
+  const baseMax = options?.maxTokens ?? GROQ_SAFE_MAX_OUTPUT;
+  const models = [
+    model,
+    ...(model !== BODY_GROQ_MODEL ? [BODY_GROQ_MODEL] : []),
+    ...(model !== FALLBACK_GROQ_MODEL ? [FALLBACK_GROQ_MODEL] : []),
+  ];
+  const uniqueModels = [...new Set(models)];
 
-  for (const m of models) {
-    attempts.push({ model: m, jsonMode: options?.jsonMode ?? true });
+  const attempts: { model: string; jsonMode: boolean; maxTokens: number }[] = [];
+  for (const m of uniqueModels) {
+    attempts.push({ model: m, jsonMode: options?.jsonMode ?? true, maxTokens: baseMax });
+    attempts.push({
+      model: m,
+      jsonMode: options?.jsonMode ?? true,
+      maxTokens: Math.min(3500, baseMax),
+    });
     if (options?.jsonMode !== false) {
-      attempts.push({ model: m, jsonMode: false });
+      attempts.push({ model: m, jsonMode: false, maxTokens: Math.min(3500, baseMax) });
     }
   }
 
   let lastError: unknown;
   for (let i = 0; i < attempts.length; i++) {
-    const { model: attemptModel, jsonMode } = attempts[i];
+    const attempt = attempts[i];
     try {
-      return await callGroqChat(client, attemptModel, system, user, {
-        jsonMode,
-        maxTokens: options?.maxTokens,
+      return await callGroqChat(client, attempt.model, system, user, {
+        jsonMode: attempt.jsonMode,
+        maxTokens: attempt.maxTokens,
       });
     } catch (err) {
       lastError = err;
-      if (!isGroqJsonFailure(err) && i === 0) throw err;
+      if (!isRetryableGroqError(err)) throw err;
     }
   }
 
   throw lastError instanceof Error ? lastError : new Error("Groq request failed");
+}
+
+export function groqPause(ms = 2000): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export function getAiProviderLabel(): string {

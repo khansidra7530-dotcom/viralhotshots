@@ -21,17 +21,23 @@ export function buildArticlePrompt(input: {
   const topicLine = input.topic
     ? `Focus topic: ${input.topic}`
     : input.news
-      ? `Write about THIS specific news story (do not copy the headline word-for-word): "${input.news.headline}" — ${input.news.summary}`
+      ? `News topic: "${input.news.headline.slice(0, 120)}" — ${input.news.summary.slice(0, 200)}`
       : `Pick a fresh, specific topic for ${input.niche} readers in ${input.category}. Avoid generic listicles like "5 tips" unless the news demands it.`;
 
   const avoidDupes =
     input.recentTitles?.length ?
-      `\n## Do NOT repeat these recent articles (pick a different angle):\n${input.recentTitles.map((t) => `- ${t}`).join("\n")}`
+      `\nAvoid duplicating these titles:\n${input.recentTitles
+        .slice(0, 5)
+        .map((t) => `- ${t.slice(0, 80)}`)
+        .join("\n")}`
     : "";
 
   const newsSources =
     input.news?.sources?.length ?
-      `\nCite these real news links in sources (add 2–3 more from Reuters, BBC, AP, NIH, FTC, or official .gov):\n${input.news.sources.map((s) => `- ${s.title}: ${s.url}`).join("\n")}`
+      `\nInclude 2–3 sources in JSON. Example links:\n${input.news.sources
+        .slice(0, 2)
+        .map((s) => `- ${s.title.slice(0, 60)}`)
+        .join("\n")}`
     : "";
 
   return `You are a trusted editor at ${site}. Write for everyday readers who want simple, honest help.
@@ -96,21 +102,20 @@ export function buildArticleBodyPrompt(input: {
   news?: NewsBrief | null;
 }): string {
   const newsNote = input.news
-    ? `\nNews angle: "${input.news.headline}" — ${input.news.summary}`
+    ? `\nNews: ${input.news.headline.slice(0, 100)}`
     : "";
 
-  return `Write the full article body in markdown for this post.
+  return `Write article body (markdown, no H1).
 
-Title: ${input.title}
-Excerpt: ${input.excerpt}
-Category: ${input.category} (${input.niche})
-Primary keyword: "${input.keywords.primary}"
-Secondary keywords: ${input.keywords.secondary.join(", ")}
+Title: ${input.title.slice(0, 100)}
+Keyword: "${input.keywords.primary}"
+Also use: ${input.keywords.secondary.slice(0, 3).join(", ")}
+Category: ${input.category}
 ${newsNote}
 
 ## Rules
-- VERY EASY ENGLISH (grade 6–8). Short sentences. No AI clichés.
-- ${MIN_WORDS}–${MAX_WORDS} words. Markdown only — NO H1 (title is separate).
+- Simple English (grade 6–8). Short sentences.
+- About ${MIN_WORDS} words. Markdown only — NO H1.
 - PRIMARY keyword in the first 60 words.
 - 5–8 ## H2 sections; use ### subheadings where helpful.
 - Include lists, examples, pros/cons. Be practical and trustworthy.
@@ -124,7 +129,7 @@ export function buildExpandPrompt(content: string, targetWords: number): string 
   return `Expand this article to at least ${targetWords} words. Keep simple English (grade 6–8). Add one more helpful H2 with examples. Do not remove existing sections. Return ONLY JSON: { "content": "expanded markdown" }
 
 Article:
-${content.slice(0, 12000)}`;
+${content.slice(0, 4500)}`;
 }
 
 export const ARTICLE_MIN_WORDS = MIN_WORDS;

@@ -62,8 +62,8 @@ export async function fetchNewsBrief(
     });
     const lead = items[recentCount % items.length];
 
-    const sources = items.slice(0, 6).map((item) => ({
-      title: item.title.replace(/ - .*$/, "").slice(0, 120),
+    const sources = items.slice(0, 3).map((item) => ({
+      title: item.title.replace(/ - .*$/, "").slice(0, 80),
       url: item.link,
     }));
 

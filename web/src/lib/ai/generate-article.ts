@@ -1,5 +1,12 @@
 import { prisma } from "@/lib/prisma";
-import { callAiModel, getGroqModel } from "@/lib/ai/client";
+import {
+  callAiModel,
+  getGroqModel,
+  getGroqBodyModel,
+  groqPause,
+  GROQ_META_MAX_OUTPUT,
+  GROQ_SAFE_MAX_OUTPUT,
+} from "@/lib/ai/client";
 import { parseModelJson } from "@/lib/ai/json-parse";
 import {
   ARTICLE_MIN_WORDS,
@@ -79,7 +86,7 @@ export async function generateArticle(input: {
     prisma.article.findMany({
       where: { categoryId: input.categoryId },
       orderBy: { createdAt: "desc" },
-      take: 12,
+      take: 5,
       select: { title: true },
     }),
     getUsedImageFingerprints(),
@@ -109,9 +116,9 @@ export async function generateArticle(input: {
 
   const metaRaw = await callAiModel(
     model,
-    "You write helpful articles in very simple English. Output only valid JSON matching the requested schema.",
+    "Output only valid JSON. Simple English.",
     prompt,
-    { maxTokens: 4096 }
+    { maxTokens: GROQ_META_MAX_OUTPUT }
   );
   const meta = parseModelJson<GeneratedArticleMeta>(metaRaw);
 
@@ -131,11 +138,14 @@ export async function generateArticle(input: {
     news,
   });
 
+  await groqPause(2500);
+
+  const bodyModel = getGroqBodyModel();
   const bodyRaw = await callAiModel(
-    model,
-    "You write helpful articles in very simple English. Output only valid JSON with a single content field.",
+    bodyModel,
+    "Output only valid JSON: {\"content\":\"markdown\"}. Simple English.",
     bodyPrompt,
-    { maxTokens: 12000 }
+    { maxTokens: GROQ_SAFE_MAX_OUTPUT }
   );
   const body = parseModelJson<{ content: string }>(bodyRaw);
 
@@ -156,10 +166,12 @@ export async function generateArticle(input: {
   let content = sanitizeArticleContent(stripMarkdownCodeFence(optimized.content));
 
   if (countWords(content) < ARTICLE_MIN_WORDS) {
+    await groqPause(2000);
     const expandRaw = await callAiModel(
-      model,
-      "Expand in very simple English (grade 6–8). Output only valid JSON.",
-      buildExpandPrompt(content, ARTICLE_MIN_WORDS)
+      getGroqBodyModel(),
+      "Expand article. Output only valid JSON.",
+      buildExpandPrompt(content, ARTICLE_MIN_WORDS),
+      { maxTokens: GROQ_SAFE_MAX_OUTPUT }
     );
     const expanded = parseModelJson<{ content: string }>(expandRaw);
     if (expanded.content && countWords(expanded.content) >= countWords(content)) {
