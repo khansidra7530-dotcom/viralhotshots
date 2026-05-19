@@ -77,6 +77,7 @@ model Article {
   sources              Json?
   affiliateBlocks      Json?
   isAiGenerated        Boolean       @default(false)
+  facebookPostId       String?
   categoryId           String
   category             Category      @relation(fields: [categoryId], references: [id])
   authorId             String

@@ -16,7 +16,9 @@ export const SOCIAL_LINKS = [
   {
     id: "facebook",
     label: "Facebook",
-    href: process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK ?? "https://www.facebook.com/viralhotshots",
+    href:
+      process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK ??
+      "https://www.facebook.com/profile.php?id=61573902383633",
   },
   {
     id: "linkedin",

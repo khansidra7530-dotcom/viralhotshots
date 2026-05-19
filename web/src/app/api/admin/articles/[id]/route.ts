@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdminApi } from "@/lib/auth-helpers";
 import { calculateSeoScore } from "@/lib/seo";
+import { publishArticleToSocial } from "@/lib/social/publish-article";
 import { z } from "zod";
 
 const updateSchema = z.object({
@@ -48,6 +49,9 @@ export async function PATCH(
     hasSources: Boolean(existing.sources),
   });
 
+  const newlyPublished =
+    data.status === "PUBLISHED" && existing.status !== "PUBLISHED";
+
   const article = await prisma.article.update({
     where: { id },
     data: {
@@ -60,7 +64,9 @@ export async function PATCH(
     },
   });
 
-  return NextResponse.json(article);
+  const social = newlyPublished ? await publishArticleToSocial(article.id) : undefined;
+
+  return NextResponse.json({ ...article, social });
 }
 
 export async function DELETE(

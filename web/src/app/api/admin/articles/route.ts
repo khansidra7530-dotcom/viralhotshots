@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { requireAdminApi } from "@/lib/auth-helpers";
 import { calculateSeoScore } from "@/lib/seo";
+import { publishArticleToSocial } from "@/lib/social/publish-article";
 import { estimateReadingTime, slugify } from "@/lib/utils";
 
 const createSchema = z.object({
@@ -56,5 +57,7 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  return NextResponse.json(article, { status: 201 });
+  const social = published ? await publishArticleToSocial(article.id) : undefined;
+
+  return NextResponse.json({ ...article, social }, { status: 201 });
 }
