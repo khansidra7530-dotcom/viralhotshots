@@ -2,6 +2,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeSanitize from "rehype-sanitize";
 import { SITE_URL } from "@/lib/constants";
+import { sanitizeArticleContent } from "@/lib/sanitize-content";
 
 /** Strip accidental code-fence wrappers so the whole article is not one <pre> block. */
 function normalizeArticleMarkdown(content: string): string {
@@ -11,8 +12,19 @@ function normalizeArticleMarkdown(content: string): string {
   return text;
 }
 
+function isBlockedHref(href: string | undefined): boolean {
+  if (!href?.startsWith("http")) return false;
+  try {
+    const host = new URL(href).hostname.replace(/^www\./, "").toLowerCase();
+    const blocked = ["example.com", "example.org", "aiwriter.com", "aiassistant.com", "aianalytics.com"];
+    return blocked.some((b) => host === b || host.endsWith(`.${b}`));
+  } catch {
+    return true;
+  }
+}
+
 export function MarkdownContent({ content }: { content: string }) {
-  const markdown = normalizeArticleMarkdown(content);
+  const markdown = normalizeArticleMarkdown(sanitizeArticleContent(content));
 
   return (
     <div className="article-body w-full min-w-0 max-w-full">
@@ -36,6 +48,9 @@ export function MarkdownContent({ content }: { content: string }) {
               <li className="whitespace-normal break-words">{children}</li>
             ),
             a: ({ href, children }) => {
+              if (isBlockedHref(href)) {
+                return <span className="break-words">{children}</span>;
+              }
               const isExternal =
                 href?.startsWith("http") &&
                 !href.startsWith(SITE_URL) &&

@@ -21,10 +21,11 @@ const nicheGradients = [
 ];
 
 export default async function HomePage() {
-  const [latest, trending, categories] = await Promise.all([
+  const [latest, trending, categories, publishedCount] = await Promise.all([
     getPublishedArticles({ limit: 7 }),
     getTrendingArticles(5),
     prisma.category.findMany({ orderBy: { name: "asc" }, take: 8 }),
+    prisma.article.count({ where: { status: "PUBLISHED", publishedAt: { lte: new Date() } } }),
   ]);
 
   const [featured, ...rest] = latest;
@@ -76,7 +77,7 @@ export default async function HomePage() {
                   </p>
                 </div>
                 <div>
-                  <p className="font-display text-3xl font-bold">{latest.length || "∞"}</p>
+                  <p className="font-display text-3xl font-bold">{publishedCount}</p>
                   <p className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
                     Stories
                   </p>
@@ -133,20 +134,6 @@ export default async function HomePage() {
           </p>
         ) : (
           <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {featured && (
-              <div className="lg:hidden">
-                <ArticleCard
-                  slug={featured.slug}
-                  title={featured.title}
-                  excerpt={featured.excerpt}
-                  featuredImage={featured.featuredImage}
-                  category={featured.category}
-                  publishedAt={featured.publishedAt}
-                  readingTimeMinutes={featured.readingTimeMinutes}
-                  featured
-                />
-              </div>
-            )}
             {rest.map((article) => (
               <ArticleCard
                 key={article.id}

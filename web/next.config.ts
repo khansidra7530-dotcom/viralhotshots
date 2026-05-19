@@ -9,6 +9,16 @@ const nextConfig: NextConfig = {
         destination: "https://viralhotshots.com/:path*",
         permanent: true,
       },
+      {
+        source: "/author/editorial-team",
+        destination: "/authors",
+        permanent: true,
+      },
+      {
+        source: "/blog/ai-prompts-for-productivity-2",
+        destination: "/blog/ai-prompts-for-productivity",
+        permanent: true,
+      },
     ];
   },
   turbopack: {

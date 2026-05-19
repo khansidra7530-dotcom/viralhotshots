@@ -34,7 +34,9 @@ export function formatDate(date: Date | string): string {
   }).format(new Date(date));
 }
 
+import { SITE_URL } from "@/lib/constants";
+
 export function absoluteUrl(path: string, base?: string): string {
-  const site = base ?? process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const site = base ?? SITE_URL;
   return `${site.replace(/\/$/, "")}${path.startsWith("/") ? path : `/${path}`}`;
 }

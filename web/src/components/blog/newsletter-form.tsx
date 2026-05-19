@@ -25,11 +25,6 @@ export function NewsletterForm({ compact }: { compact?: boolean }) {
 
   return (
     <form onSubmit={onSubmit} className={compact ? "flex gap-2" : "space-y-3"}>
-      {!compact && (
-        <p className="text-sm text-muted-foreground">
-          Get weekly insights. No spam, unsubscribe anytime.
-        </p>
-      )}
       <div className={compact ? "flex flex-1 gap-2" : "space-y-2"}>
         <input
           type="email"

@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/constants";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const base = SITE_URL.replace(/\/$/, "");
 
   const [articles, categories] = await Promise.all([
     prisma.article.findMany({
@@ -14,7 +15,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     prisma.category.findMany({ select: { slug: true, updatedAt: true } }),
   ]);
 
-  const staticPages = ["", "/blog", "/categories", "/about", "/contact", "/privacy", "/terms", "/affiliate-disclosure"];
+  const staticPages = [
+    "",
+    "/blog",
+    "/categories",
+    "/authors",
+    "/about",
+    "/contact",
+    "/privacy",
+    "/terms",
+    "/affiliate-disclosure",
+  ];
 
   return [
     ...staticPages.map((path) => ({

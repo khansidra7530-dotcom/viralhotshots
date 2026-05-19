@@ -1,5 +1,5 @@
 import { ArticleCard } from "@/components/blog/article-card";
-import { getPublishedArticles } from "@/lib/articles";
+import { searchPublishedArticles } from "@/lib/articles";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -13,9 +13,7 @@ type Props = { searchParams: Promise<{ q?: string }> };
 export default async function SearchPage({ searchParams }: Props) {
   const { q } = await searchParams;
   const query = q?.trim() ?? "";
-  const articles = query
-    ? await getPublishedArticles({ search: query, limit: 24 })
-    : [];
+  const articles = query ? await searchPublishedArticles(query, 24) : [];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">

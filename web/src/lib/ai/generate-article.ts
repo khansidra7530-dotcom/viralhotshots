@@ -8,6 +8,11 @@ import {
 import { fetchNewsBrief } from "@/lib/ai/news";
 import { fetchHeroImageUrl, getUsedImageFingerprints } from "@/lib/ai/hero-image";
 import { applyKeywordsToArticle, buildKeywordSet } from "@/lib/ai/keywords";
+import { findSimilarArticle } from "@/lib/article-dedup";
+import {
+  sanitizeAffiliateProducts,
+  sanitizeArticleContent,
+} from "@/lib/sanitize-content";
 import { slugify, estimateReadingTime, countWords, stripMarkdownCodeFence } from "@/lib/utils";
 import { calculateSeoScore, normalizeMetaDescription } from "@/lib/seo";
 import { comparisonTableMarkdown, buildAmazonUrl } from "@/lib/affiliate";
@@ -119,7 +124,15 @@ export async function generateArticle(input: {
   });
   parsed.title = optimized.title;
   parsed.metaDescription = normalizeMetaDescription(optimized.metaDescription);
-  let content = stripMarkdownCodeFence(optimized.content);
+
+  const duplicate = await findSimilarArticle(parsed.title, input.categoryId);
+  if (duplicate) {
+    throw new Error(
+      `Skipped duplicate topic (${Math.round(duplicate.score * 100)}% similar to "${duplicate.article.title}"): /blog/${duplicate.article.slug}`
+    );
+  }
+
+  let content = sanitizeArticleContent(stripMarkdownCodeFence(optimized.content));
 
   if (countWords(content) < ARTICLE_MIN_WORDS) {
     const expandRaw = await callAiModel(
@@ -133,10 +146,8 @@ export async function generateArticle(input: {
     }
   }
 
-  const affiliateProducts = mergeAffiliateUrls(
-    parsed.affiliateProducts,
-    affiliates,
-    settings?.amazonAssociateTag
+  const affiliateProducts = sanitizeAffiliateProducts(
+    mergeAffiliateUrls(parsed.affiliateProducts, affiliates, settings?.amazonAssociateTag)
   );
 
   if (affiliateProducts?.length) {
