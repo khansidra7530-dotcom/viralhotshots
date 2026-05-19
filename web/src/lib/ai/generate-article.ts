@@ -4,15 +4,15 @@ import {
   getGroqModel,
   getGroqBodyModel,
   groqPause,
+  GROQ_BODY_MAX_OUTPUT,
   GROQ_META_MAX_OUTPUT,
-  GROQ_SAFE_MAX_OUTPUT,
 } from "@/lib/ai/client";
 import { parseModelJson } from "@/lib/ai/json-parse";
+import { ensureMinBodyWords } from "@/lib/ai/ensure-body-length";
 import {
   ARTICLE_MIN_WORDS,
   buildArticleBodyPrompt,
   buildArticlePrompt,
-  buildExpandPrompt,
 } from "@/lib/ai/prompts";
 import { fetchNewsBrief } from "@/lib/ai/news";
 import { fetchHeroImageUrl, getUsedImageFingerprints } from "@/lib/ai/hero-image";
@@ -141,12 +141,12 @@ export async function generateArticle(input: {
 
   await groqPause(2500);
 
-  const bodyModel = getGroqBodyModel();
+  const bodyModel = getGroqBodyModel(model);
   const bodyRaw = await callAiModel(
     bodyModel,
-    "Output only valid JSON: {\"content\":\"markdown\"}. Simple English.",
+    "Output only valid JSON: {\"content\":\"markdown\"}. MINIMUM 1000 words in content.",
     bodyPrompt,
-    { maxTokens: GROQ_SAFE_MAX_OUTPUT }
+    { maxTokens: GROQ_BODY_MAX_OUTPUT }
   );
   const body = parseModelJson<{ content: string }>(bodyRaw);
 
@@ -166,19 +166,12 @@ export async function generateArticle(input: {
 
   let content = sanitizeArticleContent(stripMarkdownCodeFence(optimized.content));
 
-  if (countWords(content) < ARTICLE_MIN_WORDS) {
-    await groqPause(2000);
-    const expandRaw = await callAiModel(
-      getGroqBodyModel(),
-      "Expand article. Output only valid JSON.",
-      buildExpandPrompt(content, ARTICLE_MIN_WORDS),
-      { maxTokens: GROQ_SAFE_MAX_OUTPUT }
-    );
-    const expanded = parseModelJson<{ content: string }>(expandRaw);
-    if (expanded.content && countWords(expanded.content) >= countWords(content)) {
-      content = expanded.content.trim();
-    }
-  }
+  content = await ensureMinBodyWords(content, ARTICLE_MIN_WORDS, {
+    title: parsed.title,
+    keywords,
+    category: input.categoryName,
+    metaModel: model,
+  });
 
   const affiliateProducts = sanitizeAffiliateProducts(
     mergeAffiliateUrls(parsed.affiliateProducts, affiliates, settings?.amazonAssociateTag)
@@ -244,10 +237,13 @@ export async function generateArticle(input: {
 
   const shouldPublish = input.autoPublish ?? settings?.autoPublish ?? true;
   const status = shouldPublish ? "PUBLISHED" : "PENDING";
-  const wordCount = countWords(content);
+  const bodyWordCount = countWords(content);
+  const wordCount = bodyWordCount;
 
-  if (wordCount < ARTICLE_MIN_WORDS) {
-    throw new Error(`Article too short: ${wordCount} words (min ${ARTICLE_MIN_WORDS})`);
+  if (bodyWordCount < ARTICLE_MIN_WORDS) {
+    throw new Error(
+      `Article body too short: ${bodyWordCount} words in prose (min ${ARTICLE_MIN_WORDS}). Try again or upgrade Groq tier.`
+    );
   }
 
   const article = await prisma.article.create({

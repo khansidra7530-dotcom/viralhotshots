@@ -115,21 +115,52 @@ ${newsNote}
 
 ## Rules
 - Simple English (grade 6–8). Short sentences.
-- About ${MIN_WORDS} words. Markdown only — NO H1.
+- MINIMUM ${MIN_WORDS} words in "content" (aim for ${MIN_WORDS + 150}). Shorter articles are rejected.
+- Markdown only — NO H1. No FAQ or sources section (added later).
 - PRIMARY keyword in the first 60 words.
-- 5–8 ## H2 sections; use ### subheadings where helpful.
-- Include lists, examples, pros/cons. Be practical and trustworthy.
+- At least 6 ## H2 sections (150+ words each on average). Use ### subheadings under H2s.
+- Each H2 needs 2–4 short paragraphs OR a list plus explanation.
+- Include real examples, pros/cons, and practical steps.
 - Do NOT invent fake experts, studies, or placeholder URLs.
 
 Return ONLY valid JSON:
 {"content": "full markdown article body here"}`;
 }
 
-export function buildExpandPrompt(content: string, targetWords: number): string {
-  return `Expand this article to at least ${targetWords} words. Keep simple English (grade 6–8). Add one more helpful H2 with examples. Do not remove existing sections. Return ONLY JSON: { "content": "expanded markdown" }
+export function buildExpandPrompt(content: string, targetWords: number, currentWords: number): string {
+  const need = Math.max(targetWords - currentWords, 250);
+  return `The article is only ${currentWords} words. Expand to AT LEAST ${targetWords} words total.
+
+Add ${need}+ new words by:
+- Expanding thin sections with examples and detail
+- Adding 2–3 new ## H2 sections if needed
+- Do NOT remove existing headings or shorten text
+
+Keep simple English (grade 6–8). Return ONLY JSON: { "content": "full expanded markdown body" }
 
 Article:
-${content.slice(0, 4500)}`;
+${content.slice(0, 6000)}`;
+}
+
+export function buildArticleContinuationPrompt(input: {
+  title: string;
+  existingContent: string;
+  keywords: KeywordSet;
+  minAdditionalWords: number;
+}): string {
+  return `Continue this article with NEW markdown sections only (${input.minAdditionalWords}+ words).
+
+Title: ${input.title}
+Primary keyword: "${input.keywords.primary}"
+
+Do NOT repeat existing H2 headings. Add 2–4 new ## H2 sections with depth, lists, and examples.
+No H1. No FAQ. Simple English.
+
+Existing article (end):
+${input.existingContent.slice(-2500)}
+
+Return ONLY JSON:
+{"content": "new ## sections to append"}`;
 }
 
 export const ARTICLE_MIN_WORDS = MIN_WORDS;

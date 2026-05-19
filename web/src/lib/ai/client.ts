@@ -7,6 +7,7 @@ const FALLBACK_GROQ_MODEL = "llama-3.1-8b-instant";
 
 /** Groq free tier TPM per request is often 12k — keep input + max_tokens under this. */
 export const GROQ_SAFE_MAX_OUTPUT = 5500;
+export const GROQ_BODY_MAX_OUTPUT = 4800;
 export const GROQ_META_MAX_OUTPUT = 2048;
 
 /** Reads GROQ_API_KEY (also accepts common Vercel typo Groq_API_KEY). */
@@ -38,13 +39,17 @@ export function getGroqModel(settingsModel?: string | null): string {
   return DEFAULT_GROQ_MODEL;
 }
 
-/** Smaller model for long article bodies — fits Groq free-tier TPM limits. */
-export function getGroqBodyModel(): string {
+/** Model for article body — defaults to 70b for length/quality; override with GROQ_BODY_MODEL. */
+export function getGroqBodyModel(settingsModel?: string | null): string {
   const requested = process.env.GROQ_BODY_MODEL?.trim() ?? "";
   if (requested && !NON_GROQ_MODEL_PREFIXES.test(requested)) {
     return requested;
   }
-  return BODY_GROQ_MODEL;
+  const settings = settingsModel?.trim();
+  if (settings && !NON_GROQ_MODEL_PREFIXES.test(settings)) {
+    return settings;
+  }
+  return DEFAULT_GROQ_MODEL;
 }
 
 function getGroqClient(): OpenAI {
