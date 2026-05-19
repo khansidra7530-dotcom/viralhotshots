@@ -33,7 +33,7 @@ export function SavedArticleCard({
         className="relative h-20 w-28 shrink-0 overflow-hidden rounded-xl"
       >
         <Image
-          src={featuredImage ?? "/og-default.png"}
+          src={featuredImage ?? "/opengraph-image"}
           alt={title}
           fill
           className="object-cover"

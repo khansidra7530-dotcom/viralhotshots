@@ -4,7 +4,15 @@ import { Breadcrumbs } from "@/components/blog/breadcrumbs";
 import { MarkdownContent } from "@/components/blog/markdown-content";
 import { SocialShare } from "@/components/blog/social-share";
 import { ArticleCard } from "@/components/blog/article-card";
-import { ArticleActions } from "@/components/blog/article-actions";
+import nextDynamic from "next/dynamic";
+
+const ArticleActions = nextDynamic(
+  () =>
+    import("@/components/blog/article-actions").then((m) => ({
+      default: m.ArticleActions,
+    })),
+  { loading: () => null }
+);
 import { CommentSection } from "@/components/blog/comment-section";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -119,7 +127,7 @@ export default async function ArticlePage({ params }: Props) {
           </header>
 
           <ArticleFeaturedImage
-            src={article.featuredImage ?? "/og-default.png"}
+            src={article.featuredImage ?? "/opengraph-image"}
             alt={article.title}
             priority
             className="mt-8"

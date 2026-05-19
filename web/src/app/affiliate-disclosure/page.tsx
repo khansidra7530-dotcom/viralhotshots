@@ -1,4 +1,5 @@
 import { LegalPage } from "@/components/legal/legal-page";
+import { SITE_NAME } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -11,7 +12,7 @@ export default function AffiliateDisclosurePage() {
   return (
     <LegalPage title="Affiliate Disclosure">
       <p>
-        InsightPress participates in affiliate programs including the Amazon Associates Program.
+        {SITE_NAME} participates in affiliate programs including the Amazon Associates Program.
         When you click links on our site and make a purchase, we may earn a commission at no
         extra cost to you.
       </p>

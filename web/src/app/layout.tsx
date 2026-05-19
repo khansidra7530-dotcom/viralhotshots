@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import { Bricolage_Grotesque, Inter, Source_Serif_4 } from "next/font/google";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { AuthSessionProvider } from "@/components/providers/session-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Header } from "@/components/layout/header";
@@ -31,6 +33,8 @@ const serif = Source_Serif_4({
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ff3d57" },
     { media: "(prefers-color-scheme: dark)", color: "#ff5c72" },
@@ -39,9 +43,9 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   ...buildMetadata({
-    title: `${SITE_NAME} — Trending News & Expert Guides`,
+    title: `${SITE_NAME} | Trending News & Expert Guides`,
     description:
-      "Breaking trends, expert guides, and honest reviews across finance, tech, AI, health, and more.",
+      "Breaking trends, expert guides, and honest reviews across finance, tech, AI, health, gaming, crypto, business, and travel. Updated daily.",
     path: "/",
   }),
   metadataBase: new URL(SITE_URL),
@@ -58,6 +62,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className={`${sans.variable} ${display.variable} ${serif.variable} flex min-h-screen flex-col antialiased`}
       >
+        <Suspense fallback={null}>
+          <GoogleAnalytics />
+        </Suspense>
         <OrganizationJsonLd />
         <AuthSessionProvider>
           <ThemeProvider>

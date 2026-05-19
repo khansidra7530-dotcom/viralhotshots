@@ -4,6 +4,7 @@ import { NewsletterForm } from "@/components/blog/newsletter-form";
 import { getPublishedArticles, getTrendingArticles } from "@/lib/articles";
 import { prisma } from "@/lib/prisma";
 import { SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
+import { websiteJsonLd } from "@/lib/seo";
 import { ArrowRight, Sparkles, TrendingUp, Zap, BookOpen } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -28,8 +29,14 @@ export default async function HomePage() {
 
   const [featured, ...rest] = latest;
 
+  const websiteLd = websiteJsonLd();
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
+      />
       <section className="hero-mesh relative overflow-hidden border-b border-border">
         <div className="pointer-events-none absolute -right-32 top-20 h-96 w-96 rounded-full bg-accent/15 blur-3xl" />
         <div className="pointer-events-none absolute bottom-0 left-1/4 h-64 w-64 rounded-full bg-accent-secondary/10 blur-3xl" />
@@ -64,19 +71,19 @@ export default async function HomePage() {
               <div className="mt-12 flex flex-wrap gap-8 border-t border-border/60 pt-8">
                 <div>
                   <p className="font-display text-3xl font-bold text-accent">{categories.length}+</p>
-                  <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  <p className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
                     Niches
                   </p>
                 </div>
                 <div>
                   <p className="font-display text-3xl font-bold">{latest.length || "∞"}</p>
-                  <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  <p className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
                     Stories
                   </p>
                 </div>
                 <div>
                   <p className="font-display text-3xl font-bold">Daily</p>
-                  <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  <p className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
                     Updates
                   </p>
                 </div>

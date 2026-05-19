@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { absoluteUrl } from "@/lib/utils";
 
 export type SeoInput = {
@@ -13,20 +14,58 @@ export type SeoInput = {
   tags?: string[];
 };
 
+/** SEO title length target: 30–60 characters. */
+export function normalizeSeoTitle(title: string): string {
+  const clean = title.replace(/\s+/g, " ").trim();
+  if (clean.length >= 30 && clean.length <= 60) return clean;
+  if (clean.length < 30) {
+    const padded = `${clean} | ${SITE_NAME}`;
+    return padded.length <= 60 ? padded : padded.slice(0, 60).trimEnd();
+  }
+  return clean.slice(0, 60).trimEnd();
+}
+
+/** Meta description target: 120–160 characters. */
+export function normalizeMetaDescription(description: string): string {
+  const clean = description.replace(/\s+/g, " ").trim();
+  if (clean.length >= 120 && clean.length <= 160) return clean;
+
+  if (clean.length > 160) {
+    return `${clean.slice(0, 157).trimEnd()}...`;
+  }
+
+  const suffix = ` Expert guides and trending news on ${SITE_NAME}.`;
+  const combined = `${clean}${suffix}`;
+  if (combined.length <= 160) {
+    return combined.length >= 120 ? combined : combined.padEnd(120, ".");
+  }
+  return combined.slice(0, 157).trimEnd() + "...";
+}
+
 export function buildMetadata(input: SeoInput): Metadata {
-  const url = absoluteUrl(input.path);
-  const image = input.image ? absoluteUrl(input.image) : absoluteUrl("/og-default.png");
+  const url = absoluteUrl(input.path, SITE_URL);
+  const title = normalizeSeoTitle(input.title);
+  const description = normalizeMetaDescription(input.description);
+  const image = input.image
+    ? absoluteUrl(input.image, SITE_URL)
+    : absoluteUrl("/opengraph-image", SITE_URL);
 
   return {
-    title: input.title,
-    description: input.description,
-    alternates: { canonical: url },
+    title,
+    description,
+    alternates: {
+      canonical: url,
+      languages: {
+        "en-US": url,
+        "x-default": url,
+      },
+    },
     openGraph: {
-      title: input.title,
-      description: input.description,
+      title,
+      description,
       url,
-      siteName: process.env.NEXT_PUBLIC_SITE_NAME ?? "Viral Hotshots",
-      images: [{ url: image, width: 1200, height: 630, alt: input.title }],
+      siteName: SITE_NAME,
+      images: [{ url: image, width: 1200, height: 630, alt: title }],
       locale: "en_US",
       type: input.type === "article" ? "article" : "website",
       ...(input.publishedTime && { publishedTime: input.publishedTime }),
@@ -34,9 +73,14 @@ export function buildMetadata(input: SeoInput): Metadata {
     },
     twitter: {
       card: "summary_large_image",
-      title: input.title,
-      description: input.description,
+      title,
+      description,
       images: [image],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true },
     },
     ...(input.tags?.length && { keywords: input.tags }),
   };
@@ -54,15 +98,34 @@ export function articleJsonLd(input: {
   return {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: input.title,
-    description: input.description,
+    headline: normalizeSeoTitle(input.title),
+    description: normalizeMetaDescription(input.description),
     image: input.image ? [input.image] : undefined,
     datePublished: input.datePublished,
     dateModified: input.dateModified,
     author: { "@type": "Person", name: input.authorName },
     publisher: {
       "@type": "Organization",
-      name: process.env.NEXT_PUBLIC_SITE_NAME ?? "Viral Hotshots",
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": input.url },
+  };
+}
+
+export function websiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_NAME,
+    url: SITE_URL,
+    description: normalizeMetaDescription(
+      "Breaking trends, expert guides, and honest reviews across finance, tech, AI, health, and more."
+    ),
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${SITE_URL}/search?q={search_term_string}`,
+      "query-input": "required name=search_term_string",
     },
   };
 }
@@ -104,12 +167,12 @@ export function calculateSeoScore(input: {
   hasSources: boolean;
 }): number {
   let score = 0;
-  const titleLen = input.title.length;
-  const metaLen = input.metaDescription.length;
+  const titleLen = normalizeSeoTitle(input.title).length;
+  const metaLen = normalizeMetaDescription(input.metaDescription).length;
   const wordCount = input.content.split(/\s+/).filter(Boolean).length;
   const h2Count = (input.content.match(/^## /gm) ?? []).length;
 
-  if (titleLen >= 30 && titleLen <= 65) score += 15;
+  if (titleLen >= 30 && titleLen <= 60) score += 15;
   else if (titleLen > 10) score += 8;
 
   if (metaLen >= 120 && metaLen <= 160) score += 15;

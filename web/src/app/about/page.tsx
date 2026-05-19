@@ -1,4 +1,5 @@
 import { LegalPage } from "@/components/legal/legal-page";
+import { SITE_NAME } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -9,9 +10,9 @@ export const metadata = buildMetadata({
 
 export default function AboutPage() {
   return (
-    <LegalPage title="About InsightPress">
+    <LegalPage title={`About ${SITE_NAME}`}>
       <p>
-        InsightPress is an independent publishing platform focused on in-depth guides,
+        {SITE_NAME} is an independent publishing platform focused on in-depth guides,
         honest product comparisons, and expert analysis. Our content follows Google EEAT
         principles—written for humans first, optimized for search second.
       </p>

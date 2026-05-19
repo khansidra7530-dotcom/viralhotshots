@@ -2,6 +2,9 @@ export const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME ?? "Viral Hotshots";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://viralhotshots.com";
 export const SITE_TAGLINE = "Trending news and expert guides daily";
 
+/** Google Analytics 4 measurement ID (e.g. G-XXXXXXXXXX). Leave unset to disable. */
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "";
+
 /** Public social profiles — set in env or update defaults to your real URLs. */
 export const SOCIAL_LINKS = [
   {
