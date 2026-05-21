@@ -11,6 +11,11 @@ const schema = z.object({
   defaultNiche: z.nativeEnum(Niche).optional(),
   autoPublish: z.boolean().optional(),
   cronEnabled: z.boolean().optional(),
+  marketingEnabled: z.boolean().optional(),
+  autoSocialEnabled: z.boolean().optional(),
+  autoOptimizeEnabled: z.boolean().optional(),
+  preferredLlm: z.string().optional(),
+  n8nWebhookUrl: z.string().nullable().optional(),
   amazonAssociateTag: z.string().nullable().optional(),
   aiModel: z.string().optional(),
 });

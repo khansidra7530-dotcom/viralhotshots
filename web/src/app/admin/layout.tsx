@@ -7,6 +7,7 @@ import {
   Link2,
   LogOut,
   Settings,
+  Megaphone,
   Sparkles,
   Users,
 } from "lucide-react";
@@ -15,6 +16,7 @@ const nav = [
   { href: "/admin/articles", label: "Articles", icon: FileText },
   { href: "/admin/customers", label: "Customers", icon: Users },
   { href: "/admin/affiliates", label: "Affiliates", icon: Link2 },
+  { href: "/admin/marketing", label: "Marketing", icon: Megaphone },
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
 

@@ -39,3 +39,46 @@ export const UserRole = {
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+
+export const TrendSource = {
+  GOOGLE_TRENDS: 'GOOGLE_TRENDS',
+  GOOGLE_NEWS: 'GOOGLE_NEWS',
+  REDDIT: 'REDDIT',
+  HACKER_NEWS: 'HACKER_NEWS',
+  PRODUCT_HUNT: 'PRODUCT_HUNT',
+  TWITTER: 'TWITTER'
+} as const
+
+export type TrendSource = (typeof TrendSource)[keyof typeof TrendSource]
+
+
+export const SocialPlatform = {
+  TWITTER: 'TWITTER',
+  THREADS: 'THREADS',
+  LINKEDIN: 'LINKEDIN',
+  REDDIT: 'REDDIT',
+  FACEBOOK: 'FACEBOOK'
+} as const
+
+export type SocialPlatform = (typeof SocialPlatform)[keyof typeof SocialPlatform]
+
+
+export const SocialPostStatus = {
+  DRAFT: 'DRAFT',
+  SCHEDULED: 'SCHEDULED',
+  PUBLISHED: 'PUBLISHED',
+  FAILED: 'FAILED'
+} as const
+
+export type SocialPostStatus = (typeof SocialPostStatus)[keyof typeof SocialPostStatus]
+
+
+export const MarketingRunStatus = {
+  PENDING: 'PENDING',
+  RUNNING: 'RUNNING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+} as const
+
+export type MarketingRunStatus = (typeof MarketingRunStatus)[keyof typeof MarketingRunStatus]

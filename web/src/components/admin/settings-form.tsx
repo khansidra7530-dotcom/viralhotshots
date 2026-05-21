@@ -10,6 +10,11 @@ type Settings = {
   defaultNiche: string;
   autoPublish: boolean;
   cronEnabled: boolean;
+  marketingEnabled: boolean;
+  autoSocialEnabled: boolean;
+  autoOptimizeEnabled: boolean;
+  preferredLlm: string;
+  n8nWebhookUrl: string | null;
   amazonAssociateTag: string | null;
   aiModel: string;
 };
@@ -93,6 +98,54 @@ export function SettingsForm({ settings }: { settings: Settings }) {
           <span className="mt-1 block text-xs text-muted-foreground">
             Free at console.groq.com — default: llama-3.3-70b-versatile
           </span>
+        </label>
+      </div>
+      <div className="rounded-xl border border-border bg-muted/30 p-4 space-y-4">
+        <p className="text-sm font-semibold">AI marketing automation</p>
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={form.marketingEnabled}
+            onChange={(e) => setForm({ ...form, marketingEnabled: e.target.checked })}
+          />
+          Enable daily marketing pipeline
+        </label>
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={form.autoSocialEnabled}
+            onChange={(e) => setForm({ ...form, autoSocialEnabled: e.target.checked })}
+          />
+          Auto-generate & schedule social posts on publish
+        </label>
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={form.autoOptimizeEnabled}
+            onChange={(e) => setForm({ ...form, autoOptimizeEnabled: e.target.checked })}
+          />
+          Auto-optimize stale / low-SEO articles weekly
+        </label>
+        <label className="block text-sm">
+          Preferred LLM
+          <select
+            value={form.preferredLlm}
+            onChange={(e) => setForm({ ...form, preferredLlm: e.target.value })}
+            className="mt-1 h-11 w-full rounded-xl border border-border bg-background px-4"
+          >
+            <option value="groq">Groq (default)</option>
+            <option value="openai">OpenAI</option>
+            <option value="anthropic">Claude (Anthropic)</option>
+          </select>
+        </label>
+        <label className="block text-sm">
+          n8n webhook URL (social publish for X/LinkedIn/Reddit)
+          <input
+            value={form.n8nWebhookUrl ?? ""}
+            onChange={(e) => setForm({ ...form, n8nWebhookUrl: e.target.value || null })}
+            placeholder="https://your-n8n.app/webhook/..."
+            className="mt-1 h-11 w-full rounded-xl border border-border bg-background px-4"
+          />
         </label>
       </div>
       <button

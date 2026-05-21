@@ -1,5 +1,27 @@
 {
   "framework": "nextjs",
+  "crons": [
+    {
+      "path": "/api/cron/marketing",
+      "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/research-trends",
+      "schedule": "0 5 * * *"
+    },
+    {
+      "path": "/api/cron/social-publish",
+      "schedule": "0 */2 * * *"
+    },
+    {
+      "path": "/api/cron/optimize",
+      "schedule": "0 3 * * 0"
+    },
+    {
+      "path": "/api/cron/generate",
+      "schedule": "0 */4 * * *"
+    }
+  ],
   "redirects": [
     {
       "source": "/:path*",

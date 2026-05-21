@@ -32,6 +32,11 @@ export type SiteSettingsMinAggregateOutputType = {
   defaultNiche: $Enums.Niche | null
   autoPublish: boolean | null
   cronEnabled: boolean | null
+  marketingEnabled: boolean | null
+  autoSocialEnabled: boolean | null
+  autoOptimizeEnabled: boolean | null
+  preferredLlm: string | null
+  n8nWebhookUrl: string | null
   amazonAssociateTag: string | null
   adsenseClientId: string | null
   aiModel: string | null
@@ -46,6 +51,11 @@ export type SiteSettingsMaxAggregateOutputType = {
   defaultNiche: $Enums.Niche | null
   autoPublish: boolean | null
   cronEnabled: boolean | null
+  marketingEnabled: boolean | null
+  autoSocialEnabled: boolean | null
+  autoOptimizeEnabled: boolean | null
+  preferredLlm: string | null
+  n8nWebhookUrl: string | null
   amazonAssociateTag: string | null
   adsenseClientId: string | null
   aiModel: string | null
@@ -60,6 +70,11 @@ export type SiteSettingsCountAggregateOutputType = {
   defaultNiche: number
   autoPublish: number
   cronEnabled: number
+  marketingEnabled: number
+  autoSocialEnabled: number
+  autoOptimizeEnabled: number
+  preferredLlm: number
+  n8nWebhookUrl: number
   amazonAssociateTag: number
   adsenseClientId: number
   aiModel: number
@@ -76,6 +91,11 @@ export type SiteSettingsMinAggregateInputType = {
   defaultNiche?: true
   autoPublish?: true
   cronEnabled?: true
+  marketingEnabled?: true
+  autoSocialEnabled?: true
+  autoOptimizeEnabled?: true
+  preferredLlm?: true
+  n8nWebhookUrl?: true
   amazonAssociateTag?: true
   adsenseClientId?: true
   aiModel?: true
@@ -90,6 +110,11 @@ export type SiteSettingsMaxAggregateInputType = {
   defaultNiche?: true
   autoPublish?: true
   cronEnabled?: true
+  marketingEnabled?: true
+  autoSocialEnabled?: true
+  autoOptimizeEnabled?: true
+  preferredLlm?: true
+  n8nWebhookUrl?: true
   amazonAssociateTag?: true
   adsenseClientId?: true
   aiModel?: true
@@ -104,6 +129,11 @@ export type SiteSettingsCountAggregateInputType = {
   defaultNiche?: true
   autoPublish?: true
   cronEnabled?: true
+  marketingEnabled?: true
+  autoSocialEnabled?: true
+  autoOptimizeEnabled?: true
+  preferredLlm?: true
+  n8nWebhookUrl?: true
   amazonAssociateTag?: true
   adsenseClientId?: true
   aiModel?: true
@@ -191,6 +221,11 @@ export type SiteSettingsGroupByOutputType = {
   defaultNiche: $Enums.Niche
   autoPublish: boolean
   cronEnabled: boolean
+  marketingEnabled: boolean
+  autoSocialEnabled: boolean
+  autoOptimizeEnabled: boolean
+  preferredLlm: string
+  n8nWebhookUrl: string | null
   amazonAssociateTag: string | null
   adsenseClientId: string | null
   aiModel: string
@@ -226,6 +261,11 @@ export type SiteSettingsWhereInput = {
   defaultNiche?: Prisma.EnumNicheFilter<"SiteSettings"> | $Enums.Niche
   autoPublish?: Prisma.BoolFilter<"SiteSettings"> | boolean
   cronEnabled?: Prisma.BoolFilter<"SiteSettings"> | boolean
+  marketingEnabled?: Prisma.BoolFilter<"SiteSettings"> | boolean
+  autoSocialEnabled?: Prisma.BoolFilter<"SiteSettings"> | boolean
+  autoOptimizeEnabled?: Prisma.BoolFilter<"SiteSettings"> | boolean
+  preferredLlm?: Prisma.StringFilter<"SiteSettings"> | string
+  n8nWebhookUrl?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   amazonAssociateTag?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   adsenseClientId?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   aiModel?: Prisma.StringFilter<"SiteSettings"> | string
@@ -240,6 +280,11 @@ export type SiteSettingsOrderByWithRelationInput = {
   defaultNiche?: Prisma.SortOrder
   autoPublish?: Prisma.SortOrder
   cronEnabled?: Prisma.SortOrder
+  marketingEnabled?: Prisma.SortOrder
+  autoSocialEnabled?: Prisma.SortOrder
+  autoOptimizeEnabled?: Prisma.SortOrder
+  preferredLlm?: Prisma.SortOrder
+  n8nWebhookUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   amazonAssociateTag?: Prisma.SortOrderInput | Prisma.SortOrder
   adsenseClientId?: Prisma.SortOrderInput | Prisma.SortOrder
   aiModel?: Prisma.SortOrder
@@ -257,6 +302,11 @@ export type SiteSettingsWhereUniqueInput = Prisma.AtLeast<{
   defaultNiche?: Prisma.EnumNicheFilter<"SiteSettings"> | $Enums.Niche
   autoPublish?: Prisma.BoolFilter<"SiteSettings"> | boolean
   cronEnabled?: Prisma.BoolFilter<"SiteSettings"> | boolean
+  marketingEnabled?: Prisma.BoolFilter<"SiteSettings"> | boolean
+  autoSocialEnabled?: Prisma.BoolFilter<"SiteSettings"> | boolean
+  autoOptimizeEnabled?: Prisma.BoolFilter<"SiteSettings"> | boolean
+  preferredLlm?: Prisma.StringFilter<"SiteSettings"> | string
+  n8nWebhookUrl?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   amazonAssociateTag?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   adsenseClientId?: Prisma.StringNullableFilter<"SiteSettings"> | string | null
   aiModel?: Prisma.StringFilter<"SiteSettings"> | string
@@ -271,6 +321,11 @@ export type SiteSettingsOrderByWithAggregationInput = {
   defaultNiche?: Prisma.SortOrder
   autoPublish?: Prisma.SortOrder
   cronEnabled?: Prisma.SortOrder
+  marketingEnabled?: Prisma.SortOrder
+  autoSocialEnabled?: Prisma.SortOrder
+  autoOptimizeEnabled?: Prisma.SortOrder
+  preferredLlm?: Prisma.SortOrder
+  n8nWebhookUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   amazonAssociateTag?: Prisma.SortOrderInput | Prisma.SortOrder
   adsenseClientId?: Prisma.SortOrderInput | Prisma.SortOrder
   aiModel?: Prisma.SortOrder
@@ -291,6 +346,11 @@ export type SiteSettingsScalarWhereWithAggregatesInput = {
   defaultNiche?: Prisma.EnumNicheWithAggregatesFilter<"SiteSettings"> | $Enums.Niche
   autoPublish?: Prisma.BoolWithAggregatesFilter<"SiteSettings"> | boolean
   cronEnabled?: Prisma.BoolWithAggregatesFilter<"SiteSettings"> | boolean
+  marketingEnabled?: Prisma.BoolWithAggregatesFilter<"SiteSettings"> | boolean
+  autoSocialEnabled?: Prisma.BoolWithAggregatesFilter<"SiteSettings"> | boolean
+  autoOptimizeEnabled?: Prisma.BoolWithAggregatesFilter<"SiteSettings"> | boolean
+  preferredLlm?: Prisma.StringWithAggregatesFilter<"SiteSettings"> | string
+  n8nWebhookUrl?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
   amazonAssociateTag?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
   adsenseClientId?: Prisma.StringNullableWithAggregatesFilter<"SiteSettings"> | string | null
   aiModel?: Prisma.StringWithAggregatesFilter<"SiteSettings"> | string
@@ -305,6 +365,11 @@ export type SiteSettingsCreateInput = {
   defaultNiche?: $Enums.Niche
   autoPublish?: boolean
   cronEnabled?: boolean
+  marketingEnabled?: boolean
+  autoSocialEnabled?: boolean
+  autoOptimizeEnabled?: boolean
+  preferredLlm?: string
+  n8nWebhookUrl?: string | null
   amazonAssociateTag?: string | null
   adsenseClientId?: string | null
   aiModel?: string
@@ -319,6 +384,11 @@ export type SiteSettingsUncheckedCreateInput = {
   defaultNiche?: $Enums.Niche
   autoPublish?: boolean
   cronEnabled?: boolean
+  marketingEnabled?: boolean
+  autoSocialEnabled?: boolean
+  autoOptimizeEnabled?: boolean
+  preferredLlm?: string
+  n8nWebhookUrl?: string | null
   amazonAssociateTag?: string | null
   adsenseClientId?: string | null
   aiModel?: string
@@ -333,6 +403,11 @@ export type SiteSettingsUpdateInput = {
   defaultNiche?: Prisma.EnumNicheFieldUpdateOperationsInput | $Enums.Niche
   autoPublish?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cronEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  autoSocialEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  autoOptimizeEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  preferredLlm?: Prisma.StringFieldUpdateOperationsInput | string
+  n8nWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amazonAssociateTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adsenseClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -347,6 +422,11 @@ export type SiteSettingsUncheckedUpdateInput = {
   defaultNiche?: Prisma.EnumNicheFieldUpdateOperationsInput | $Enums.Niche
   autoPublish?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cronEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  autoSocialEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  autoOptimizeEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  preferredLlm?: Prisma.StringFieldUpdateOperationsInput | string
+  n8nWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amazonAssociateTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adsenseClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -361,6 +441,11 @@ export type SiteSettingsCreateManyInput = {
   defaultNiche?: $Enums.Niche
   autoPublish?: boolean
   cronEnabled?: boolean
+  marketingEnabled?: boolean
+  autoSocialEnabled?: boolean
+  autoOptimizeEnabled?: boolean
+  preferredLlm?: string
+  n8nWebhookUrl?: string | null
   amazonAssociateTag?: string | null
   adsenseClientId?: string | null
   aiModel?: string
@@ -375,6 +460,11 @@ export type SiteSettingsUpdateManyMutationInput = {
   defaultNiche?: Prisma.EnumNicheFieldUpdateOperationsInput | $Enums.Niche
   autoPublish?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cronEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  autoSocialEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  autoOptimizeEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  preferredLlm?: Prisma.StringFieldUpdateOperationsInput | string
+  n8nWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amazonAssociateTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adsenseClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -389,6 +479,11 @@ export type SiteSettingsUncheckedUpdateManyInput = {
   defaultNiche?: Prisma.EnumNicheFieldUpdateOperationsInput | $Enums.Niche
   autoPublish?: Prisma.BoolFieldUpdateOperationsInput | boolean
   cronEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  autoSocialEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  autoOptimizeEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  preferredLlm?: Prisma.StringFieldUpdateOperationsInput | string
+  n8nWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amazonAssociateTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   adsenseClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aiModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -403,6 +498,11 @@ export type SiteSettingsCountOrderByAggregateInput = {
   defaultNiche?: Prisma.SortOrder
   autoPublish?: Prisma.SortOrder
   cronEnabled?: Prisma.SortOrder
+  marketingEnabled?: Prisma.SortOrder
+  autoSocialEnabled?: Prisma.SortOrder
+  autoOptimizeEnabled?: Prisma.SortOrder
+  preferredLlm?: Prisma.SortOrder
+  n8nWebhookUrl?: Prisma.SortOrder
   amazonAssociateTag?: Prisma.SortOrder
   adsenseClientId?: Prisma.SortOrder
   aiModel?: Prisma.SortOrder
@@ -417,6 +517,11 @@ export type SiteSettingsMaxOrderByAggregateInput = {
   defaultNiche?: Prisma.SortOrder
   autoPublish?: Prisma.SortOrder
   cronEnabled?: Prisma.SortOrder
+  marketingEnabled?: Prisma.SortOrder
+  autoSocialEnabled?: Prisma.SortOrder
+  autoOptimizeEnabled?: Prisma.SortOrder
+  preferredLlm?: Prisma.SortOrder
+  n8nWebhookUrl?: Prisma.SortOrder
   amazonAssociateTag?: Prisma.SortOrder
   adsenseClientId?: Prisma.SortOrder
   aiModel?: Prisma.SortOrder
@@ -431,6 +536,11 @@ export type SiteSettingsMinOrderByAggregateInput = {
   defaultNiche?: Prisma.SortOrder
   autoPublish?: Prisma.SortOrder
   cronEnabled?: Prisma.SortOrder
+  marketingEnabled?: Prisma.SortOrder
+  autoSocialEnabled?: Prisma.SortOrder
+  autoOptimizeEnabled?: Prisma.SortOrder
+  preferredLlm?: Prisma.SortOrder
+  n8nWebhookUrl?: Prisma.SortOrder
   amazonAssociateTag?: Prisma.SortOrder
   adsenseClientId?: Prisma.SortOrder
   aiModel?: Prisma.SortOrder
@@ -447,6 +557,11 @@ export type SiteSettingsSelect<ExtArgs extends runtime.Types.Extensions.Internal
   defaultNiche?: boolean
   autoPublish?: boolean
   cronEnabled?: boolean
+  marketingEnabled?: boolean
+  autoSocialEnabled?: boolean
+  autoOptimizeEnabled?: boolean
+  preferredLlm?: boolean
+  n8nWebhookUrl?: boolean
   amazonAssociateTag?: boolean
   adsenseClientId?: boolean
   aiModel?: boolean
@@ -461,6 +576,11 @@ export type SiteSettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   defaultNiche?: boolean
   autoPublish?: boolean
   cronEnabled?: boolean
+  marketingEnabled?: boolean
+  autoSocialEnabled?: boolean
+  autoOptimizeEnabled?: boolean
+  preferredLlm?: boolean
+  n8nWebhookUrl?: boolean
   amazonAssociateTag?: boolean
   adsenseClientId?: boolean
   aiModel?: boolean
@@ -475,6 +595,11 @@ export type SiteSettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   defaultNiche?: boolean
   autoPublish?: boolean
   cronEnabled?: boolean
+  marketingEnabled?: boolean
+  autoSocialEnabled?: boolean
+  autoOptimizeEnabled?: boolean
+  preferredLlm?: boolean
+  n8nWebhookUrl?: boolean
   amazonAssociateTag?: boolean
   adsenseClientId?: boolean
   aiModel?: boolean
@@ -489,13 +614,18 @@ export type SiteSettingsSelectScalar = {
   defaultNiche?: boolean
   autoPublish?: boolean
   cronEnabled?: boolean
+  marketingEnabled?: boolean
+  autoSocialEnabled?: boolean
+  autoOptimizeEnabled?: boolean
+  preferredLlm?: boolean
+  n8nWebhookUrl?: boolean
   amazonAssociateTag?: boolean
   adsenseClientId?: boolean
   aiModel?: boolean
   updatedAt?: boolean
 }
 
-export type SiteSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "siteName" | "siteUrl" | "siteDescription" | "defaultNiche" | "autoPublish" | "cronEnabled" | "amazonAssociateTag" | "adsenseClientId" | "aiModel" | "updatedAt", ExtArgs["result"]["siteSettings"]>
+export type SiteSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "siteName" | "siteUrl" | "siteDescription" | "defaultNiche" | "autoPublish" | "cronEnabled" | "marketingEnabled" | "autoSocialEnabled" | "autoOptimizeEnabled" | "preferredLlm" | "n8nWebhookUrl" | "amazonAssociateTag" | "adsenseClientId" | "aiModel" | "updatedAt", ExtArgs["result"]["siteSettings"]>
 
 export type $SiteSettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SiteSettings"
@@ -508,6 +638,11 @@ export type $SiteSettingsPayload<ExtArgs extends runtime.Types.Extensions.Intern
     defaultNiche: $Enums.Niche
     autoPublish: boolean
     cronEnabled: boolean
+    marketingEnabled: boolean
+    autoSocialEnabled: boolean
+    autoOptimizeEnabled: boolean
+    preferredLlm: string
+    n8nWebhookUrl: string | null
     amazonAssociateTag: string | null
     adsenseClientId: string | null
     aiModel: string
@@ -942,6 +1077,11 @@ export interface SiteSettingsFieldRefs {
   readonly defaultNiche: Prisma.FieldRef<"SiteSettings", 'Niche'>
   readonly autoPublish: Prisma.FieldRef<"SiteSettings", 'Boolean'>
   readonly cronEnabled: Prisma.FieldRef<"SiteSettings", 'Boolean'>
+  readonly marketingEnabled: Prisma.FieldRef<"SiteSettings", 'Boolean'>
+  readonly autoSocialEnabled: Prisma.FieldRef<"SiteSettings", 'Boolean'>
+  readonly autoOptimizeEnabled: Prisma.FieldRef<"SiteSettings", 'Boolean'>
+  readonly preferredLlm: Prisma.FieldRef<"SiteSettings", 'String'>
+  readonly n8nWebhookUrl: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly amazonAssociateTag: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly adsenseClientId: Prisma.FieldRef<"SiteSettings", 'String'>
   readonly aiModel: Prisma.FieldRef<"SiteSettings", 'String'>

@@ -101,3 +101,28 @@ export type CronLog = Prisma.CronLogModel
  * 
  */
 export type Media = Prisma.MediaModel
+/**
+ * Model MarketingResearchRun
+ * 
+ */
+export type MarketingResearchRun = Prisma.MarketingResearchRunModel
+/**
+ * Model TrendCandidate
+ * 
+ */
+export type TrendCandidate = Prisma.TrendCandidateModel
+/**
+ * Model SocialPost
+ * 
+ */
+export type SocialPost = Prisma.SocialPostModel
+/**
+ * Model ArticleMetricDaily
+ * 
+ */
+export type ArticleMetricDaily = Prisma.ArticleMetricDailyModel
+/**
+ * Model ArticleOptimizationRun
+ * 
+ */
+export type ArticleOptimizationRun = Prisma.ArticleOptimizationRunModel

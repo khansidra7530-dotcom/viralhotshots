@@ -62,7 +62,12 @@ export const ModelName = {
   SiteSettings: 'SiteSettings',
   AnalyticsEvent: 'AnalyticsEvent',
   CronLog: 'CronLog',
-  Media: 'Media'
+  Media: 'Media',
+  MarketingResearchRun: 'MarketingResearchRun',
+  TrendCandidate: 'TrendCandidate',
+  SocialPost: 'SocialPost',
+  ArticleMetricDaily: 'ArticleMetricDaily',
+  ArticleOptimizationRun: 'ArticleOptimizationRun'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -131,6 +136,8 @@ export const ArticleScalarFieldEnum = {
   affiliateBlocks: 'affiliateBlocks',
   isAiGenerated: 'isAiGenerated',
   facebookPostId: 'facebookPostId',
+  primaryKeyword: 'primaryKeyword',
+  lastOptimizedAt: 'lastOptimizedAt',
   categoryId: 'categoryId',
   authorId: 'authorId',
   createdAt: 'createdAt',
@@ -206,6 +213,11 @@ export const SiteSettingsScalarFieldEnum = {
   defaultNiche: 'defaultNiche',
   autoPublish: 'autoPublish',
   cronEnabled: 'cronEnabled',
+  marketingEnabled: 'marketingEnabled',
+  autoSocialEnabled: 'autoSocialEnabled',
+  autoOptimizeEnabled: 'autoOptimizeEnabled',
+  preferredLlm: 'preferredLlm',
+  n8nWebhookUrl: 'n8nWebhookUrl',
   amazonAssociateTag: 'amazonAssociateTag',
   adsenseClientId: 'adsenseClientId',
   aiModel: 'aiModel',
@@ -248,6 +260,87 @@ export const MediaScalarFieldEnum = {
 } as const
 
 export type MediaScalarFieldEnum = (typeof MediaScalarFieldEnum)[keyof typeof MediaScalarFieldEnum]
+
+
+export const MarketingResearchRunScalarFieldEnum = {
+  id: 'id',
+  agentType: 'agentType',
+  status: 'status',
+  summary: 'summary',
+  error: 'error',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt'
+} as const
+
+export type MarketingResearchRunScalarFieldEnum = (typeof MarketingResearchRunScalarFieldEnum)[keyof typeof MarketingResearchRunScalarFieldEnum]
+
+
+export const TrendCandidateScalarFieldEnum = {
+  id: 'id',
+  query: 'query',
+  title: 'title',
+  summary: 'summary',
+  source: 'source',
+  niche: 'niche',
+  trafficScore: 'trafficScore',
+  competitionScore: 'competitionScore',
+  viralScore: 'viralScore',
+  overallScore: 'overallScore',
+  keywords: 'keywords',
+  metadata: 'metadata',
+  researchRunId: 'researchRunId',
+  articleId: 'articleId',
+  createdAt: 'createdAt'
+} as const
+
+export type TrendCandidateScalarFieldEnum = (typeof TrendCandidateScalarFieldEnum)[keyof typeof TrendCandidateScalarFieldEnum]
+
+
+export const SocialPostScalarFieldEnum = {
+  id: 'id',
+  articleId: 'articleId',
+  platform: 'platform',
+  content: 'content',
+  threadParts: 'threadParts',
+  status: 'status',
+  scheduledAt: 'scheduledAt',
+  publishedAt: 'publishedAt',
+  externalId: 'externalId',
+  engagement: 'engagement',
+  error: 'error',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SocialPostScalarFieldEnum = (typeof SocialPostScalarFieldEnum)[keyof typeof SocialPostScalarFieldEnum]
+
+
+export const ArticleMetricDailyScalarFieldEnum = {
+  id: 'id',
+  articleId: 'articleId',
+  date: 'date',
+  views: 'views',
+  likes: 'likes',
+  socialClicks: 'socialClicks',
+  seoScore: 'seoScore'
+} as const
+
+export type ArticleMetricDailyScalarFieldEnum = (typeof ArticleMetricDailyScalarFieldEnum)[keyof typeof ArticleMetricDailyScalarFieldEnum]
+
+
+export const ArticleOptimizationRunScalarFieldEnum = {
+  id: 'id',
+  articleId: 'articleId',
+  agentType: 'agentType',
+  beforeScore: 'beforeScore',
+  afterScore: 'afterScore',
+  changes: 'changes',
+  status: 'status',
+  error: 'error',
+  createdAt: 'createdAt'
+} as const
+
+export type ArticleOptimizationRunScalarFieldEnum = (typeof ArticleOptimizationRunScalarFieldEnum)[keyof typeof ArticleOptimizationRunScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -272,6 +272,9 @@ export async function generateArticle(input: {
 
   if (shouldPublish) {
     scheduleIndexNow([articleIndexNowUrl(article.slug)]);
+    import("@/lib/marketing/orchestrator")
+      .then(({ queueSocialForArticle }) => queueSocialForArticle(article.id))
+      .catch(() => undefined);
   }
 
   return {

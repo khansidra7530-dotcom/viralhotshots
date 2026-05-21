@@ -395,7 +395,12 @@ export const ModelName = {
   SiteSettings: 'SiteSettings',
   AnalyticsEvent: 'AnalyticsEvent',
   CronLog: 'CronLog',
-  Media: 'Media'
+  Media: 'Media',
+  MarketingResearchRun: 'MarketingResearchRun',
+  TrendCandidate: 'TrendCandidate',
+  SocialPost: 'SocialPost',
+  ArticleMetricDaily: 'ArticleMetricDaily',
+  ArticleOptimizationRun: 'ArticleOptimizationRun'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -411,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "category" | "article" | "articleLike" | "articleSubscription" | "affiliateLink" | "comment" | "newsletterSubscriber" | "siteSettings" | "analyticsEvent" | "cronLog" | "media"
+    modelProps: "user" | "category" | "article" | "articleLike" | "articleSubscription" | "affiliateLink" | "comment" | "newsletterSubscriber" | "siteSettings" | "analyticsEvent" | "cronLog" | "media" | "marketingResearchRun" | "trendCandidate" | "socialPost" | "articleMetricDaily" | "articleOptimizationRun"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1303,6 +1308,376 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    MarketingResearchRun: {
+      payload: Prisma.$MarketingResearchRunPayload<ExtArgs>
+      fields: Prisma.MarketingResearchRunFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MarketingResearchRunFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingResearchRunPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MarketingResearchRunFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingResearchRunPayload>
+        }
+        findFirst: {
+          args: Prisma.MarketingResearchRunFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingResearchRunPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MarketingResearchRunFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingResearchRunPayload>
+        }
+        findMany: {
+          args: Prisma.MarketingResearchRunFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingResearchRunPayload>[]
+        }
+        create: {
+          args: Prisma.MarketingResearchRunCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingResearchRunPayload>
+        }
+        createMany: {
+          args: Prisma.MarketingResearchRunCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MarketingResearchRunCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingResearchRunPayload>[]
+        }
+        delete: {
+          args: Prisma.MarketingResearchRunDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingResearchRunPayload>
+        }
+        update: {
+          args: Prisma.MarketingResearchRunUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingResearchRunPayload>
+        }
+        deleteMany: {
+          args: Prisma.MarketingResearchRunDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MarketingResearchRunUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MarketingResearchRunUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingResearchRunPayload>[]
+        }
+        upsert: {
+          args: Prisma.MarketingResearchRunUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MarketingResearchRunPayload>
+        }
+        aggregate: {
+          args: Prisma.MarketingResearchRunAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMarketingResearchRun>
+        }
+        groupBy: {
+          args: Prisma.MarketingResearchRunGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MarketingResearchRunGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MarketingResearchRunCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MarketingResearchRunCountAggregateOutputType> | number
+        }
+      }
+    }
+    TrendCandidate: {
+      payload: Prisma.$TrendCandidatePayload<ExtArgs>
+      fields: Prisma.TrendCandidateFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TrendCandidateFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendCandidatePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TrendCandidateFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendCandidatePayload>
+        }
+        findFirst: {
+          args: Prisma.TrendCandidateFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendCandidatePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TrendCandidateFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendCandidatePayload>
+        }
+        findMany: {
+          args: Prisma.TrendCandidateFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendCandidatePayload>[]
+        }
+        create: {
+          args: Prisma.TrendCandidateCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendCandidatePayload>
+        }
+        createMany: {
+          args: Prisma.TrendCandidateCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TrendCandidateCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendCandidatePayload>[]
+        }
+        delete: {
+          args: Prisma.TrendCandidateDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendCandidatePayload>
+        }
+        update: {
+          args: Prisma.TrendCandidateUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendCandidatePayload>
+        }
+        deleteMany: {
+          args: Prisma.TrendCandidateDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TrendCandidateUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TrendCandidateUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendCandidatePayload>[]
+        }
+        upsert: {
+          args: Prisma.TrendCandidateUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendCandidatePayload>
+        }
+        aggregate: {
+          args: Prisma.TrendCandidateAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTrendCandidate>
+        }
+        groupBy: {
+          args: Prisma.TrendCandidateGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrendCandidateGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TrendCandidateCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrendCandidateCountAggregateOutputType> | number
+        }
+      }
+    }
+    SocialPost: {
+      payload: Prisma.$SocialPostPayload<ExtArgs>
+      fields: Prisma.SocialPostFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SocialPostFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialPostPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SocialPostFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialPostPayload>
+        }
+        findFirst: {
+          args: Prisma.SocialPostFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialPostPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SocialPostFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialPostPayload>
+        }
+        findMany: {
+          args: Prisma.SocialPostFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialPostPayload>[]
+        }
+        create: {
+          args: Prisma.SocialPostCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialPostPayload>
+        }
+        createMany: {
+          args: Prisma.SocialPostCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SocialPostCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialPostPayload>[]
+        }
+        delete: {
+          args: Prisma.SocialPostDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialPostPayload>
+        }
+        update: {
+          args: Prisma.SocialPostUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialPostPayload>
+        }
+        deleteMany: {
+          args: Prisma.SocialPostDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SocialPostUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SocialPostUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialPostPayload>[]
+        }
+        upsert: {
+          args: Prisma.SocialPostUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocialPostPayload>
+        }
+        aggregate: {
+          args: Prisma.SocialPostAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSocialPost>
+        }
+        groupBy: {
+          args: Prisma.SocialPostGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SocialPostGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SocialPostCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SocialPostCountAggregateOutputType> | number
+        }
+      }
+    }
+    ArticleMetricDaily: {
+      payload: Prisma.$ArticleMetricDailyPayload<ExtArgs>
+      fields: Prisma.ArticleMetricDailyFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ArticleMetricDailyFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleMetricDailyPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ArticleMetricDailyFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleMetricDailyPayload>
+        }
+        findFirst: {
+          args: Prisma.ArticleMetricDailyFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleMetricDailyPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ArticleMetricDailyFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleMetricDailyPayload>
+        }
+        findMany: {
+          args: Prisma.ArticleMetricDailyFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleMetricDailyPayload>[]
+        }
+        create: {
+          args: Prisma.ArticleMetricDailyCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleMetricDailyPayload>
+        }
+        createMany: {
+          args: Prisma.ArticleMetricDailyCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ArticleMetricDailyCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleMetricDailyPayload>[]
+        }
+        delete: {
+          args: Prisma.ArticleMetricDailyDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleMetricDailyPayload>
+        }
+        update: {
+          args: Prisma.ArticleMetricDailyUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleMetricDailyPayload>
+        }
+        deleteMany: {
+          args: Prisma.ArticleMetricDailyDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ArticleMetricDailyUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ArticleMetricDailyUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleMetricDailyPayload>[]
+        }
+        upsert: {
+          args: Prisma.ArticleMetricDailyUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleMetricDailyPayload>
+        }
+        aggregate: {
+          args: Prisma.ArticleMetricDailyAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateArticleMetricDaily>
+        }
+        groupBy: {
+          args: Prisma.ArticleMetricDailyGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ArticleMetricDailyGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ArticleMetricDailyCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ArticleMetricDailyCountAggregateOutputType> | number
+        }
+      }
+    }
+    ArticleOptimizationRun: {
+      payload: Prisma.$ArticleOptimizationRunPayload<ExtArgs>
+      fields: Prisma.ArticleOptimizationRunFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ArticleOptimizationRunFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleOptimizationRunPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ArticleOptimizationRunFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleOptimizationRunPayload>
+        }
+        findFirst: {
+          args: Prisma.ArticleOptimizationRunFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleOptimizationRunPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ArticleOptimizationRunFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleOptimizationRunPayload>
+        }
+        findMany: {
+          args: Prisma.ArticleOptimizationRunFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleOptimizationRunPayload>[]
+        }
+        create: {
+          args: Prisma.ArticleOptimizationRunCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleOptimizationRunPayload>
+        }
+        createMany: {
+          args: Prisma.ArticleOptimizationRunCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ArticleOptimizationRunCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleOptimizationRunPayload>[]
+        }
+        delete: {
+          args: Prisma.ArticleOptimizationRunDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleOptimizationRunPayload>
+        }
+        update: {
+          args: Prisma.ArticleOptimizationRunUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleOptimizationRunPayload>
+        }
+        deleteMany: {
+          args: Prisma.ArticleOptimizationRunDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ArticleOptimizationRunUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ArticleOptimizationRunUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleOptimizationRunPayload>[]
+        }
+        upsert: {
+          args: Prisma.ArticleOptimizationRunUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ArticleOptimizationRunPayload>
+        }
+        aggregate: {
+          args: Prisma.ArticleOptimizationRunAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateArticleOptimizationRun>
+        }
+        groupBy: {
+          args: Prisma.ArticleOptimizationRunGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ArticleOptimizationRunGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ArticleOptimizationRunCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ArticleOptimizationRunCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1392,6 +1767,8 @@ export const ArticleScalarFieldEnum = {
   affiliateBlocks: 'affiliateBlocks',
   isAiGenerated: 'isAiGenerated',
   facebookPostId: 'facebookPostId',
+  primaryKeyword: 'primaryKeyword',
+  lastOptimizedAt: 'lastOptimizedAt',
   categoryId: 'categoryId',
   authorId: 'authorId',
   createdAt: 'createdAt',
@@ -1467,6 +1844,11 @@ export const SiteSettingsScalarFieldEnum = {
   defaultNiche: 'defaultNiche',
   autoPublish: 'autoPublish',
   cronEnabled: 'cronEnabled',
+  marketingEnabled: 'marketingEnabled',
+  autoSocialEnabled: 'autoSocialEnabled',
+  autoOptimizeEnabled: 'autoOptimizeEnabled',
+  preferredLlm: 'preferredLlm',
+  n8nWebhookUrl: 'n8nWebhookUrl',
   amazonAssociateTag: 'amazonAssociateTag',
   adsenseClientId: 'adsenseClientId',
   aiModel: 'aiModel',
@@ -1509,6 +1891,87 @@ export const MediaScalarFieldEnum = {
 } as const
 
 export type MediaScalarFieldEnum = (typeof MediaScalarFieldEnum)[keyof typeof MediaScalarFieldEnum]
+
+
+export const MarketingResearchRunScalarFieldEnum = {
+  id: 'id',
+  agentType: 'agentType',
+  status: 'status',
+  summary: 'summary',
+  error: 'error',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt'
+} as const
+
+export type MarketingResearchRunScalarFieldEnum = (typeof MarketingResearchRunScalarFieldEnum)[keyof typeof MarketingResearchRunScalarFieldEnum]
+
+
+export const TrendCandidateScalarFieldEnum = {
+  id: 'id',
+  query: 'query',
+  title: 'title',
+  summary: 'summary',
+  source: 'source',
+  niche: 'niche',
+  trafficScore: 'trafficScore',
+  competitionScore: 'competitionScore',
+  viralScore: 'viralScore',
+  overallScore: 'overallScore',
+  keywords: 'keywords',
+  metadata: 'metadata',
+  researchRunId: 'researchRunId',
+  articleId: 'articleId',
+  createdAt: 'createdAt'
+} as const
+
+export type TrendCandidateScalarFieldEnum = (typeof TrendCandidateScalarFieldEnum)[keyof typeof TrendCandidateScalarFieldEnum]
+
+
+export const SocialPostScalarFieldEnum = {
+  id: 'id',
+  articleId: 'articleId',
+  platform: 'platform',
+  content: 'content',
+  threadParts: 'threadParts',
+  status: 'status',
+  scheduledAt: 'scheduledAt',
+  publishedAt: 'publishedAt',
+  externalId: 'externalId',
+  engagement: 'engagement',
+  error: 'error',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SocialPostScalarFieldEnum = (typeof SocialPostScalarFieldEnum)[keyof typeof SocialPostScalarFieldEnum]
+
+
+export const ArticleMetricDailyScalarFieldEnum = {
+  id: 'id',
+  articleId: 'articleId',
+  date: 'date',
+  views: 'views',
+  likes: 'likes',
+  socialClicks: 'socialClicks',
+  seoScore: 'seoScore'
+} as const
+
+export type ArticleMetricDailyScalarFieldEnum = (typeof ArticleMetricDailyScalarFieldEnum)[keyof typeof ArticleMetricDailyScalarFieldEnum]
+
+
+export const ArticleOptimizationRunScalarFieldEnum = {
+  id: 'id',
+  articleId: 'articleId',
+  agentType: 'agentType',
+  beforeScore: 'beforeScore',
+  afterScore: 'afterScore',
+  changes: 'changes',
+  status: 'status',
+  error: 'error',
+  createdAt: 'createdAt'
+} as const
+
+export type ArticleOptimizationRunScalarFieldEnum = (typeof ArticleOptimizationRunScalarFieldEnum)[keyof typeof ArticleOptimizationRunScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1664,6 +2127,34 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
+ * Reference to a field of type 'MarketingRunStatus'
+ */
+export type EnumMarketingRunStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MarketingRunStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'MarketingRunStatus[]'
+ */
+export type ListEnumMarketingRunStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MarketingRunStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'TrendSource'
+ */
+export type EnumTrendSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TrendSource'>
+    
+
+
+/**
+ * Reference to a field of type 'TrendSource[]'
+ */
+export type ListEnumTrendSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TrendSource[]'>
+    
+
+
+/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -1674,6 +2165,34 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'SocialPlatform'
+ */
+export type EnumSocialPlatformFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SocialPlatform'>
+    
+
+
+/**
+ * Reference to a field of type 'SocialPlatform[]'
+ */
+export type ListEnumSocialPlatformFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SocialPlatform[]'>
+    
+
+
+/**
+ * Reference to a field of type 'SocialPostStatus'
+ */
+export type EnumSocialPostStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SocialPostStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'SocialPostStatus[]'
+ */
+export type ListEnumSocialPostStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SocialPostStatus[]'>
     
 
 /**
@@ -1798,6 +2317,11 @@ export type GlobalOmitConfig = {
   analyticsEvent?: Prisma.AnalyticsEventOmit
   cronLog?: Prisma.CronLogOmit
   media?: Prisma.MediaOmit
+  marketingResearchRun?: Prisma.MarketingResearchRunOmit
+  trendCandidate?: Prisma.TrendCandidateOmit
+  socialPost?: Prisma.SocialPostOmit
+  articleMetricDaily?: Prisma.ArticleMetricDailyOmit
+  articleOptimizationRun?: Prisma.ArticleOptimizationRunOmit
 }
 
 /* Types for Logging */

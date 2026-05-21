@@ -55,6 +55,8 @@ export type ArticleMinAggregateOutputType = {
   seoScore: number | null
   isAiGenerated: boolean | null
   facebookPostId: string | null
+  primaryKeyword: string | null
+  lastOptimizedAt: Date | null
   categoryId: string | null
   authorId: string | null
   createdAt: Date | null
@@ -78,6 +80,8 @@ export type ArticleMaxAggregateOutputType = {
   seoScore: number | null
   isAiGenerated: boolean | null
   facebookPostId: string | null
+  primaryKeyword: string | null
+  lastOptimizedAt: Date | null
   categoryId: string | null
   authorId: string | null
   createdAt: Date | null
@@ -106,6 +110,8 @@ export type ArticleCountAggregateOutputType = {
   affiliateBlocks: number
   isAiGenerated: number
   facebookPostId: number
+  primaryKeyword: number
+  lastOptimizedAt: number
   categoryId: number
   authorId: number
   createdAt: number
@@ -143,6 +149,8 @@ export type ArticleMinAggregateInputType = {
   seoScore?: true
   isAiGenerated?: true
   facebookPostId?: true
+  primaryKeyword?: true
+  lastOptimizedAt?: true
   categoryId?: true
   authorId?: true
   createdAt?: true
@@ -166,6 +174,8 @@ export type ArticleMaxAggregateInputType = {
   seoScore?: true
   isAiGenerated?: true
   facebookPostId?: true
+  primaryKeyword?: true
+  lastOptimizedAt?: true
   categoryId?: true
   authorId?: true
   createdAt?: true
@@ -194,6 +204,8 @@ export type ArticleCountAggregateInputType = {
   affiliateBlocks?: true
   isAiGenerated?: true
   facebookPostId?: true
+  primaryKeyword?: true
+  lastOptimizedAt?: true
   categoryId?: true
   authorId?: true
   createdAt?: true
@@ -309,6 +321,8 @@ export type ArticleGroupByOutputType = {
   affiliateBlocks: runtime.JsonValue | null
   isAiGenerated: boolean
   facebookPostId: string | null
+  primaryKeyword: string | null
+  lastOptimizedAt: Date | null
   categoryId: string
   authorId: string
   createdAt: Date
@@ -360,6 +374,8 @@ export type ArticleWhereInput = {
   affiliateBlocks?: Prisma.JsonNullableFilter<"Article">
   isAiGenerated?: Prisma.BoolFilter<"Article"> | boolean
   facebookPostId?: Prisma.StringNullableFilter<"Article"> | string | null
+  primaryKeyword?: Prisma.StringNullableFilter<"Article"> | string | null
+  lastOptimizedAt?: Prisma.DateTimeNullableFilter<"Article"> | Date | string | null
   categoryId?: Prisma.StringFilter<"Article"> | string
   authorId?: Prisma.StringFilter<"Article"> | string
   createdAt?: Prisma.DateTimeFilter<"Article"> | Date | string
@@ -369,6 +385,10 @@ export type ArticleWhereInput = {
   comments?: Prisma.CommentListRelationFilter
   likes?: Prisma.ArticleLikeListRelationFilter
   subscriptions?: Prisma.ArticleSubscriptionListRelationFilter
+  socialPosts?: Prisma.SocialPostListRelationFilter
+  trendCandidate?: Prisma.XOR<Prisma.TrendCandidateNullableScalarRelationFilter, Prisma.TrendCandidateWhereInput> | null
+  metricDaily?: Prisma.ArticleMetricDailyListRelationFilter
+  optimizationRuns?: Prisma.ArticleOptimizationRunListRelationFilter
 }
 
 export type ArticleOrderByWithRelationInput = {
@@ -393,6 +413,8 @@ export type ArticleOrderByWithRelationInput = {
   affiliateBlocks?: Prisma.SortOrderInput | Prisma.SortOrder
   isAiGenerated?: Prisma.SortOrder
   facebookPostId?: Prisma.SortOrderInput | Prisma.SortOrder
+  primaryKeyword?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastOptimizedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -402,6 +424,10 @@ export type ArticleOrderByWithRelationInput = {
   comments?: Prisma.CommentOrderByRelationAggregateInput
   likes?: Prisma.ArticleLikeOrderByRelationAggregateInput
   subscriptions?: Prisma.ArticleSubscriptionOrderByRelationAggregateInput
+  socialPosts?: Prisma.SocialPostOrderByRelationAggregateInput
+  trendCandidate?: Prisma.TrendCandidateOrderByWithRelationInput
+  metricDaily?: Prisma.ArticleMetricDailyOrderByRelationAggregateInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunOrderByRelationAggregateInput
 }
 
 export type ArticleWhereUniqueInput = Prisma.AtLeast<{
@@ -429,6 +455,8 @@ export type ArticleWhereUniqueInput = Prisma.AtLeast<{
   affiliateBlocks?: Prisma.JsonNullableFilter<"Article">
   isAiGenerated?: Prisma.BoolFilter<"Article"> | boolean
   facebookPostId?: Prisma.StringNullableFilter<"Article"> | string | null
+  primaryKeyword?: Prisma.StringNullableFilter<"Article"> | string | null
+  lastOptimizedAt?: Prisma.DateTimeNullableFilter<"Article"> | Date | string | null
   categoryId?: Prisma.StringFilter<"Article"> | string
   authorId?: Prisma.StringFilter<"Article"> | string
   createdAt?: Prisma.DateTimeFilter<"Article"> | Date | string
@@ -438,6 +466,10 @@ export type ArticleWhereUniqueInput = Prisma.AtLeast<{
   comments?: Prisma.CommentListRelationFilter
   likes?: Prisma.ArticleLikeListRelationFilter
   subscriptions?: Prisma.ArticleSubscriptionListRelationFilter
+  socialPosts?: Prisma.SocialPostListRelationFilter
+  trendCandidate?: Prisma.XOR<Prisma.TrendCandidateNullableScalarRelationFilter, Prisma.TrendCandidateWhereInput> | null
+  metricDaily?: Prisma.ArticleMetricDailyListRelationFilter
+  optimizationRuns?: Prisma.ArticleOptimizationRunListRelationFilter
 }, "id" | "slug">
 
 export type ArticleOrderByWithAggregationInput = {
@@ -462,6 +494,8 @@ export type ArticleOrderByWithAggregationInput = {
   affiliateBlocks?: Prisma.SortOrderInput | Prisma.SortOrder
   isAiGenerated?: Prisma.SortOrder
   facebookPostId?: Prisma.SortOrderInput | Prisma.SortOrder
+  primaryKeyword?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastOptimizedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -498,6 +532,8 @@ export type ArticleScalarWhereWithAggregatesInput = {
   affiliateBlocks?: Prisma.JsonNullableWithAggregatesFilter<"Article">
   isAiGenerated?: Prisma.BoolWithAggregatesFilter<"Article"> | boolean
   facebookPostId?: Prisma.StringNullableWithAggregatesFilter<"Article"> | string | null
+  primaryKeyword?: Prisma.StringNullableWithAggregatesFilter<"Article"> | string | null
+  lastOptimizedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Article"> | Date | string | null
   categoryId?: Prisma.StringWithAggregatesFilter<"Article"> | string
   authorId?: Prisma.StringWithAggregatesFilter<"Article"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Article"> | Date | string
@@ -526,6 +562,8 @@ export type ArticleCreateInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
   facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutArticlesInput
@@ -533,6 +571,10 @@ export type ArticleCreateInput = {
   comments?: Prisma.CommentCreateNestedManyWithoutArticleInput
   likes?: Prisma.ArticleLikeCreateNestedManyWithoutArticleInput
   subscriptions?: Prisma.ArticleSubscriptionCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateCreateNestedOneWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyCreateNestedManyWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunCreateNestedManyWithoutArticleInput
 }
 
 export type ArticleUncheckedCreateInput = {
@@ -557,6 +599,8 @@ export type ArticleUncheckedCreateInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
   facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
   categoryId: string
   authorId: string
   createdAt?: Date | string
@@ -564,6 +608,10 @@ export type ArticleUncheckedCreateInput = {
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutArticleInput
   likes?: Prisma.ArticleLikeUncheckedCreateNestedManyWithoutArticleInput
   subscriptions?: Prisma.ArticleSubscriptionUncheckedCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostUncheckedCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedCreateNestedOneWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedCreateNestedManyWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedCreateNestedManyWithoutArticleInput
 }
 
 export type ArticleUpdateInput = {
@@ -588,6 +636,8 @@ export type ArticleUpdateInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutArticlesNestedInput
@@ -595,6 +645,10 @@ export type ArticleUpdateInput = {
   comments?: Prisma.CommentUpdateManyWithoutArticleNestedInput
   likes?: Prisma.ArticleLikeUpdateManyWithoutArticleNestedInput
   subscriptions?: Prisma.ArticleSubscriptionUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUpdateOneWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUpdateManyWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUpdateManyWithoutArticleNestedInput
 }
 
 export type ArticleUncheckedUpdateInput = {
@@ -619,6 +673,8 @@ export type ArticleUncheckedUpdateInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -626,6 +682,10 @@ export type ArticleUncheckedUpdateInput = {
   comments?: Prisma.CommentUncheckedUpdateManyWithoutArticleNestedInput
   likes?: Prisma.ArticleLikeUncheckedUpdateManyWithoutArticleNestedInput
   subscriptions?: Prisma.ArticleSubscriptionUncheckedUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUncheckedUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedUpdateOneWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedUpdateManyWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedUpdateManyWithoutArticleNestedInput
 }
 
 export type ArticleCreateManyInput = {
@@ -650,6 +710,8 @@ export type ArticleCreateManyInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
   facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
   categoryId: string
   authorId: string
   createdAt?: Date | string
@@ -678,6 +740,8 @@ export type ArticleUpdateManyMutationInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -704,6 +768,8 @@ export type ArticleUncheckedUpdateManyInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -750,6 +816,8 @@ export type ArticleCountOrderByAggregateInput = {
   affiliateBlocks?: Prisma.SortOrder
   isAiGenerated?: Prisma.SortOrder
   facebookPostId?: Prisma.SortOrder
+  primaryKeyword?: Prisma.SortOrder
+  lastOptimizedAt?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -779,6 +847,8 @@ export type ArticleMaxOrderByAggregateInput = {
   seoScore?: Prisma.SortOrder
   isAiGenerated?: Prisma.SortOrder
   facebookPostId?: Prisma.SortOrder
+  primaryKeyword?: Prisma.SortOrder
+  lastOptimizedAt?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -802,6 +872,8 @@ export type ArticleMinOrderByAggregateInput = {
   seoScore?: Prisma.SortOrder
   isAiGenerated?: Prisma.SortOrder
   facebookPostId?: Prisma.SortOrder
+  primaryKeyword?: Prisma.SortOrder
+  lastOptimizedAt?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -817,6 +889,11 @@ export type ArticleSumOrderByAggregateInput = {
 export type ArticleScalarRelationFilter = {
   is?: Prisma.ArticleWhereInput
   isNot?: Prisma.ArticleWhereInput
+}
+
+export type ArticleNullableScalarRelationFilter = {
+  is?: Prisma.ArticleWhereInput | null
+  isNot?: Prisma.ArticleWhereInput | null
 }
 
 export type ArticleCreateNestedManyWithoutAuthorInput = {
@@ -974,6 +1051,66 @@ export type ArticleUpdateOneRequiredWithoutCommentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ArticleUpdateToOneWithWhereWithoutCommentsInput, Prisma.ArticleUpdateWithoutCommentsInput>, Prisma.ArticleUncheckedUpdateWithoutCommentsInput>
 }
 
+export type ArticleCreateNestedOneWithoutTrendCandidateInput = {
+  create?: Prisma.XOR<Prisma.ArticleCreateWithoutTrendCandidateInput, Prisma.ArticleUncheckedCreateWithoutTrendCandidateInput>
+  connectOrCreate?: Prisma.ArticleCreateOrConnectWithoutTrendCandidateInput
+  connect?: Prisma.ArticleWhereUniqueInput
+}
+
+export type ArticleUpdateOneWithoutTrendCandidateNestedInput = {
+  create?: Prisma.XOR<Prisma.ArticleCreateWithoutTrendCandidateInput, Prisma.ArticleUncheckedCreateWithoutTrendCandidateInput>
+  connectOrCreate?: Prisma.ArticleCreateOrConnectWithoutTrendCandidateInput
+  upsert?: Prisma.ArticleUpsertWithoutTrendCandidateInput
+  disconnect?: Prisma.ArticleWhereInput | boolean
+  delete?: Prisma.ArticleWhereInput | boolean
+  connect?: Prisma.ArticleWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ArticleUpdateToOneWithWhereWithoutTrendCandidateInput, Prisma.ArticleUpdateWithoutTrendCandidateInput>, Prisma.ArticleUncheckedUpdateWithoutTrendCandidateInput>
+}
+
+export type ArticleCreateNestedOneWithoutSocialPostsInput = {
+  create?: Prisma.XOR<Prisma.ArticleCreateWithoutSocialPostsInput, Prisma.ArticleUncheckedCreateWithoutSocialPostsInput>
+  connectOrCreate?: Prisma.ArticleCreateOrConnectWithoutSocialPostsInput
+  connect?: Prisma.ArticleWhereUniqueInput
+}
+
+export type ArticleUpdateOneWithoutSocialPostsNestedInput = {
+  create?: Prisma.XOR<Prisma.ArticleCreateWithoutSocialPostsInput, Prisma.ArticleUncheckedCreateWithoutSocialPostsInput>
+  connectOrCreate?: Prisma.ArticleCreateOrConnectWithoutSocialPostsInput
+  upsert?: Prisma.ArticleUpsertWithoutSocialPostsInput
+  disconnect?: Prisma.ArticleWhereInput | boolean
+  delete?: Prisma.ArticleWhereInput | boolean
+  connect?: Prisma.ArticleWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ArticleUpdateToOneWithWhereWithoutSocialPostsInput, Prisma.ArticleUpdateWithoutSocialPostsInput>, Prisma.ArticleUncheckedUpdateWithoutSocialPostsInput>
+}
+
+export type ArticleCreateNestedOneWithoutMetricDailyInput = {
+  create?: Prisma.XOR<Prisma.ArticleCreateWithoutMetricDailyInput, Prisma.ArticleUncheckedCreateWithoutMetricDailyInput>
+  connectOrCreate?: Prisma.ArticleCreateOrConnectWithoutMetricDailyInput
+  connect?: Prisma.ArticleWhereUniqueInput
+}
+
+export type ArticleUpdateOneRequiredWithoutMetricDailyNestedInput = {
+  create?: Prisma.XOR<Prisma.ArticleCreateWithoutMetricDailyInput, Prisma.ArticleUncheckedCreateWithoutMetricDailyInput>
+  connectOrCreate?: Prisma.ArticleCreateOrConnectWithoutMetricDailyInput
+  upsert?: Prisma.ArticleUpsertWithoutMetricDailyInput
+  connect?: Prisma.ArticleWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ArticleUpdateToOneWithWhereWithoutMetricDailyInput, Prisma.ArticleUpdateWithoutMetricDailyInput>, Prisma.ArticleUncheckedUpdateWithoutMetricDailyInput>
+}
+
+export type ArticleCreateNestedOneWithoutOptimizationRunsInput = {
+  create?: Prisma.XOR<Prisma.ArticleCreateWithoutOptimizationRunsInput, Prisma.ArticleUncheckedCreateWithoutOptimizationRunsInput>
+  connectOrCreate?: Prisma.ArticleCreateOrConnectWithoutOptimizationRunsInput
+  connect?: Prisma.ArticleWhereUniqueInput
+}
+
+export type ArticleUpdateOneRequiredWithoutOptimizationRunsNestedInput = {
+  create?: Prisma.XOR<Prisma.ArticleCreateWithoutOptimizationRunsInput, Prisma.ArticleUncheckedCreateWithoutOptimizationRunsInput>
+  connectOrCreate?: Prisma.ArticleCreateOrConnectWithoutOptimizationRunsInput
+  upsert?: Prisma.ArticleUpsertWithoutOptimizationRunsInput
+  connect?: Prisma.ArticleWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ArticleUpdateToOneWithWhereWithoutOptimizationRunsInput, Prisma.ArticleUpdateWithoutOptimizationRunsInput>, Prisma.ArticleUncheckedUpdateWithoutOptimizationRunsInput>
+}
+
 export type ArticleCreateWithoutAuthorInput = {
   id?: string
   title: string
@@ -996,12 +1133,18 @@ export type ArticleCreateWithoutAuthorInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
   facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutArticlesInput
   comments?: Prisma.CommentCreateNestedManyWithoutArticleInput
   likes?: Prisma.ArticleLikeCreateNestedManyWithoutArticleInput
   subscriptions?: Prisma.ArticleSubscriptionCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateCreateNestedOneWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyCreateNestedManyWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunCreateNestedManyWithoutArticleInput
 }
 
 export type ArticleUncheckedCreateWithoutAuthorInput = {
@@ -1026,12 +1169,18 @@ export type ArticleUncheckedCreateWithoutAuthorInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
   facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
   categoryId: string
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutArticleInput
   likes?: Prisma.ArticleLikeUncheckedCreateNestedManyWithoutArticleInput
   subscriptions?: Prisma.ArticleSubscriptionUncheckedCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostUncheckedCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedCreateNestedOneWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedCreateNestedManyWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedCreateNestedManyWithoutArticleInput
 }
 
 export type ArticleCreateOrConnectWithoutAuthorInput = {
@@ -1085,6 +1234,8 @@ export type ArticleScalarWhereInput = {
   affiliateBlocks?: Prisma.JsonNullableFilter<"Article">
   isAiGenerated?: Prisma.BoolFilter<"Article"> | boolean
   facebookPostId?: Prisma.StringNullableFilter<"Article"> | string | null
+  primaryKeyword?: Prisma.StringNullableFilter<"Article"> | string | null
+  lastOptimizedAt?: Prisma.DateTimeNullableFilter<"Article"> | Date | string | null
   categoryId?: Prisma.StringFilter<"Article"> | string
   authorId?: Prisma.StringFilter<"Article"> | string
   createdAt?: Prisma.DateTimeFilter<"Article"> | Date | string
@@ -1113,12 +1264,18 @@ export type ArticleCreateWithoutCategoryInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
   facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   author: Prisma.UserCreateNestedOneWithoutArticlesInput
   comments?: Prisma.CommentCreateNestedManyWithoutArticleInput
   likes?: Prisma.ArticleLikeCreateNestedManyWithoutArticleInput
   subscriptions?: Prisma.ArticleSubscriptionCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateCreateNestedOneWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyCreateNestedManyWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunCreateNestedManyWithoutArticleInput
 }
 
 export type ArticleUncheckedCreateWithoutCategoryInput = {
@@ -1143,12 +1300,18 @@ export type ArticleUncheckedCreateWithoutCategoryInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
   facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
   authorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutArticleInput
   likes?: Prisma.ArticleLikeUncheckedCreateNestedManyWithoutArticleInput
   subscriptions?: Prisma.ArticleSubscriptionUncheckedCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostUncheckedCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedCreateNestedOneWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedCreateNestedManyWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedCreateNestedManyWithoutArticleInput
 }
 
 export type ArticleCreateOrConnectWithoutCategoryInput = {
@@ -1199,12 +1362,18 @@ export type ArticleCreateWithoutLikesInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
   facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutArticlesInput
   author: Prisma.UserCreateNestedOneWithoutArticlesInput
   comments?: Prisma.CommentCreateNestedManyWithoutArticleInput
   subscriptions?: Prisma.ArticleSubscriptionCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateCreateNestedOneWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyCreateNestedManyWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunCreateNestedManyWithoutArticleInput
 }
 
 export type ArticleUncheckedCreateWithoutLikesInput = {
@@ -1229,12 +1398,18 @@ export type ArticleUncheckedCreateWithoutLikesInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
   facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
   categoryId: string
   authorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutArticleInput
   subscriptions?: Prisma.ArticleSubscriptionUncheckedCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostUncheckedCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedCreateNestedOneWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedCreateNestedManyWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedCreateNestedManyWithoutArticleInput
 }
 
 export type ArticleCreateOrConnectWithoutLikesInput = {
@@ -1275,12 +1450,18 @@ export type ArticleUpdateWithoutLikesInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutArticlesNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutArticlesNestedInput
   comments?: Prisma.CommentUpdateManyWithoutArticleNestedInput
   subscriptions?: Prisma.ArticleSubscriptionUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUpdateOneWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUpdateManyWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUpdateManyWithoutArticleNestedInput
 }
 
 export type ArticleUncheckedUpdateWithoutLikesInput = {
@@ -1305,12 +1486,18 @@ export type ArticleUncheckedUpdateWithoutLikesInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutArticleNestedInput
   subscriptions?: Prisma.ArticleSubscriptionUncheckedUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUncheckedUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedUpdateOneWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedUpdateManyWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedUpdateManyWithoutArticleNestedInput
 }
 
 export type ArticleCreateWithoutSubscriptionsInput = {
@@ -1335,12 +1522,18 @@ export type ArticleCreateWithoutSubscriptionsInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
   facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutArticlesInput
   author: Prisma.UserCreateNestedOneWithoutArticlesInput
   comments?: Prisma.CommentCreateNestedManyWithoutArticleInput
   likes?: Prisma.ArticleLikeCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateCreateNestedOneWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyCreateNestedManyWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunCreateNestedManyWithoutArticleInput
 }
 
 export type ArticleUncheckedCreateWithoutSubscriptionsInput = {
@@ -1365,12 +1558,18 @@ export type ArticleUncheckedCreateWithoutSubscriptionsInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
   facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
   categoryId: string
   authorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutArticleInput
   likes?: Prisma.ArticleLikeUncheckedCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostUncheckedCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedCreateNestedOneWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedCreateNestedManyWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedCreateNestedManyWithoutArticleInput
 }
 
 export type ArticleCreateOrConnectWithoutSubscriptionsInput = {
@@ -1411,12 +1610,18 @@ export type ArticleUpdateWithoutSubscriptionsInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutArticlesNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutArticlesNestedInput
   comments?: Prisma.CommentUpdateManyWithoutArticleNestedInput
   likes?: Prisma.ArticleLikeUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUpdateOneWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUpdateManyWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUpdateManyWithoutArticleNestedInput
 }
 
 export type ArticleUncheckedUpdateWithoutSubscriptionsInput = {
@@ -1441,12 +1646,18 @@ export type ArticleUncheckedUpdateWithoutSubscriptionsInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutArticleNestedInput
   likes?: Prisma.ArticleLikeUncheckedUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUncheckedUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedUpdateOneWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedUpdateManyWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedUpdateManyWithoutArticleNestedInput
 }
 
 export type ArticleCreateWithoutCommentsInput = {
@@ -1471,12 +1682,18 @@ export type ArticleCreateWithoutCommentsInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
   facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutArticlesInput
   author: Prisma.UserCreateNestedOneWithoutArticlesInput
   likes?: Prisma.ArticleLikeCreateNestedManyWithoutArticleInput
   subscriptions?: Prisma.ArticleSubscriptionCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateCreateNestedOneWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyCreateNestedManyWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunCreateNestedManyWithoutArticleInput
 }
 
 export type ArticleUncheckedCreateWithoutCommentsInput = {
@@ -1501,12 +1718,18 @@ export type ArticleUncheckedCreateWithoutCommentsInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
   facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
   categoryId: string
   authorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
   likes?: Prisma.ArticleLikeUncheckedCreateNestedManyWithoutArticleInput
   subscriptions?: Prisma.ArticleSubscriptionUncheckedCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostUncheckedCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedCreateNestedOneWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedCreateNestedManyWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedCreateNestedManyWithoutArticleInput
 }
 
 export type ArticleCreateOrConnectWithoutCommentsInput = {
@@ -1547,12 +1770,18 @@ export type ArticleUpdateWithoutCommentsInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutArticlesNestedInput
   author?: Prisma.UserUpdateOneRequiredWithoutArticlesNestedInput
   likes?: Prisma.ArticleLikeUpdateManyWithoutArticleNestedInput
   subscriptions?: Prisma.ArticleSubscriptionUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUpdateOneWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUpdateManyWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUpdateManyWithoutArticleNestedInput
 }
 
 export type ArticleUncheckedUpdateWithoutCommentsInput = {
@@ -1577,12 +1806,658 @@ export type ArticleUncheckedUpdateWithoutCommentsInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   likes?: Prisma.ArticleLikeUncheckedUpdateManyWithoutArticleNestedInput
   subscriptions?: Prisma.ArticleSubscriptionUncheckedUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUncheckedUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedUpdateOneWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedUpdateManyWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedUpdateManyWithoutArticleNestedInput
+}
+
+export type ArticleCreateWithoutTrendCandidateInput = {
+  id?: string
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  metaDescription: string
+  featuredImage?: string | null
+  featuredImagePrompt?: string | null
+  status?: $Enums.ArticleStatus
+  publishedAt?: Date | string | null
+  scheduledAt?: Date | string | null
+  readingTimeMinutes?: number
+  viewCount?: number
+  seoScore?: number
+  tags?: Prisma.ArticleCreatetagsInput | string[]
+  faq?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  internalLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isAiGenerated?: boolean
+  facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  category: Prisma.CategoryCreateNestedOneWithoutArticlesInput
+  author: Prisma.UserCreateNestedOneWithoutArticlesInput
+  comments?: Prisma.CommentCreateNestedManyWithoutArticleInput
+  likes?: Prisma.ArticleLikeCreateNestedManyWithoutArticleInput
+  subscriptions?: Prisma.ArticleSubscriptionCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostCreateNestedManyWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyCreateNestedManyWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunCreateNestedManyWithoutArticleInput
+}
+
+export type ArticleUncheckedCreateWithoutTrendCandidateInput = {
+  id?: string
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  metaDescription: string
+  featuredImage?: string | null
+  featuredImagePrompt?: string | null
+  status?: $Enums.ArticleStatus
+  publishedAt?: Date | string | null
+  scheduledAt?: Date | string | null
+  readingTimeMinutes?: number
+  viewCount?: number
+  seoScore?: number
+  tags?: Prisma.ArticleCreatetagsInput | string[]
+  faq?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  internalLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isAiGenerated?: boolean
+  facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
+  categoryId: string
+  authorId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutArticleInput
+  likes?: Prisma.ArticleLikeUncheckedCreateNestedManyWithoutArticleInput
+  subscriptions?: Prisma.ArticleSubscriptionUncheckedCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostUncheckedCreateNestedManyWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedCreateNestedManyWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedCreateNestedManyWithoutArticleInput
+}
+
+export type ArticleCreateOrConnectWithoutTrendCandidateInput = {
+  where: Prisma.ArticleWhereUniqueInput
+  create: Prisma.XOR<Prisma.ArticleCreateWithoutTrendCandidateInput, Prisma.ArticleUncheckedCreateWithoutTrendCandidateInput>
+}
+
+export type ArticleUpsertWithoutTrendCandidateInput = {
+  update: Prisma.XOR<Prisma.ArticleUpdateWithoutTrendCandidateInput, Prisma.ArticleUncheckedUpdateWithoutTrendCandidateInput>
+  create: Prisma.XOR<Prisma.ArticleCreateWithoutTrendCandidateInput, Prisma.ArticleUncheckedCreateWithoutTrendCandidateInput>
+  where?: Prisma.ArticleWhereInput
+}
+
+export type ArticleUpdateToOneWithWhereWithoutTrendCandidateInput = {
+  where?: Prisma.ArticleWhereInput
+  data: Prisma.XOR<Prisma.ArticleUpdateWithoutTrendCandidateInput, Prisma.ArticleUncheckedUpdateWithoutTrendCandidateInput>
+}
+
+export type ArticleUpdateWithoutTrendCandidateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  excerpt?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  featuredImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuredImagePrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  readingTimeMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  seoScore?: Prisma.IntFieldUpdateOperationsInput | number
+  tags?: Prisma.ArticleUpdatetagsInput | string[]
+  faq?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  internalLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.CategoryUpdateOneRequiredWithoutArticlesNestedInput
+  author?: Prisma.UserUpdateOneRequiredWithoutArticlesNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutArticleNestedInput
+  likes?: Prisma.ArticleLikeUpdateManyWithoutArticleNestedInput
+  subscriptions?: Prisma.ArticleSubscriptionUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUpdateManyWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUpdateManyWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUpdateManyWithoutArticleNestedInput
+}
+
+export type ArticleUncheckedUpdateWithoutTrendCandidateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  excerpt?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  featuredImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuredImagePrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  readingTimeMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  seoScore?: Prisma.IntFieldUpdateOperationsInput | number
+  tags?: Prisma.ArticleUpdatetagsInput | string[]
+  faq?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  internalLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutArticleNestedInput
+  likes?: Prisma.ArticleLikeUncheckedUpdateManyWithoutArticleNestedInput
+  subscriptions?: Prisma.ArticleSubscriptionUncheckedUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUncheckedUpdateManyWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedUpdateManyWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedUpdateManyWithoutArticleNestedInput
+}
+
+export type ArticleCreateWithoutSocialPostsInput = {
+  id?: string
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  metaDescription: string
+  featuredImage?: string | null
+  featuredImagePrompt?: string | null
+  status?: $Enums.ArticleStatus
+  publishedAt?: Date | string | null
+  scheduledAt?: Date | string | null
+  readingTimeMinutes?: number
+  viewCount?: number
+  seoScore?: number
+  tags?: Prisma.ArticleCreatetagsInput | string[]
+  faq?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  internalLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isAiGenerated?: boolean
+  facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  category: Prisma.CategoryCreateNestedOneWithoutArticlesInput
+  author: Prisma.UserCreateNestedOneWithoutArticlesInput
+  comments?: Prisma.CommentCreateNestedManyWithoutArticleInput
+  likes?: Prisma.ArticleLikeCreateNestedManyWithoutArticleInput
+  subscriptions?: Prisma.ArticleSubscriptionCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateCreateNestedOneWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyCreateNestedManyWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunCreateNestedManyWithoutArticleInput
+}
+
+export type ArticleUncheckedCreateWithoutSocialPostsInput = {
+  id?: string
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  metaDescription: string
+  featuredImage?: string | null
+  featuredImagePrompt?: string | null
+  status?: $Enums.ArticleStatus
+  publishedAt?: Date | string | null
+  scheduledAt?: Date | string | null
+  readingTimeMinutes?: number
+  viewCount?: number
+  seoScore?: number
+  tags?: Prisma.ArticleCreatetagsInput | string[]
+  faq?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  internalLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isAiGenerated?: boolean
+  facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
+  categoryId: string
+  authorId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutArticleInput
+  likes?: Prisma.ArticleLikeUncheckedCreateNestedManyWithoutArticleInput
+  subscriptions?: Prisma.ArticleSubscriptionUncheckedCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedCreateNestedOneWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedCreateNestedManyWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedCreateNestedManyWithoutArticleInput
+}
+
+export type ArticleCreateOrConnectWithoutSocialPostsInput = {
+  where: Prisma.ArticleWhereUniqueInput
+  create: Prisma.XOR<Prisma.ArticleCreateWithoutSocialPostsInput, Prisma.ArticleUncheckedCreateWithoutSocialPostsInput>
+}
+
+export type ArticleUpsertWithoutSocialPostsInput = {
+  update: Prisma.XOR<Prisma.ArticleUpdateWithoutSocialPostsInput, Prisma.ArticleUncheckedUpdateWithoutSocialPostsInput>
+  create: Prisma.XOR<Prisma.ArticleCreateWithoutSocialPostsInput, Prisma.ArticleUncheckedCreateWithoutSocialPostsInput>
+  where?: Prisma.ArticleWhereInput
+}
+
+export type ArticleUpdateToOneWithWhereWithoutSocialPostsInput = {
+  where?: Prisma.ArticleWhereInput
+  data: Prisma.XOR<Prisma.ArticleUpdateWithoutSocialPostsInput, Prisma.ArticleUncheckedUpdateWithoutSocialPostsInput>
+}
+
+export type ArticleUpdateWithoutSocialPostsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  excerpt?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  featuredImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuredImagePrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  readingTimeMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  seoScore?: Prisma.IntFieldUpdateOperationsInput | number
+  tags?: Prisma.ArticleUpdatetagsInput | string[]
+  faq?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  internalLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.CategoryUpdateOneRequiredWithoutArticlesNestedInput
+  author?: Prisma.UserUpdateOneRequiredWithoutArticlesNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutArticleNestedInput
+  likes?: Prisma.ArticleLikeUpdateManyWithoutArticleNestedInput
+  subscriptions?: Prisma.ArticleSubscriptionUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUpdateOneWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUpdateManyWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUpdateManyWithoutArticleNestedInput
+}
+
+export type ArticleUncheckedUpdateWithoutSocialPostsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  excerpt?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  featuredImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuredImagePrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  readingTimeMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  seoScore?: Prisma.IntFieldUpdateOperationsInput | number
+  tags?: Prisma.ArticleUpdatetagsInput | string[]
+  faq?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  internalLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutArticleNestedInput
+  likes?: Prisma.ArticleLikeUncheckedUpdateManyWithoutArticleNestedInput
+  subscriptions?: Prisma.ArticleSubscriptionUncheckedUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedUpdateOneWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedUpdateManyWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedUpdateManyWithoutArticleNestedInput
+}
+
+export type ArticleCreateWithoutMetricDailyInput = {
+  id?: string
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  metaDescription: string
+  featuredImage?: string | null
+  featuredImagePrompt?: string | null
+  status?: $Enums.ArticleStatus
+  publishedAt?: Date | string | null
+  scheduledAt?: Date | string | null
+  readingTimeMinutes?: number
+  viewCount?: number
+  seoScore?: number
+  tags?: Prisma.ArticleCreatetagsInput | string[]
+  faq?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  internalLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isAiGenerated?: boolean
+  facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  category: Prisma.CategoryCreateNestedOneWithoutArticlesInput
+  author: Prisma.UserCreateNestedOneWithoutArticlesInput
+  comments?: Prisma.CommentCreateNestedManyWithoutArticleInput
+  likes?: Prisma.ArticleLikeCreateNestedManyWithoutArticleInput
+  subscriptions?: Prisma.ArticleSubscriptionCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateCreateNestedOneWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunCreateNestedManyWithoutArticleInput
+}
+
+export type ArticleUncheckedCreateWithoutMetricDailyInput = {
+  id?: string
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  metaDescription: string
+  featuredImage?: string | null
+  featuredImagePrompt?: string | null
+  status?: $Enums.ArticleStatus
+  publishedAt?: Date | string | null
+  scheduledAt?: Date | string | null
+  readingTimeMinutes?: number
+  viewCount?: number
+  seoScore?: number
+  tags?: Prisma.ArticleCreatetagsInput | string[]
+  faq?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  internalLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isAiGenerated?: boolean
+  facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
+  categoryId: string
+  authorId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutArticleInput
+  likes?: Prisma.ArticleLikeUncheckedCreateNestedManyWithoutArticleInput
+  subscriptions?: Prisma.ArticleSubscriptionUncheckedCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostUncheckedCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedCreateNestedOneWithoutArticleInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedCreateNestedManyWithoutArticleInput
+}
+
+export type ArticleCreateOrConnectWithoutMetricDailyInput = {
+  where: Prisma.ArticleWhereUniqueInput
+  create: Prisma.XOR<Prisma.ArticleCreateWithoutMetricDailyInput, Prisma.ArticleUncheckedCreateWithoutMetricDailyInput>
+}
+
+export type ArticleUpsertWithoutMetricDailyInput = {
+  update: Prisma.XOR<Prisma.ArticleUpdateWithoutMetricDailyInput, Prisma.ArticleUncheckedUpdateWithoutMetricDailyInput>
+  create: Prisma.XOR<Prisma.ArticleCreateWithoutMetricDailyInput, Prisma.ArticleUncheckedCreateWithoutMetricDailyInput>
+  where?: Prisma.ArticleWhereInput
+}
+
+export type ArticleUpdateToOneWithWhereWithoutMetricDailyInput = {
+  where?: Prisma.ArticleWhereInput
+  data: Prisma.XOR<Prisma.ArticleUpdateWithoutMetricDailyInput, Prisma.ArticleUncheckedUpdateWithoutMetricDailyInput>
+}
+
+export type ArticleUpdateWithoutMetricDailyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  excerpt?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  featuredImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuredImagePrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  readingTimeMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  seoScore?: Prisma.IntFieldUpdateOperationsInput | number
+  tags?: Prisma.ArticleUpdatetagsInput | string[]
+  faq?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  internalLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.CategoryUpdateOneRequiredWithoutArticlesNestedInput
+  author?: Prisma.UserUpdateOneRequiredWithoutArticlesNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutArticleNestedInput
+  likes?: Prisma.ArticleLikeUpdateManyWithoutArticleNestedInput
+  subscriptions?: Prisma.ArticleSubscriptionUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUpdateOneWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUpdateManyWithoutArticleNestedInput
+}
+
+export type ArticleUncheckedUpdateWithoutMetricDailyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  excerpt?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  featuredImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuredImagePrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  readingTimeMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  seoScore?: Prisma.IntFieldUpdateOperationsInput | number
+  tags?: Prisma.ArticleUpdatetagsInput | string[]
+  faq?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  internalLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutArticleNestedInput
+  likes?: Prisma.ArticleLikeUncheckedUpdateManyWithoutArticleNestedInput
+  subscriptions?: Prisma.ArticleSubscriptionUncheckedUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUncheckedUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedUpdateOneWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedUpdateManyWithoutArticleNestedInput
+}
+
+export type ArticleCreateWithoutOptimizationRunsInput = {
+  id?: string
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  metaDescription: string
+  featuredImage?: string | null
+  featuredImagePrompt?: string | null
+  status?: $Enums.ArticleStatus
+  publishedAt?: Date | string | null
+  scheduledAt?: Date | string | null
+  readingTimeMinutes?: number
+  viewCount?: number
+  seoScore?: number
+  tags?: Prisma.ArticleCreatetagsInput | string[]
+  faq?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  internalLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isAiGenerated?: boolean
+  facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  category: Prisma.CategoryCreateNestedOneWithoutArticlesInput
+  author: Prisma.UserCreateNestedOneWithoutArticlesInput
+  comments?: Prisma.CommentCreateNestedManyWithoutArticleInput
+  likes?: Prisma.ArticleLikeCreateNestedManyWithoutArticleInput
+  subscriptions?: Prisma.ArticleSubscriptionCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateCreateNestedOneWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyCreateNestedManyWithoutArticleInput
+}
+
+export type ArticleUncheckedCreateWithoutOptimizationRunsInput = {
+  id?: string
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  metaDescription: string
+  featuredImage?: string | null
+  featuredImagePrompt?: string | null
+  status?: $Enums.ArticleStatus
+  publishedAt?: Date | string | null
+  scheduledAt?: Date | string | null
+  readingTimeMinutes?: number
+  viewCount?: number
+  seoScore?: number
+  tags?: Prisma.ArticleCreatetagsInput | string[]
+  faq?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  internalLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isAiGenerated?: boolean
+  facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
+  categoryId: string
+  authorId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutArticleInput
+  likes?: Prisma.ArticleLikeUncheckedCreateNestedManyWithoutArticleInput
+  subscriptions?: Prisma.ArticleSubscriptionUncheckedCreateNestedManyWithoutArticleInput
+  socialPosts?: Prisma.SocialPostUncheckedCreateNestedManyWithoutArticleInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedCreateNestedOneWithoutArticleInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedCreateNestedManyWithoutArticleInput
+}
+
+export type ArticleCreateOrConnectWithoutOptimizationRunsInput = {
+  where: Prisma.ArticleWhereUniqueInput
+  create: Prisma.XOR<Prisma.ArticleCreateWithoutOptimizationRunsInput, Prisma.ArticleUncheckedCreateWithoutOptimizationRunsInput>
+}
+
+export type ArticleUpsertWithoutOptimizationRunsInput = {
+  update: Prisma.XOR<Prisma.ArticleUpdateWithoutOptimizationRunsInput, Prisma.ArticleUncheckedUpdateWithoutOptimizationRunsInput>
+  create: Prisma.XOR<Prisma.ArticleCreateWithoutOptimizationRunsInput, Prisma.ArticleUncheckedCreateWithoutOptimizationRunsInput>
+  where?: Prisma.ArticleWhereInput
+}
+
+export type ArticleUpdateToOneWithWhereWithoutOptimizationRunsInput = {
+  where?: Prisma.ArticleWhereInput
+  data: Prisma.XOR<Prisma.ArticleUpdateWithoutOptimizationRunsInput, Prisma.ArticleUncheckedUpdateWithoutOptimizationRunsInput>
+}
+
+export type ArticleUpdateWithoutOptimizationRunsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  excerpt?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  featuredImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuredImagePrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  readingTimeMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  seoScore?: Prisma.IntFieldUpdateOperationsInput | number
+  tags?: Prisma.ArticleUpdatetagsInput | string[]
+  faq?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  internalLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.CategoryUpdateOneRequiredWithoutArticlesNestedInput
+  author?: Prisma.UserUpdateOneRequiredWithoutArticlesNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutArticleNestedInput
+  likes?: Prisma.ArticleLikeUpdateManyWithoutArticleNestedInput
+  subscriptions?: Prisma.ArticleSubscriptionUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUpdateOneWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUpdateManyWithoutArticleNestedInput
+}
+
+export type ArticleUncheckedUpdateWithoutOptimizationRunsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  excerpt?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  metaDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  featuredImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuredImagePrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumArticleStatusFieldUpdateOperationsInput | $Enums.ArticleStatus
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  readingTimeMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  viewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  seoScore?: Prisma.IntFieldUpdateOperationsInput | number
+  tags?: Prisma.ArticleUpdatetagsInput | string[]
+  faq?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  internalLinks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutArticleNestedInput
+  likes?: Prisma.ArticleLikeUncheckedUpdateManyWithoutArticleNestedInput
+  subscriptions?: Prisma.ArticleSubscriptionUncheckedUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUncheckedUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedUpdateOneWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedUpdateManyWithoutArticleNestedInput
 }
 
 export type ArticleCreateManyAuthorInput = {
@@ -1607,6 +2482,8 @@ export type ArticleCreateManyAuthorInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
   facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
   categoryId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1634,12 +2511,18 @@ export type ArticleUpdateWithoutAuthorInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutArticlesNestedInput
   comments?: Prisma.CommentUpdateManyWithoutArticleNestedInput
   likes?: Prisma.ArticleLikeUpdateManyWithoutArticleNestedInput
   subscriptions?: Prisma.ArticleSubscriptionUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUpdateOneWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUpdateManyWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUpdateManyWithoutArticleNestedInput
 }
 
 export type ArticleUncheckedUpdateWithoutAuthorInput = {
@@ -1664,12 +2547,18 @@ export type ArticleUncheckedUpdateWithoutAuthorInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutArticleNestedInput
   likes?: Prisma.ArticleLikeUncheckedUpdateManyWithoutArticleNestedInput
   subscriptions?: Prisma.ArticleSubscriptionUncheckedUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUncheckedUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedUpdateOneWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedUpdateManyWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedUpdateManyWithoutArticleNestedInput
 }
 
 export type ArticleUncheckedUpdateManyWithoutAuthorInput = {
@@ -1694,6 +2583,8 @@ export type ArticleUncheckedUpdateManyWithoutAuthorInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1721,6 +2612,8 @@ export type ArticleCreateManyCategoryInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
   facebookPostId?: string | null
+  primaryKeyword?: string | null
+  lastOptimizedAt?: Date | string | null
   authorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1748,12 +2641,18 @@ export type ArticleUpdateWithoutCategoryInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   author?: Prisma.UserUpdateOneRequiredWithoutArticlesNestedInput
   comments?: Prisma.CommentUpdateManyWithoutArticleNestedInput
   likes?: Prisma.ArticleLikeUpdateManyWithoutArticleNestedInput
   subscriptions?: Prisma.ArticleSubscriptionUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUpdateOneWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUpdateManyWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUpdateManyWithoutArticleNestedInput
 }
 
 export type ArticleUncheckedUpdateWithoutCategoryInput = {
@@ -1778,12 +2677,18 @@ export type ArticleUncheckedUpdateWithoutCategoryInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   comments?: Prisma.CommentUncheckedUpdateManyWithoutArticleNestedInput
   likes?: Prisma.ArticleLikeUncheckedUpdateManyWithoutArticleNestedInput
   subscriptions?: Prisma.ArticleSubscriptionUncheckedUpdateManyWithoutArticleNestedInput
+  socialPosts?: Prisma.SocialPostUncheckedUpdateManyWithoutArticleNestedInput
+  trendCandidate?: Prisma.TrendCandidateUncheckedUpdateOneWithoutArticleNestedInput
+  metricDaily?: Prisma.ArticleMetricDailyUncheckedUpdateManyWithoutArticleNestedInput
+  optimizationRuns?: Prisma.ArticleOptimizationRunUncheckedUpdateManyWithoutArticleNestedInput
 }
 
 export type ArticleUncheckedUpdateManyWithoutCategoryInput = {
@@ -1808,6 +2713,8 @@ export type ArticleUncheckedUpdateManyWithoutCategoryInput = {
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
   facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryKeyword?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastOptimizedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1822,12 +2729,18 @@ export type ArticleCountOutputType = {
   comments: number
   likes: number
   subscriptions: number
+  socialPosts: number
+  metricDaily: number
+  optimizationRuns: number
 }
 
 export type ArticleCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   comments?: boolean | ArticleCountOutputTypeCountCommentsArgs
   likes?: boolean | ArticleCountOutputTypeCountLikesArgs
   subscriptions?: boolean | ArticleCountOutputTypeCountSubscriptionsArgs
+  socialPosts?: boolean | ArticleCountOutputTypeCountSocialPostsArgs
+  metricDaily?: boolean | ArticleCountOutputTypeCountMetricDailyArgs
+  optimizationRuns?: boolean | ArticleCountOutputTypeCountOptimizationRunsArgs
 }
 
 /**
@@ -1861,6 +2774,27 @@ export type ArticleCountOutputTypeCountSubscriptionsArgs<ExtArgs extends runtime
   where?: Prisma.ArticleSubscriptionWhereInput
 }
 
+/**
+ * ArticleCountOutputType without action
+ */
+export type ArticleCountOutputTypeCountSocialPostsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SocialPostWhereInput
+}
+
+/**
+ * ArticleCountOutputType without action
+ */
+export type ArticleCountOutputTypeCountMetricDailyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ArticleMetricDailyWhereInput
+}
+
+/**
+ * ArticleCountOutputType without action
+ */
+export type ArticleCountOutputTypeCountOptimizationRunsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ArticleOptimizationRunWhereInput
+}
+
 
 export type ArticleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1884,6 +2818,8 @@ export type ArticleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   affiliateBlocks?: boolean
   isAiGenerated?: boolean
   facebookPostId?: boolean
+  primaryKeyword?: boolean
+  lastOptimizedAt?: boolean
   categoryId?: boolean
   authorId?: boolean
   createdAt?: boolean
@@ -1893,6 +2829,10 @@ export type ArticleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   comments?: boolean | Prisma.Article$commentsArgs<ExtArgs>
   likes?: boolean | Prisma.Article$likesArgs<ExtArgs>
   subscriptions?: boolean | Prisma.Article$subscriptionsArgs<ExtArgs>
+  socialPosts?: boolean | Prisma.Article$socialPostsArgs<ExtArgs>
+  trendCandidate?: boolean | Prisma.Article$trendCandidateArgs<ExtArgs>
+  metricDaily?: boolean | Prisma.Article$metricDailyArgs<ExtArgs>
+  optimizationRuns?: boolean | Prisma.Article$optimizationRunsArgs<ExtArgs>
   _count?: boolean | Prisma.ArticleCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["article"]>
 
@@ -1918,6 +2858,8 @@ export type ArticleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   affiliateBlocks?: boolean
   isAiGenerated?: boolean
   facebookPostId?: boolean
+  primaryKeyword?: boolean
+  lastOptimizedAt?: boolean
   categoryId?: boolean
   authorId?: boolean
   createdAt?: boolean
@@ -1948,6 +2890,8 @@ export type ArticleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   affiliateBlocks?: boolean
   isAiGenerated?: boolean
   facebookPostId?: boolean
+  primaryKeyword?: boolean
+  lastOptimizedAt?: boolean
   categoryId?: boolean
   authorId?: boolean
   createdAt?: boolean
@@ -1978,19 +2922,25 @@ export type ArticleSelectScalar = {
   affiliateBlocks?: boolean
   isAiGenerated?: boolean
   facebookPostId?: boolean
+  primaryKeyword?: boolean
+  lastOptimizedAt?: boolean
   categoryId?: boolean
   authorId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ArticleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "excerpt" | "content" | "metaDescription" | "featuredImage" | "featuredImagePrompt" | "status" | "publishedAt" | "scheduledAt" | "readingTimeMinutes" | "viewCount" | "seoScore" | "tags" | "faq" | "internalLinks" | "sources" | "affiliateBlocks" | "isAiGenerated" | "facebookPostId" | "categoryId" | "authorId" | "createdAt" | "updatedAt", ExtArgs["result"]["article"]>
+export type ArticleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "excerpt" | "content" | "metaDescription" | "featuredImage" | "featuredImagePrompt" | "status" | "publishedAt" | "scheduledAt" | "readingTimeMinutes" | "viewCount" | "seoScore" | "tags" | "faq" | "internalLinks" | "sources" | "affiliateBlocks" | "isAiGenerated" | "facebookPostId" | "primaryKeyword" | "lastOptimizedAt" | "categoryId" | "authorId" | "createdAt" | "updatedAt", ExtArgs["result"]["article"]>
 export type ArticleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   comments?: boolean | Prisma.Article$commentsArgs<ExtArgs>
   likes?: boolean | Prisma.Article$likesArgs<ExtArgs>
   subscriptions?: boolean | Prisma.Article$subscriptionsArgs<ExtArgs>
+  socialPosts?: boolean | Prisma.Article$socialPostsArgs<ExtArgs>
+  trendCandidate?: boolean | Prisma.Article$trendCandidateArgs<ExtArgs>
+  metricDaily?: boolean | Prisma.Article$metricDailyArgs<ExtArgs>
+  optimizationRuns?: boolean | Prisma.Article$optimizationRunsArgs<ExtArgs>
   _count?: boolean | Prisma.ArticleCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ArticleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2010,6 +2960,10 @@ export type $ArticlePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     comments: Prisma.$CommentPayload<ExtArgs>[]
     likes: Prisma.$ArticleLikePayload<ExtArgs>[]
     subscriptions: Prisma.$ArticleSubscriptionPayload<ExtArgs>[]
+    socialPosts: Prisma.$SocialPostPayload<ExtArgs>[]
+    trendCandidate: Prisma.$TrendCandidatePayload<ExtArgs> | null
+    metricDaily: Prisma.$ArticleMetricDailyPayload<ExtArgs>[]
+    optimizationRuns: Prisma.$ArticleOptimizationRunPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2033,6 +2987,8 @@ export type $ArticlePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     affiliateBlocks: runtime.JsonValue | null
     isAiGenerated: boolean
     facebookPostId: string | null
+    primaryKeyword: string | null
+    lastOptimizedAt: Date | null
     categoryId: string
     authorId: string
     createdAt: Date
@@ -2436,6 +3392,10 @@ export interface Prisma__ArticleClient<T, Null = never, ExtArgs extends runtime.
   comments<T extends Prisma.Article$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Article$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   likes<T extends Prisma.Article$likesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Article$likesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ArticleLikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subscriptions<T extends Prisma.Article$subscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Article$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ArticleSubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  socialPosts<T extends Prisma.Article$socialPostsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Article$socialPostsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SocialPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  trendCandidate<T extends Prisma.Article$trendCandidateArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Article$trendCandidateArgs<ExtArgs>>): Prisma.Prisma__TrendCandidateClient<runtime.Types.Result.GetResult<Prisma.$TrendCandidatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  metricDaily<T extends Prisma.Article$metricDailyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Article$metricDailyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ArticleMetricDailyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  optimizationRuns<T extends Prisma.Article$optimizationRunsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Article$optimizationRunsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ArticleOptimizationRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2486,6 +3446,8 @@ export interface ArticleFieldRefs {
   readonly affiliateBlocks: Prisma.FieldRef<"Article", 'Json'>
   readonly isAiGenerated: Prisma.FieldRef<"Article", 'Boolean'>
   readonly facebookPostId: Prisma.FieldRef<"Article", 'String'>
+  readonly primaryKeyword: Prisma.FieldRef<"Article", 'String'>
+  readonly lastOptimizedAt: Prisma.FieldRef<"Article", 'DateTime'>
   readonly categoryId: Prisma.FieldRef<"Article", 'String'>
   readonly authorId: Prisma.FieldRef<"Article", 'String'>
   readonly createdAt: Prisma.FieldRef<"Article", 'DateTime'>
@@ -2960,6 +3922,97 @@ export type Article$subscriptionsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.ArticleSubscriptionScalarFieldEnum | Prisma.ArticleSubscriptionScalarFieldEnum[]
+}
+
+/**
+ * Article.socialPosts
+ */
+export type Article$socialPostsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SocialPost
+   */
+  select?: Prisma.SocialPostSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SocialPost
+   */
+  omit?: Prisma.SocialPostOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SocialPostInclude<ExtArgs> | null
+  where?: Prisma.SocialPostWhereInput
+  orderBy?: Prisma.SocialPostOrderByWithRelationInput | Prisma.SocialPostOrderByWithRelationInput[]
+  cursor?: Prisma.SocialPostWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SocialPostScalarFieldEnum | Prisma.SocialPostScalarFieldEnum[]
+}
+
+/**
+ * Article.trendCandidate
+ */
+export type Article$trendCandidateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrendCandidate
+   */
+  select?: Prisma.TrendCandidateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TrendCandidate
+   */
+  omit?: Prisma.TrendCandidateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TrendCandidateInclude<ExtArgs> | null
+  where?: Prisma.TrendCandidateWhereInput
+}
+
+/**
+ * Article.metricDaily
+ */
+export type Article$metricDailyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ArticleMetricDaily
+   */
+  select?: Prisma.ArticleMetricDailySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ArticleMetricDaily
+   */
+  omit?: Prisma.ArticleMetricDailyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ArticleMetricDailyInclude<ExtArgs> | null
+  where?: Prisma.ArticleMetricDailyWhereInput
+  orderBy?: Prisma.ArticleMetricDailyOrderByWithRelationInput | Prisma.ArticleMetricDailyOrderByWithRelationInput[]
+  cursor?: Prisma.ArticleMetricDailyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ArticleMetricDailyScalarFieldEnum | Prisma.ArticleMetricDailyScalarFieldEnum[]
+}
+
+/**
+ * Article.optimizationRuns
+ */
+export type Article$optimizationRunsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ArticleOptimizationRun
+   */
+  select?: Prisma.ArticleOptimizationRunSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ArticleOptimizationRun
+   */
+  omit?: Prisma.ArticleOptimizationRunOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ArticleOptimizationRunInclude<ExtArgs> | null
+  where?: Prisma.ArticleOptimizationRunWhereInput
+  orderBy?: Prisma.ArticleOptimizationRunOrderByWithRelationInput | Prisma.ArticleOptimizationRunOrderByWithRelationInput[]
+  cursor?: Prisma.ArticleOptimizationRunWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ArticleOptimizationRunScalarFieldEnum | Prisma.ArticleOptimizationRunScalarFieldEnum[]
 }
 
 /**
