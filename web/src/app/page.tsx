@@ -1,11 +1,14 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArticleCard } from "@/components/blog/article-card";
 import { NewsletterForm } from "@/components/blog/newsletter-form";
 import { getPublishedArticles, getTrendingArticles } from "@/lib/articles";
 import { prisma } from "@/lib/prisma";
-import { SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
+import { SITE_NAME } from "@/lib/constants";
 import { websiteJsonLd } from "@/lib/seo";
-import { ArrowRight, Sparkles, TrendingUp, Zap, BookOpen } from "lucide-react";
+import { resizeImageUrl } from "@/lib/image-utils";
+import { ArrowRight, Sparkles, TrendingUp, Zap, BookOpen, Flame, Clock } from "lucide-react";
+import { Fragment } from "react";
 
 export const dynamic = "force-dynamic";
 
@@ -20,15 +23,61 @@ const nicheGradients = [
   "from-sky-500/20 to-indigo-500/10",
 ];
 
+type CompactArticle = {
+  slug: string;
+  title: string;
+  featuredImage: string | null;
+  category: { name: string };
+  publishedAt: Date | null;
+  readingTimeMinutes: number;
+};
+
+function CompactStoryCard({ article }: { article: CompactArticle }) {
+  const imageSrc = resizeImageUrl(
+    article.featuredImage ??
+      "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&h=250&fit=crop&q=80",
+    240
+  );
+
+  return (
+    <Link
+      href={`/blog/${article.slug}`}
+      className="group flex gap-3 rounded-xl border border-border bg-card/80 p-2.5 transition hover:border-accent/40 hover:bg-card sm:block sm:p-0"
+    >
+      <div className="relative aspect-[900/560] w-24 shrink-0 overflow-hidden rounded-lg sm:w-full sm:rounded-b-none sm:rounded-t-xl">
+        <Image
+          src={imageSrc}
+          alt={article.title}
+          fill
+          className="object-cover object-center transition duration-500 group-hover:scale-105"
+          sizes="(max-width: 640px) 96px, 240px"
+        />
+      </div>
+      <div className="min-w-0 flex-1 py-0.5 sm:p-3">
+        <p className="text-xs font-bold uppercase tracking-wide text-accent">{article.category.name}</p>
+        <p className="mt-1 line-clamp-2 text-sm font-semibold leading-snug group-hover:text-accent">
+          {article.title}
+        </p>
+        <p className="mt-1.5 hidden items-center gap-1 text-xs text-muted-foreground sm:flex">
+          <Clock className="h-3 w-3" />
+          {article.readingTimeMinutes} min
+        </p>
+      </div>
+    </Link>
+  );
+}
+
 export default async function HomePage() {
   const [latest, trending, categories, publishedCount] = await Promise.all([
-    getPublishedArticles({ limit: 5 }),
-    getTrendingArticles(4),
-    prisma.category.findMany({ orderBy: { name: "asc" }, take: 6 }),
+    getPublishedArticles({ limit: 7 }),
+    getTrendingArticles(5),
+    prisma.category.findMany({ orderBy: { name: "asc" }, take: 8 }),
     prisma.article.count({ where: { status: "PUBLISHED", publishedAt: { lte: new Date() } } }),
   ]);
 
   const [featured, ...rest] = latest;
+  const heroSideStories = rest.slice(0, 3);
+  const tickerStories = trending.length > 0 ? trending : latest.slice(0, 5);
 
   const websiteLd = websiteJsonLd();
 
@@ -42,26 +91,68 @@ export default async function HomePage() {
         <div className="pointer-events-none absolute -right-32 top-20 h-96 w-96 rounded-full bg-accent/15 blur-3xl" />
         <div className="pointer-events-none absolute bottom-0 left-1/4 h-64 w-64 rounded-full bg-accent-secondary/10 blur-3xl" />
 
-        <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-28">
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            <div>
+        {/* Live ticker */}
+        {tickerStories.length > 0 && (
+          <div className="relative border-b border-border/60 bg-card/60">
+            <div className="mx-auto flex max-w-7xl items-center gap-3 overflow-x-auto px-4 py-2.5 sm:px-6 lg:px-8">
+              <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-accent px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-accent-foreground">
+                <Flame className="h-3 w-3" />
+                Trending
+              </span>
+              {tickerStories.map((story, i) => (
+                <Fragment key={story.id}>
+                  {i > 0 && <span className="shrink-0 text-border" aria-hidden>|</span>}
+                  <Link
+                    href={`/blog/${story.slug}`}
+                    className="shrink-0 text-sm font-medium text-foreground/90 transition hover:text-accent"
+                  >
+                    {story.title.length > 72 ? `${story.title.slice(0, 69)}…` : story.title}
+                  </Link>
+                </Fragment>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
+          {/* Category pills */}
+          <div className="flex gap-2 overflow-x-auto pb-5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <Link
+              href="/blog"
+              className="inline-flex shrink-0 items-center rounded-full border border-accent/30 bg-accent/10 px-4 py-2 text-sm font-semibold text-accent"
+            >
+              All stories
+            </Link>
+            {categories.map((cat) => (
+              <Link
+                key={cat.id}
+                href={`/category/${cat.slug}`}
+                className="inline-flex shrink-0 items-center rounded-full border border-border bg-card/80 px-4 py-2 text-sm font-medium text-muted-foreground transition hover:border-accent/30 hover:text-foreground"
+              >
+                {cat.name}
+              </Link>
+            ))}
+          </div>
+
+          <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-10">
+            <div className="lg:col-span-5">
               <p className="section-label">
                 <Sparkles className="h-3.5 w-3.5 text-accent" />
                 Fresh daily · Expert verified
               </p>
-              <p className="mt-6 font-display text-sm font-bold uppercase tracking-[0.2em] text-accent">
+              <p className="mt-4 font-display text-sm font-bold uppercase tracking-[0.2em] text-accent">
                 {SITE_NAME}
               </p>
-              <h1 className="mt-3 font-display text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
+              <h1 className="mt-2 font-display text-3xl font-extrabold leading-[1.12] tracking-tight sm:text-4xl lg:text-5xl">
                 <span className="text-gradient">Trending news</span>
                 <br />
                 <span className="text-foreground">& expert guides daily</span>
               </h1>
-              <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted-foreground">
+              <p className="mt-4 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
                 Breaking trends, in-depth guides, and honest reviews across finance, tech,
-                AI, health, and more — written for real readers.
+                AI, health, and more — updated throughout the day.
               </p>
-              <div className="mt-10 flex flex-wrap gap-4">
+              <div className="mt-6 flex flex-wrap gap-3">
                 <Link href="/blog" className="btn-primary">
                   Read latest <ArrowRight className="h-4 w-4" />
                 </Link>
@@ -69,44 +160,49 @@ export default async function HomePage() {
                   Explore niches
                 </Link>
               </div>
-              <div className="mt-12 flex flex-wrap gap-8 border-t border-border/60 pt-8">
-                <div>
-                  <p className="font-display text-3xl font-bold text-accent">{categories.length}+</p>
-                  <p className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
+              <div className="mt-6 grid grid-cols-3 gap-3 rounded-2xl border border-border/70 bg-card/50 p-4 sm:gap-4 sm:p-5">
+                <div className="text-center sm:text-left">
+                  <p className="font-display text-2xl font-bold text-accent sm:text-3xl">{categories.length}+</p>
+                  <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground sm:text-sm">
                     Niches
                   </p>
                 </div>
-                <div>
-                  <p className="font-display text-3xl font-bold">{publishedCount}</p>
-                  <p className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
+                <div className="border-x border-border/60 px-2 text-center sm:px-4 sm:text-left">
+                  <p className="font-display text-2xl font-bold sm:text-3xl">{publishedCount}</p>
+                  <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground sm:text-sm">
                     Stories
                   </p>
                 </div>
-                <div>
-                  <p className="font-display text-3xl font-bold">Daily</p>
-                  <p className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
+                <div className="text-center sm:text-left">
+                  <p className="font-display text-2xl font-bold sm:text-3xl">Daily</p>
+                  <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground sm:text-sm">
                     Updates
                   </p>
                 </div>
               </div>
             </div>
 
-            {featured && (
-              <div className="relative hidden lg:block">
-                <div className="animate-float">
-                  <ArticleCard
-                    slug={featured.slug}
-                    title={featured.title}
-                    excerpt={featured.excerpt}
-                    featuredImage={featured.featuredImage}
-                    category={featured.category}
-                    publishedAt={featured.publishedAt}
-                    readingTimeMinutes={featured.readingTimeMinutes}
-                    featured
-                  />
+            <div className="space-y-4 lg:col-span-7">
+              {featured && (
+                <ArticleCard
+                  slug={featured.slug}
+                  title={featured.title}
+                  excerpt={featured.excerpt}
+                  featuredImage={featured.featuredImage}
+                  category={featured.category}
+                  publishedAt={featured.publishedAt}
+                  readingTimeMinutes={featured.readingTimeMinutes}
+                  featured
+                />
+              )}
+              {heroSideStories.length > 0 && (
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                  {heroSideStories.map((article) => (
+                    <CompactStoryCard key={article.id} article={article} />
+                  ))}
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </section>
