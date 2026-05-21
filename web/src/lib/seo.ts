@@ -11,8 +11,24 @@ export type SeoInput = {
   publishedTime?: string;
   modifiedTime?: string;
   author?: string;
+  section?: string;
   tags?: string[];
 };
+
+/** Google Search Console + Bing Webmaster verification meta tags. */
+export function buildSiteVerification(): Pick<Metadata, "verification"> | Record<string, never> {
+  const google = process.env.GOOGLE_SITE_VERIFICATION?.trim();
+  const bing = process.env.BING_SITE_VERIFICATION?.trim();
+
+  if (!google && !bing) return {};
+
+  return {
+    verification: {
+      ...(google && { google }),
+      ...(bing && { other: { "msvalidate.01": bing } }),
+    },
+  };
+}
 
 /** SEO title length target: 30–60 characters. */
 export function normalizeSeoTitle(title: string): string {
@@ -70,6 +86,9 @@ export function buildMetadata(input: SeoInput): Metadata {
       type: input.type === "article" ? "article" : "website",
       ...(input.publishedTime && { publishedTime: input.publishedTime }),
       ...(input.modifiedTime && { modifiedTime: input.modifiedTime }),
+      ...(input.type === "article" && input.author && { authors: [input.author] }),
+      ...(input.section && { section: input.section }),
+      ...(input.tags?.length && { tags: input.tags.slice(0, 10) }),
     },
     twitter: {
       card: "summary_large_image",

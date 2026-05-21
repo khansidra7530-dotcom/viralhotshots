@@ -69,13 +69,12 @@ export async function GET(req: NextRequest) {
         status: string;
         wordCount: number;
         url: string;
-        facebook?: { ok: boolean; postId?: string; error?: string; skipped?: string };
       }[] = [];
       const errors: { niche: string; error: string }[] = [];
 
       for (const pick of picks) {
         try {
-          const { article, wordCount, social } = await generateArticle({
+          const { article, wordCount } = await generateArticle({
             niche: pick.category.niche,
             categoryId: pick.category.id,
             categoryName: pick.category.name,
@@ -90,7 +89,6 @@ export async function GET(req: NextRequest) {
             status: article.status,
             wordCount,
             url: `/blog/${article.slug}`,
-            facebook: social?.facebook,
           });
           await prisma.cronLog.create({
             data: {
@@ -127,7 +125,7 @@ export async function GET(req: NextRequest) {
 
     const pick = await pickCategoryForCron(forcedNiche);
 
-    const { article, wordCount, newsHeadline, social } = await generateArticle({
+    const { article, wordCount, newsHeadline } = await generateArticle({
       niche: pick.category.niche,
       categoryId: pick.category.id,
       categoryName: pick.category.name,
@@ -162,7 +160,6 @@ export async function GET(req: NextRequest) {
       minWords: ARTICLE_MIN_WORDS,
       newsHeadline,
       url: `/blog/${article.slug}`,
-      facebook: social?.facebook,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";

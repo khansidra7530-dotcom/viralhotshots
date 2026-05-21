@@ -3,8 +3,8 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { requireAdminApi } from "@/lib/auth-helpers";
 import { calculateSeoScore } from "@/lib/seo";
-import { publishArticleToSocial } from "@/lib/social/publish-article";
 import { estimateReadingTime, slugify } from "@/lib/utils";
+import { articleIndexNowUrl, scheduleIndexNow } from "@/lib/indexnow";
 
 const createSchema = z.object({
   title: z.string().min(3),
@@ -57,7 +57,9 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  const social = published ? await publishArticleToSocial(article.id) : undefined;
+  if (published) {
+    scheduleIndexNow([articleIndexNowUrl(article.slug)]);
+  }
 
-  return NextResponse.json({ ...article, social }, { status: 201 });
+  return NextResponse.json(article, { status: 201 });
 }

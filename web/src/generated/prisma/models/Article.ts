@@ -54,6 +54,7 @@ export type ArticleMinAggregateOutputType = {
   viewCount: number | null
   seoScore: number | null
   isAiGenerated: boolean | null
+  facebookPostId: string | null
   categoryId: string | null
   authorId: string | null
   createdAt: Date | null
@@ -76,6 +77,7 @@ export type ArticleMaxAggregateOutputType = {
   viewCount: number | null
   seoScore: number | null
   isAiGenerated: boolean | null
+  facebookPostId: string | null
   categoryId: string | null
   authorId: string | null
   createdAt: Date | null
@@ -103,6 +105,7 @@ export type ArticleCountAggregateOutputType = {
   sources: number
   affiliateBlocks: number
   isAiGenerated: number
+  facebookPostId: number
   categoryId: number
   authorId: number
   createdAt: number
@@ -139,6 +142,7 @@ export type ArticleMinAggregateInputType = {
   viewCount?: true
   seoScore?: true
   isAiGenerated?: true
+  facebookPostId?: true
   categoryId?: true
   authorId?: true
   createdAt?: true
@@ -161,6 +165,7 @@ export type ArticleMaxAggregateInputType = {
   viewCount?: true
   seoScore?: true
   isAiGenerated?: true
+  facebookPostId?: true
   categoryId?: true
   authorId?: true
   createdAt?: true
@@ -188,6 +193,7 @@ export type ArticleCountAggregateInputType = {
   sources?: true
   affiliateBlocks?: true
   isAiGenerated?: true
+  facebookPostId?: true
   categoryId?: true
   authorId?: true
   createdAt?: true
@@ -302,6 +308,7 @@ export type ArticleGroupByOutputType = {
   sources: runtime.JsonValue | null
   affiliateBlocks: runtime.JsonValue | null
   isAiGenerated: boolean
+  facebookPostId: string | null
   categoryId: string
   authorId: string
   createdAt: Date
@@ -352,6 +359,7 @@ export type ArticleWhereInput = {
   sources?: Prisma.JsonNullableFilter<"Article">
   affiliateBlocks?: Prisma.JsonNullableFilter<"Article">
   isAiGenerated?: Prisma.BoolFilter<"Article"> | boolean
+  facebookPostId?: Prisma.StringNullableFilter<"Article"> | string | null
   categoryId?: Prisma.StringFilter<"Article"> | string
   authorId?: Prisma.StringFilter<"Article"> | string
   createdAt?: Prisma.DateTimeFilter<"Article"> | Date | string
@@ -384,6 +392,7 @@ export type ArticleOrderByWithRelationInput = {
   sources?: Prisma.SortOrderInput | Prisma.SortOrder
   affiliateBlocks?: Prisma.SortOrderInput | Prisma.SortOrder
   isAiGenerated?: Prisma.SortOrder
+  facebookPostId?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -419,6 +428,7 @@ export type ArticleWhereUniqueInput = Prisma.AtLeast<{
   sources?: Prisma.JsonNullableFilter<"Article">
   affiliateBlocks?: Prisma.JsonNullableFilter<"Article">
   isAiGenerated?: Prisma.BoolFilter<"Article"> | boolean
+  facebookPostId?: Prisma.StringNullableFilter<"Article"> | string | null
   categoryId?: Prisma.StringFilter<"Article"> | string
   authorId?: Prisma.StringFilter<"Article"> | string
   createdAt?: Prisma.DateTimeFilter<"Article"> | Date | string
@@ -451,6 +461,7 @@ export type ArticleOrderByWithAggregationInput = {
   sources?: Prisma.SortOrderInput | Prisma.SortOrder
   affiliateBlocks?: Prisma.SortOrderInput | Prisma.SortOrder
   isAiGenerated?: Prisma.SortOrder
+  facebookPostId?: Prisma.SortOrderInput | Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -486,6 +497,7 @@ export type ArticleScalarWhereWithAggregatesInput = {
   sources?: Prisma.JsonNullableWithAggregatesFilter<"Article">
   affiliateBlocks?: Prisma.JsonNullableWithAggregatesFilter<"Article">
   isAiGenerated?: Prisma.BoolWithAggregatesFilter<"Article"> | boolean
+  facebookPostId?: Prisma.StringNullableWithAggregatesFilter<"Article"> | string | null
   categoryId?: Prisma.StringWithAggregatesFilter<"Article"> | string
   authorId?: Prisma.StringWithAggregatesFilter<"Article"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Article"> | Date | string
@@ -513,6 +525,7 @@ export type ArticleCreateInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
+  facebookPostId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutArticlesInput
@@ -543,6 +556,7 @@ export type ArticleUncheckedCreateInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
+  facebookPostId?: string | null
   categoryId: string
   authorId: string
   createdAt?: Date | string
@@ -573,6 +587,7 @@ export type ArticleUpdateInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutArticlesNestedInput
@@ -603,6 +618,7 @@ export type ArticleUncheckedUpdateInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -633,6 +649,7 @@ export type ArticleCreateManyInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
+  facebookPostId?: string | null
   categoryId: string
   authorId: string
   createdAt?: Date | string
@@ -660,6 +677,7 @@ export type ArticleUpdateManyMutationInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -685,6 +703,7 @@ export type ArticleUncheckedUpdateManyInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -730,6 +749,7 @@ export type ArticleCountOrderByAggregateInput = {
   sources?: Prisma.SortOrder
   affiliateBlocks?: Prisma.SortOrder
   isAiGenerated?: Prisma.SortOrder
+  facebookPostId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -758,6 +778,7 @@ export type ArticleMaxOrderByAggregateInput = {
   viewCount?: Prisma.SortOrder
   seoScore?: Prisma.SortOrder
   isAiGenerated?: Prisma.SortOrder
+  facebookPostId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -780,6 +801,7 @@ export type ArticleMinOrderByAggregateInput = {
   viewCount?: Prisma.SortOrder
   seoScore?: Prisma.SortOrder
   isAiGenerated?: Prisma.SortOrder
+  facebookPostId?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -973,6 +995,7 @@ export type ArticleCreateWithoutAuthorInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
+  facebookPostId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutArticlesInput
@@ -1002,6 +1025,7 @@ export type ArticleUncheckedCreateWithoutAuthorInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
+  facebookPostId?: string | null
   categoryId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1060,6 +1084,7 @@ export type ArticleScalarWhereInput = {
   sources?: Prisma.JsonNullableFilter<"Article">
   affiliateBlocks?: Prisma.JsonNullableFilter<"Article">
   isAiGenerated?: Prisma.BoolFilter<"Article"> | boolean
+  facebookPostId?: Prisma.StringNullableFilter<"Article"> | string | null
   categoryId?: Prisma.StringFilter<"Article"> | string
   authorId?: Prisma.StringFilter<"Article"> | string
   createdAt?: Prisma.DateTimeFilter<"Article"> | Date | string
@@ -1087,6 +1112,7 @@ export type ArticleCreateWithoutCategoryInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
+  facebookPostId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   author: Prisma.UserCreateNestedOneWithoutArticlesInput
@@ -1116,6 +1142,7 @@ export type ArticleUncheckedCreateWithoutCategoryInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
+  facebookPostId?: string | null
   authorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1171,6 +1198,7 @@ export type ArticleCreateWithoutLikesInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
+  facebookPostId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutArticlesInput
@@ -1200,6 +1228,7 @@ export type ArticleUncheckedCreateWithoutLikesInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
+  facebookPostId?: string | null
   categoryId: string
   authorId: string
   createdAt?: Date | string
@@ -1245,6 +1274,7 @@ export type ArticleUpdateWithoutLikesInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutArticlesNestedInput
@@ -1274,6 +1304,7 @@ export type ArticleUncheckedUpdateWithoutLikesInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1303,6 +1334,7 @@ export type ArticleCreateWithoutSubscriptionsInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
+  facebookPostId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutArticlesInput
@@ -1332,6 +1364,7 @@ export type ArticleUncheckedCreateWithoutSubscriptionsInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
+  facebookPostId?: string | null
   categoryId: string
   authorId: string
   createdAt?: Date | string
@@ -1377,6 +1410,7 @@ export type ArticleUpdateWithoutSubscriptionsInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutArticlesNestedInput
@@ -1406,6 +1440,7 @@ export type ArticleUncheckedUpdateWithoutSubscriptionsInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1435,6 +1470,7 @@ export type ArticleCreateWithoutCommentsInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
+  facebookPostId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.CategoryCreateNestedOneWithoutArticlesInput
@@ -1464,6 +1500,7 @@ export type ArticleUncheckedCreateWithoutCommentsInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
+  facebookPostId?: string | null
   categoryId: string
   authorId: string
   createdAt?: Date | string
@@ -1509,6 +1546,7 @@ export type ArticleUpdateWithoutCommentsInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutArticlesNestedInput
@@ -1538,6 +1576,7 @@ export type ArticleUncheckedUpdateWithoutCommentsInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1567,6 +1606,7 @@ export type ArticleCreateManyAuthorInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
+  facebookPostId?: string | null
   categoryId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1593,6 +1633,7 @@ export type ArticleUpdateWithoutAuthorInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.CategoryUpdateOneRequiredWithoutArticlesNestedInput
@@ -1622,6 +1663,7 @@ export type ArticleUncheckedUpdateWithoutAuthorInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1651,6 +1693,7 @@ export type ArticleUncheckedUpdateManyWithoutAuthorInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1677,6 +1720,7 @@ export type ArticleCreateManyCategoryInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: boolean
+  facebookPostId?: string | null
   authorId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1703,6 +1747,7 @@ export type ArticleUpdateWithoutCategoryInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   author?: Prisma.UserUpdateOneRequiredWithoutArticlesNestedInput
@@ -1732,6 +1777,7 @@ export type ArticleUncheckedUpdateWithoutCategoryInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1761,6 +1807,7 @@ export type ArticleUncheckedUpdateManyWithoutCategoryInput = {
   sources?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   affiliateBlocks?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   isAiGenerated?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  facebookPostId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1836,6 +1883,7 @@ export type ArticleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   sources?: boolean
   affiliateBlocks?: boolean
   isAiGenerated?: boolean
+  facebookPostId?: boolean
   categoryId?: boolean
   authorId?: boolean
   createdAt?: boolean
@@ -1869,6 +1917,7 @@ export type ArticleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   sources?: boolean
   affiliateBlocks?: boolean
   isAiGenerated?: boolean
+  facebookPostId?: boolean
   categoryId?: boolean
   authorId?: boolean
   createdAt?: boolean
@@ -1898,6 +1947,7 @@ export type ArticleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   sources?: boolean
   affiliateBlocks?: boolean
   isAiGenerated?: boolean
+  facebookPostId?: boolean
   categoryId?: boolean
   authorId?: boolean
   createdAt?: boolean
@@ -1927,13 +1977,14 @@ export type ArticleSelectScalar = {
   sources?: boolean
   affiliateBlocks?: boolean
   isAiGenerated?: boolean
+  facebookPostId?: boolean
   categoryId?: boolean
   authorId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ArticleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "excerpt" | "content" | "metaDescription" | "featuredImage" | "featuredImagePrompt" | "status" | "publishedAt" | "scheduledAt" | "readingTimeMinutes" | "viewCount" | "seoScore" | "tags" | "faq" | "internalLinks" | "sources" | "affiliateBlocks" | "isAiGenerated" | "categoryId" | "authorId" | "createdAt" | "updatedAt", ExtArgs["result"]["article"]>
+export type ArticleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "excerpt" | "content" | "metaDescription" | "featuredImage" | "featuredImagePrompt" | "status" | "publishedAt" | "scheduledAt" | "readingTimeMinutes" | "viewCount" | "seoScore" | "tags" | "faq" | "internalLinks" | "sources" | "affiliateBlocks" | "isAiGenerated" | "facebookPostId" | "categoryId" | "authorId" | "createdAt" | "updatedAt", ExtArgs["result"]["article"]>
 export type ArticleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1981,6 +2032,7 @@ export type $ArticlePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     sources: runtime.JsonValue | null
     affiliateBlocks: runtime.JsonValue | null
     isAiGenerated: boolean
+    facebookPostId: string | null
     categoryId: string
     authorId: string
     createdAt: Date
@@ -2433,6 +2485,7 @@ export interface ArticleFieldRefs {
   readonly sources: Prisma.FieldRef<"Article", 'Json'>
   readonly affiliateBlocks: Prisma.FieldRef<"Article", 'Json'>
   readonly isAiGenerated: Prisma.FieldRef<"Article", 'Boolean'>
+  readonly facebookPostId: Prisma.FieldRef<"Article", 'String'>
   readonly categoryId: Prisma.FieldRef<"Article", 'String'>
   readonly authorId: Prisma.FieldRef<"Article", 'String'>
   readonly createdAt: Prisma.FieldRef<"Article", 'DateTime'>

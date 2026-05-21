@@ -29,6 +29,7 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const article = await prisma.article.findFirst({
     where: { slug, status: "PUBLISHED" },
+    include: { category: true, author: { select: { name: true } } },
   });
   if (!article) return {};
   return buildMetadata({
@@ -39,6 +40,8 @@ export async function generateMetadata({ params }: Props) {
     type: "article",
     publishedTime: article.publishedAt?.toISOString(),
     modifiedTime: article.updatedAt.toISOString(),
+    author: article.author.name,
+    section: article.category.name,
     tags: article.tags,
   });
 }

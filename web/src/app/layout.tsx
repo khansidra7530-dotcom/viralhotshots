@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { OrganizationJsonLd } from "@/components/seo/organization-jsonld";
-import { buildMetadata } from "@/lib/seo";
+import { buildMetadata, buildSiteVerification } from "@/lib/seo";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import "./globals.css";
 
@@ -48,6 +48,7 @@ export const metadata: Metadata = {
       "Breaking trends, expert guides, and honest reviews across finance, tech, AI, health, gaming, crypto, business, and travel. Updated daily.",
     path: "/",
   }),
+  ...buildSiteVerification(),
   metadataBase: new URL(SITE_URL),
   icons: {
     icon: [{ url: "/icon", type: "image/png" }],

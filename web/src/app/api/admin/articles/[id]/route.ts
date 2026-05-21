@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdminApi } from "@/lib/auth-helpers";
 import { calculateSeoScore } from "@/lib/seo";
-import { publishArticleToSocial } from "@/lib/social/publish-article";
+import { articleIndexNowUrl, scheduleIndexNow } from "@/lib/indexnow";
 import { z } from "zod";
 
 const updateSchema = z.object({
@@ -64,9 +64,11 @@ export async function PATCH(
     },
   });
 
-  const social = newlyPublished ? await publishArticleToSocial(article.id) : undefined;
+  if (newlyPublished) {
+    scheduleIndexNow([articleIndexNowUrl(article.slug)]);
+  }
 
-  return NextResponse.json({ ...article, social });
+  return NextResponse.json(article);
 }
 
 export async function DELETE(

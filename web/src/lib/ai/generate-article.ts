@@ -25,7 +25,7 @@ import {
 import { slugify, estimateReadingTime, countWords, stripMarkdownCodeFence } from "@/lib/utils";
 import { calculateSeoScore, normalizeMetaDescription } from "@/lib/seo";
 import { comparisonTableMarkdown, buildAmazonUrl } from "@/lib/affiliate";
-import { publishArticleToSocial, type PublishSocialResult } from "@/lib/social/publish-article";
+import { articleIndexNowUrl, scheduleIndexNow } from "@/lib/indexnow";
 import type { Niche } from "@/generated/prisma/client";
 import type { Prisma } from "@/generated/prisma/client";
 
@@ -270,10 +270,9 @@ export async function generateArticle(input: {
     },
   });
 
-  let social: PublishSocialResult | undefined;
   if (shouldPublish) {
-    social = await publishArticleToSocial(article.id);
+    scheduleIndexNow([articleIndexNowUrl(article.slug)]);
   }
 
-  return { article, wordCount, newsHeadline: news?.headline ?? null, social };
+  return { article, wordCount, newsHeadline: news?.headline ?? null };
 }

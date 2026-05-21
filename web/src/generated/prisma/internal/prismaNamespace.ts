@@ -1391,6 +1391,7 @@ export const ArticleScalarFieldEnum = {
   sources: 'sources',
   affiliateBlocks: 'affiliateBlocks',
   isAiGenerated: 'isAiGenerated',
+  facebookPostId: 'facebookPostId',
   categoryId: 'categoryId',
   authorId: 'authorId',
   createdAt: 'createdAt',
