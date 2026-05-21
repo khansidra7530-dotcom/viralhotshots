@@ -39,7 +39,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   ...buildMetadata({
-    title: `${SITE_NAME} | Trending News & Expert Guides`,
+    title: `${SITE_NAME} | Daily Trending News & Expert Guides`,
     description:
       "Breaking trends, expert guides, and honest reviews across finance, tech, AI, health, gaming, crypto, business, and travel. Updated daily.",
     path: "/",

@@ -22,9 +22,9 @@ const nicheGradients = [
 
 export default async function HomePage() {
   const [latest, trending, categories, publishedCount] = await Promise.all([
-    getPublishedArticles({ limit: 7 }),
-    getTrendingArticles(5),
-    prisma.category.findMany({ orderBy: { name: "asc" }, take: 8 }),
+    getPublishedArticles({ limit: 5 }),
+    getTrendingArticles(4),
+    prisma.category.findMany({ orderBy: { name: "asc" }, take: 6 }),
     prisma.article.count({ where: { status: "PUBLISHED", publishedAt: { lte: new Date() } } }),
   ]);
 

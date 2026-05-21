@@ -30,12 +30,17 @@ export function buildSiteVerification(): Pick<Metadata, "verification"> | Record
   };
 }
 
-/** SEO title length target: 30–60 characters. */
+/** SEO title length target: 50–60 characters. */
 export function normalizeSeoTitle(title: string): string {
   const clean = title.replace(/\s+/g, " ").trim();
-  if (clean.length >= 30 && clean.length <= 60) return clean;
-  if (clean.length < 30) {
-    const padded = `${clean} | ${SITE_NAME}`;
+  if (clean.length >= 50 && clean.length <= 60) return clean;
+  if (clean.length >= 30 && clean.length < 50) {
+    const suffix = " | Daily Updates";
+    const extended = `${clean}${suffix}`;
+    if (extended.length <= 60) return extended;
+  }
+  if (clean.length < 50) {
+    const padded = `${clean} | ${SITE_NAME} Daily`;
     return padded.length <= 60 ? padded : padded.slice(0, 60).trimEnd();
   }
   return clean.slice(0, 60).trimEnd();

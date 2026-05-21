@@ -54,7 +54,7 @@ export function ArticleCard({
           priority={featured}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-        <span className="absolute left-4 top-4 rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wider text-accent-foreground shadow-lg">
+        <span className="absolute left-4 top-4 rounded-full bg-accent px-3 py-1.5 text-sm font-bold uppercase tracking-wider text-accent-foreground shadow-lg sm:text-xs sm:py-1">
           {category.name}
         </span>
         {featured && (
@@ -75,7 +75,7 @@ export function ArticleCard({
           </h2>
         </Link>
         <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">{excerpt}</p>
-        <div className="mt-auto flex items-center gap-3 border-t border-border pt-4 text-xs text-muted-foreground">
+        <div className="mt-auto flex items-center gap-3 border-t border-border pt-4 text-sm text-muted-foreground sm:text-xs">
           {publishedAt && (
             <time dateTime={String(publishedAt)} className="font-medium">
               {formatDate(publishedAt)}

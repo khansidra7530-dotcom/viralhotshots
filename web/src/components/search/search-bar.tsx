@@ -22,7 +22,7 @@ export function SearchBar({ className }: { className?: string }) {
         value={q}
         onChange={(e) => setQ(e.target.value)}
         placeholder="Search articles..."
-        className="h-10 w-full rounded-full border border-border bg-muted/50 pl-10 pr-4 text-sm outline-none transition placeholder:text-muted-foreground focus:border-accent/50 focus:bg-card focus:ring-2 focus:ring-accent/20"
+        className="h-11 min-h-11 w-full rounded-full border border-border bg-muted/50 pl-10 pr-4 text-base outline-none transition placeholder:text-muted-foreground focus:border-accent/50 focus:bg-card focus:ring-2 focus:ring-accent/20 sm:text-sm"
       />
     </form>
   );
