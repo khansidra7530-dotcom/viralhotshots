@@ -1,3 +1,11 @@
 {
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.viralhotshots.com" }],
+      "destination": "https://viralhotshots.com/:path*",
+      "permanent": true
+    }
+  ]
 }
