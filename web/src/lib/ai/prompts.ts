@@ -21,7 +21,10 @@ export function buildArticlePrompt(input: {
   const topicLine = input.topic
     ? `Focus topic: ${input.topic}`
     : input.news
-      ? `News topic: "${input.news.headline.slice(0, 120)}" — ${input.news.summary.slice(0, 200)}`
+      ? `TRENDING NOW (from Google Trends / Google News — write a timely article about this):
+- Headline: "${input.news.headline.slice(0, 140)}"
+- Context: ${input.news.summary.slice(0, 280)}${input.news.traffic ? `\n- Search interest: ${input.news.traffic}` : ""}${input.news.trendingQuery ? `\n- Trending query: "${input.news.trendingQuery}"` : ""}${input.news.relatedTrends?.length ? `\n- Also trending: ${input.news.relatedTrends.slice(0, 4).join("; ")}` : ""}
+Explain what happened, why it matters, and what readers should know. Use today's date. Do NOT write a stale evergreen piece — tie the article to this news angle.`
       : `Pick a fresh, specific topic for ${input.niche} readers in ${input.category}. Avoid generic listicles like "5 tips" unless the news demands it.`;
 
   const avoidDupes =
@@ -102,7 +105,7 @@ export function buildArticleBodyPrompt(input: {
   news?: NewsBrief | null;
 }): string {
   const newsNote = input.news
-    ? `\nNews: ${input.news.headline.slice(0, 100)}`
+    ? `\nTrending news angle (Google): "${input.news.headline.slice(0, 120)}" — ${input.news.summary.slice(0, 200)}. Open with why this is trending now.`
     : "";
 
   return `Write article body (markdown, no H1).

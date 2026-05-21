@@ -37,6 +37,10 @@ export default async function CategoriesPage() {
         compact
       />
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <p className="mb-10 max-w-3xl text-lg text-muted-foreground">
+          Explore all categories and niches — find articles on finance, tech, AI, health,
+          gaming, crypto, business, travel, and more.
+        </p>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((cat, i) => (
             <Link

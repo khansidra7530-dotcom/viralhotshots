@@ -16,7 +16,7 @@ const ArticleActions = nextDynamic(
 import { CommentSection } from "@/components/blog/comment-section";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { buildMetadata, articleJsonLd, faqJsonLd, breadcrumbJsonLd } from "@/lib/seo";
+import { buildMetadata, articleJsonLd, faqJsonLd, breadcrumbJsonLd, ensureBodyMatchesTitle } from "@/lib/seo";
 import { formatDate, absoluteUrl } from "@/lib/utils";
 import { getRelatedArticles, incrementViewCount } from "@/lib/articles";
 import { Clock } from "lucide-react";
@@ -65,6 +65,11 @@ export default async function ArticlePage({ params }: Props) {
   const related = await getRelatedArticles(article.id, article.categoryId);
   const url = absoluteUrl(`/blog/${slug}`);
   const faq = (article.faq as { question: string; answer: string }[] | null) ?? [];
+  const articleContent = ensureBodyMatchesTitle(
+    article.title,
+    article.excerpt,
+    article.content
+  );
 
   const jsonLd = [
     articleJsonLd({
@@ -137,7 +142,7 @@ export default async function ArticlePage({ params }: Props) {
           />
 
           <div className="mt-10 w-full min-w-0">
-            <MarkdownContent content={article.content} />
+            <MarkdownContent content={articleContent} />
 
             {faq.length > 0 && (
               <section className="mt-12 w-full break-words">

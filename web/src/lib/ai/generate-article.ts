@@ -274,5 +274,11 @@ export async function generateArticle(input: {
     scheduleIndexNow([articleIndexNowUrl(article.slug)]);
   }
 
-  return { article, wordCount, newsHeadline: news?.headline ?? null };
+  return {
+    article,
+    wordCount,
+    newsHeadline: news?.headline ?? null,
+    trendingQuery: news?.trendingQuery ?? null,
+    trendingSource: news?.matchedFrom ?? null,
+  };
 }

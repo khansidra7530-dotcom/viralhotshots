@@ -69,12 +69,15 @@ export async function GET(req: NextRequest) {
         status: string;
         wordCount: number;
         url: string;
+        trendingQuery?: string | null;
+        trendingSource?: string | null;
       }[] = [];
       const errors: { niche: string; error: string }[] = [];
 
       for (const pick of picks) {
         try {
-          const { article, wordCount } = await generateArticle({
+          const { article, wordCount, newsHeadline, trendingQuery, trendingSource } =
+            await generateArticle({
             niche: pick.category.niche,
             categoryId: pick.category.id,
             categoryName: pick.category.name,
@@ -89,6 +92,8 @@ export async function GET(req: NextRequest) {
             status: article.status,
             wordCount,
             url: `/blog/${article.slug}`,
+            trendingQuery,
+            trendingSource,
           });
           await prisma.cronLog.create({
             data: {
@@ -125,7 +130,8 @@ export async function GET(req: NextRequest) {
 
     const pick = await pickCategoryForCron(forcedNiche);
 
-    const { article, wordCount, newsHeadline } = await generateArticle({
+    const { article, wordCount, newsHeadline, trendingQuery, trendingSource } =
+      await generateArticle({
       niche: pick.category.niche,
       categoryId: pick.category.id,
       categoryName: pick.category.name,
@@ -159,6 +165,8 @@ export async function GET(req: NextRequest) {
       wordCount,
       minWords: ARTICLE_MIN_WORDS,
       newsHeadline,
+      trendingQuery,
+      trendingSource,
       url: `/blog/${article.slug}`,
     });
   } catch (error) {

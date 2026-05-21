@@ -131,11 +131,7 @@ export function applyKeywordsToArticle(input: {
   let meta = input.metaDescription.trim();
   let content = input.content.trim();
 
-  if (!containsPhrase(title, primary)) {
-    title = `${primary}: ${title}`;
-    if (title.length > 65) title = `${title.slice(0, 62)}…`;
-  }
-
+  // Do not rewrite the visible title — it must match the on-page H1.
   if (!containsPhrase(meta, primary)) {
     meta = `${primary} — ${meta}`;
     if (meta.length > 160) meta = `${meta.slice(0, 157)}…`;

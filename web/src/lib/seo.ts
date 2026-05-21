@@ -71,10 +71,6 @@ export function buildMetadata(input: SeoInput): Metadata {
     description,
     alternates: {
       canonical: url,
-      languages: {
-        "en-US": url,
-        "x-default": url,
-      },
     },
     openGraph: {
       title,
@@ -222,4 +218,39 @@ export function calculateSeoScore(input: {
   if (input.hasSources) score += 5;
 
   return Math.min(100, score);
+}
+
+const TITLE_STOP_WORDS = new Set([
+  "the", "a", "an", "and", "or", "for", "to", "in", "on", "of", "is", "are", "was", "were",
+  "be", "at", "by", "with", "from", "as", "it", "this", "that", "how", "what", "why", "when",
+  "who", "your", "our", "best", "top", "new", "guide", "2024", "2025", "2026",
+]);
+
+/** Share of significant H1 words found in page body text (for SEO audits). */
+export function titleCoverageInText(title: string, text: string): number {
+  const words = title
+    .toLowerCase()
+    .replace(/[^\w\s]/g, " ")
+    .split(/\s+/)
+    .filter((w) => w.length > 2 && !TITLE_STOP_WORDS.has(w));
+  if (words.length === 0) return 1;
+  const lower = text.toLowerCase();
+  const hits = words.filter((w) => lower.includes(w)).length;
+  return hits / words.length;
+}
+
+/** Prepends a short lead when the article body does not echo the H1. */
+export function ensureBodyMatchesTitle(title: string, excerpt: string, content: string): string {
+  const body = content.trim();
+  if (titleCoverageInText(title, body) >= 0.45) return body;
+
+  const lead = excerpt.trim()
+    ? `${title}. ${excerpt.trim()}`
+    : `This guide explains ${title.toLowerCase()} in plain English.`;
+
+  if (titleCoverageInText(title, `${lead}\n\n${body}`) >= 0.45) {
+    return `${lead}\n\n${body}`;
+  }
+
+  return `${lead}\n\n${body}`;
 }
