@@ -2,6 +2,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeSanitize from "rehype-sanitize";
 import { SITE_URL } from "@/lib/constants";
+import { resizeImageUrl } from "@/lib/image-utils";
 import { sanitizeArticleContent } from "@/lib/sanitize-content";
 
 /** Strip accidental code-fence wrappers so the whole article is not one <pre> block. */
@@ -28,7 +29,7 @@ export function MarkdownContent({ content }: { content: string }) {
 
   return (
     <div className="article-body w-full min-w-0 max-w-full">
-      <div className="prose prose-lg prose-neutral dark:prose-invert w-full max-w-none font-sans break-words prose-headings:scroll-mt-20 prose-headings:break-words prose-p:font-sans prose-p:leading-relaxed prose-p:whitespace-normal prose-li:leading-relaxed prose-li:whitespace-normal prose-a:break-words prose-a:text-accent prose-strong:break-words prose-code:break-words prose-pre:whitespace-pre-wrap prose-pre:break-words prose-img:mx-auto prose-img:max-h-72 prose-img:w-full prose-img:max-w-full prose-img:rounded-xl prose-img:object-cover">
+      <div className="prose prose-lg prose-neutral dark:prose-invert w-full max-w-none font-sans break-words prose-headings:scroll-mt-20 prose-headings:break-words prose-p:font-sans prose-p:leading-relaxed prose-p:whitespace-normal prose-li:leading-relaxed prose-li:whitespace-normal prose-a:break-words prose-a:text-accent prose-strong:break-words prose-code:break-words prose-pre:whitespace-pre-wrap prose-pre:break-words prose-img:mx-auto prose-img:h-auto prose-img:w-full prose-img:max-w-full prose-img:rounded-xl">
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[rehypeSanitize]}
@@ -94,15 +95,23 @@ export function MarkdownContent({ content }: { content: string }) {
                 </code>
               );
             },
-            img: ({ src, alt }) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={src ?? ""}
-                alt={alt ?? ""}
-                loading="lazy"
-                className="mx-auto max-h-72 w-full max-w-full rounded-xl object-cover"
-              />
-            ),
+            img: ({ src, alt }) => {
+              const raw = typeof src === "string" ? src : "";
+              const optimized =
+                raw.startsWith("http") ? resizeImageUrl(raw, 768) : raw;
+              return (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={optimized}
+                  alt={alt ?? ""}
+                  loading="lazy"
+                  decoding="async"
+                  width={768}
+                  height={478}
+                  className="mx-auto h-auto w-full max-w-full rounded-xl"
+                />
+              );
+            },
           }}
         >
           {markdown}

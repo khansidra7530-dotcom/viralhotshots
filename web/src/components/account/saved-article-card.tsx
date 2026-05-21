@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
+import { resizeImageUrl } from "@/lib/image-utils";
 import { Clock } from "lucide-react";
 
 type Props = {
@@ -30,13 +31,13 @@ export function SavedArticleCard({
     <li className="flex gap-4 rounded-2xl border border-border bg-card p-4 transition hover:border-accent/40">
       <Link
         href={`/blog/${slug}`}
-        className="relative h-20 w-28 shrink-0 overflow-hidden rounded-xl"
+        className="relative aspect-[900/560] w-28 shrink-0 overflow-hidden rounded-xl"
       >
         <Image
-          src={featuredImage ?? "/opengraph-image"}
+          src={resizeImageUrl(featuredImage ?? "/opengraph-image", 112)}
           alt={title}
           fill
-          className="object-cover"
+          className="object-cover object-center"
           sizes="112px"
         />
       </Link>

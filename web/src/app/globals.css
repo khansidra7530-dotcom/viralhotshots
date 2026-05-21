@@ -43,7 +43,7 @@
   --color-accent-secondary: var(--accent-secondary);
   --color-accent-foreground: var(--accent-foreground);
   --font-sans: var(--font-sans);
-  --font-serif: var(--font-serif);
+  --font-serif: Georgia, "Times New Roman", serif;
   --font-display: var(--font-display);
 }
 

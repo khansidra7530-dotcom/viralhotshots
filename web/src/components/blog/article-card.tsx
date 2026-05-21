@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { formatDate } from "@/lib/utils";
+import { resizeImageUrl } from "@/lib/image-utils";
 import { Clock, ArrowUpRight } from "lucide-react";
 
 type ArticleCardProps = {
@@ -24,23 +25,33 @@ export function ArticleCard({
   readingTimeMinutes,
   featured,
 }: ArticleCardProps) {
+  const imageWidth = featured ? 640 : 384;
+  const fallback =
+    "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=640&h=400&fit=crop&q=80";
+  const imageSrc = resizeImageUrl(featuredImage ?? fallback, imageWidth);
+
   return (
     <article
       className={`group card-elevated overflow-hidden ${
-        featured ? "md:col-span-2 md:grid md:grid-cols-2" : ""
+        featured ? "md:grid md:grid-cols-2 md:items-stretch" : ""
       }`}
     >
       <Link
         href={`/blog/${slug}`}
-        className={`relative block w-full overflow-hidden ${featured ? "aspect-[900/560] min-h-[200px]" : "aspect-[900/560]"}`}
+        className="relative block w-full min-h-0 overflow-hidden aspect-[900/560]"
       >
         <Image
-          src={featuredImage ?? "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=640&h=400&fit=crop&q=80"}
+          src={imageSrc}
           alt={title}
           fill
           className="object-cover object-center transition duration-700 group-hover:scale-105"
-          sizes={featured ? "(max-width: 768px) 100vw, 400px" : "(max-width: 768px) 100vw, 320px"}
-          loading="lazy"
+          sizes={
+            featured
+              ? "(max-width: 768px) 100vw, 640px"
+              : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 384px"
+          }
+          loading={featured ? "eager" : "lazy"}
+          priority={featured}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
         <span className="absolute left-4 top-4 rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wider text-accent-foreground shadow-lg">

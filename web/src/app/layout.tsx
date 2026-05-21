@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
-import { Bricolage_Grotesque, Inter, Source_Serif_4 } from "next/font/google";
+import { Bricolage_Grotesque, Inter } from "next/font/google";
 import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { AuthSessionProvider } from "@/components/providers/session-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
@@ -15,6 +15,7 @@ const sans = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
+  preload: true,
 });
 
 const display = Bricolage_Grotesque({
@@ -22,12 +23,7 @@ const display = Bricolage_Grotesque({
   variable: "--font-display",
   weight: ["600", "700", "800"],
   display: "swap",
-});
-
-const serif = Source_Serif_4({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  display: "swap",
+  preload: true,
 });
 
 export const viewport: Viewport = {
@@ -61,7 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${sans.variable} ${display.variable} ${serif.variable} flex min-h-screen flex-col antialiased`}
+        className={`${sans.variable} ${display.variable} flex min-h-screen flex-col antialiased`}
       >
         <Suspense fallback={null}>
           <GoogleAnalytics />
