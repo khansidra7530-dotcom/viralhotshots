@@ -22,7 +22,7 @@ type NewsCandidate = {
 };
 
 const FETCH_HEADERS = {
-  "User-Agent": "Mozilla/5.0 (compatible; ViralHotshots/1.0; +https://viralhotshots.com)",
+  "User-Agent": "Mozilla/5.0 (compatible; ViralHotshots/1.0; +https://www.viralhotshots.com)",
   Accept: "application/rss+xml, application/xml, text/xml, */*",
 };
 

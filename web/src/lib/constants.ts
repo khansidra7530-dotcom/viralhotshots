@@ -1,11 +1,18 @@
 export const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME ?? "Viral Hotshots";
 
-/** Apex (non-www) URL — must match the domain users land on after redirects. */
+/** Prefer www — must match the domain users land on after redirects. */
 function normalizeSiteUrl(raw: string): string {
   try {
     const url = new URL(raw);
-    if (url.hostname.startsWith("www.")) {
-      url.hostname = url.hostname.slice(4);
+    const host = url.hostname;
+    const isLocal =
+      host === "localhost" ||
+      host === "127.0.0.1" ||
+      host.endsWith(".local") ||
+      /^\d+\.\d+\.\d+\.\d+$/.test(host);
+    if (isLocal) return url.origin;
+    if (!host.startsWith("www.")) {
+      url.hostname = `www.${host}`;
     }
     return url.origin;
   } catch {
@@ -14,7 +21,7 @@ function normalizeSiteUrl(raw: string): string {
 }
 
 export const SITE_URL = normalizeSiteUrl(
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://viralhotshots.com"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.viralhotshots.com"
 );
 export const SITE_TAGLINE = "Trending news and expert guides daily";
 

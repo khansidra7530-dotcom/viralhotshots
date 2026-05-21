@@ -25,7 +25,7 @@ export function getAuthConfigProblems(): string[] {
   if (!url) {
     problems.push("AUTH_URL or NEXTAUTH_URL is not set");
   } else if (url.includes("localhost") && process.env.VERCEL === "1") {
-    problems.push("NEXTAUTH_URL points to localhost on Vercel — use https://viralhotshots.com");
+    problems.push("NEXTAUTH_URL points to localhost on Vercel — use https://www.viralhotshots.com");
   }
 
   return problems;
