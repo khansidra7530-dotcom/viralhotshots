@@ -33,9 +33,11 @@ All require `Authorization: Bearer CRON_SECRET` or `?secret=`.
 |----------|-------------------|---------|
 | `/api/cron/marketing` | Daily 6:00 UTC | Full pipeline |
 | `/api/cron/research-trends` | Daily 5:00 UTC | Trend research only |
-| `/api/cron/generate` | Every 4 hours | Article generation (existing) |
-| `/api/cron/social-publish` | Every 2 hours | Publish due social posts |
+| `/api/cron/generate` | Daily 12:00 UTC | Extra article (Hobby plan: 1×/day) |
+| `/api/cron/social-publish` | Daily 7:00 UTC | Publish due social posts |
 | `/api/cron/optimize` | Weekly Sun 3:00 UTC | SEO refresh agent |
+
+> **Vercel Hobby** allows each cron to run at most once per day. For every-4-hour articles, use [cron-job.org](https://cron-job.org) to hit `/api/cron/generate` with your `CRON_SECRET`.
 
 ### Manual trigger (PowerShell)
 
