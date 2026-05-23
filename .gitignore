@@ -41,3 +41,4 @@ coverage/
 _extracted_from_transcript/
 
 .vercel
+.env*

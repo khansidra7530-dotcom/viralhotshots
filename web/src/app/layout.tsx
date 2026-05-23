@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   ...buildMetadata({
     title: `${SITE_NAME} | Daily Trending News & Expert Guides`,
     description:
-      "Breaking trends, expert guides, and honest reviews across finance, tech, AI, health, gaming, crypto, business, and travel. Updated daily.",
+      "Breaking trends, expert guides, and honest reviews across finance, tech, AI, health, gaming, crypto, business, and travel — fresh daily articles with practical tips for everyday readers.",
     path: "/",
   }),
   ...buildSiteVerification(),

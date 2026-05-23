@@ -45,6 +45,15 @@ export async function scoreTrendItems(
   const titleMatches = recentTitles.map((a) => a.title);
   const tagSet = new Set(recentTitles.flatMap((a) => a.tags.map((t) => t.toLowerCase())));
 
+  const sourceBoost: Partial<Record<string, number>> = {
+    GOOGLE_TRENDS: 4,
+    GOOGLE_NEWS: 3.5,
+    HACKER_NEWS: 1.5,
+    PRODUCT_HUNT: 1,
+    TWITTER: 2,
+    REDDIT: 0,
+  };
+
   const scored: ScoredTrend[] = items.map((item) => {
     const text = `${item.title} ${item.summary ?? ""} ${item.keywords.join(" ")}`;
     const niche = item.niche ?? detectNiche(text) ?? options?.niche;
@@ -64,7 +73,8 @@ export async function scoreTrendItems(
       item.trafficScore * 0.35 +
       item.viralScore * 0.35 +
       competitionScore * 0.25 +
-      nicheBoost;
+      nicheBoost +
+      (sourceBoost[item.source] ?? 0);
 
     return {
       ...item,
@@ -81,4 +91,27 @@ export async function scoreTrendItems(
   }
 
   return unique.slice(0, options?.limit ?? 30);
+}
+
+/** Trending topics with the lowest on-site competition — best for new articles. */
+export function rankLowCompetitionTrends(trends: ScoredTrend[]): ScoredTrend[] {
+  const sourceBoost: Partial<Record<string, number>> = {
+    GOOGLE_TRENDS: 2,
+    GOOGLE_NEWS: 1.5,
+    HACKER_NEWS: 1,
+    PRODUCT_HUNT: 0.5,
+    TWITTER: 1,
+    REDDIT: 0,
+  };
+
+  return [...trends]
+    .filter((t) => t.competitionScore >= 6)
+    .sort((a, b) => {
+      const score = (t: ScoredTrend) =>
+        t.trafficScore * 0.35 +
+        t.competitionScore * 0.45 +
+        t.viralScore * 0.1 +
+        (sourceBoost[t.source] ?? 0);
+      return score(b) - score(a);
+    });
 }

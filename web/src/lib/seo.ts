@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
 import { absoluteUrl } from "@/lib/utils";
 
+/** Absolute URL for Open Graph / Twitter cards — never double-prefixes https URLs. */
+export function resolveSocialImageUrl(image?: string | null): string {
+  if (!image?.trim()) return absoluteUrl("/opengraph-image", SITE_URL);
+  return absoluteUrl(image.trim(), SITE_URL);
+}
+
 export type SeoInput = {
   title: string;
   description: string;
@@ -46,30 +52,28 @@ export function normalizeSeoTitle(title: string): string {
   return clean.slice(0, 60).trimEnd();
 }
 
-/** Meta description target: 120–160 characters. */
+/** Meta description target: 150–220 characters (SEO audit standard). */
 export function normalizeMetaDescription(description: string): string {
   const clean = description.replace(/\s+/g, " ").trim();
-  if (clean.length >= 120 && clean.length <= 160) return clean;
+  if (clean.length >= 150 && clean.length <= 220) return clean;
 
-  if (clean.length > 160) {
-    return `${clean.slice(0, 157).trimEnd()}...`;
+  if (clean.length > 220) {
+    return `${clean.slice(0, 217).trimEnd()}...`;
   }
 
   const suffix = ` Expert guides and trending news on ${SITE_NAME}.`;
   const combined = `${clean}${suffix}`;
-  if (combined.length <= 160) {
-    return combined.length >= 120 ? combined : combined.padEnd(120, ".");
+  if (combined.length <= 220) {
+    return combined.length >= 150 ? combined : combined.padEnd(150, ".");
   }
-  return combined.slice(0, 157).trimEnd() + "...";
+  return combined.slice(0, 217).trimEnd() + "...";
 }
 
 export function buildMetadata(input: SeoInput): Metadata {
   const url = absoluteUrl(input.path, SITE_URL);
   const title = normalizeSeoTitle(input.title);
   const description = normalizeMetaDescription(input.description);
-  const image = input.image
-    ? absoluteUrl(input.image, SITE_URL)
-    : absoluteUrl("/opengraph-image", SITE_URL);
+  const image = resolveSocialImageUrl(input.image);
 
   return {
     title,
@@ -82,7 +86,15 @@ export function buildMetadata(input: SeoInput): Metadata {
       description,
       url,
       siteName: SITE_NAME,
-      images: [{ url: image, width: 1200, height: 630, alt: title }],
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: title,
+          type: image.includes(".png") ? "image/png" : "image/jpeg",
+        },
+      ],
       locale: "en_US",
       type: input.type === "article" ? "article" : "website",
       ...(input.publishedTime && { publishedTime: input.publishedTime }),
@@ -120,7 +132,7 @@ export function articleJsonLd(input: {
     "@type": "Article",
     headline: normalizeSeoTitle(input.title),
     description: normalizeMetaDescription(input.description),
-    image: input.image ? [input.image] : undefined,
+    image: input.image ? [resolveSocialImageUrl(input.image)] : [resolveSocialImageUrl(null)],
     datePublished: input.datePublished,
     dateModified: input.dateModified,
     author: { "@type": "Person", name: input.authorName },

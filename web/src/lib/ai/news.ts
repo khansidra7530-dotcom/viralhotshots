@@ -4,7 +4,7 @@ import type { Niche } from "@/generated/prisma/client";
 export type NewsBrief = {
   headline: string;
   summary: string;
-  sources: { title: string; url: string }[];
+  sources: { title: string; url: string; imageUrl?: string }[];
   trendingQuery?: string;
   traffic?: string;
   matchedFrom?: "google_trends" | "google_news_section" | "google_news_search";
@@ -14,7 +14,7 @@ export type NewsBrief = {
 type NewsCandidate = {
   headline: string;
   summary: string;
-  sources: { title: string; url: string }[];
+  sources: { title: string; url: string; imageUrl?: string }[];
   trendingQuery: string;
   traffic?: string;
   matchedFrom: NewsBrief["matchedFrom"];
@@ -205,8 +205,33 @@ function parseTrendItems(xml: string): NewsCandidate[] {
   return items;
 }
 
-function parseRssItems(xml: string): { title: string; link: string; description: string }[] {
-  const items: { title: string; link: string; description: string }[] = [];
+function extractRssImageUrl(block: string): string | undefined {
+  const media =
+    block.match(/<media:content[^>]+url=["']([^"']+)["']/i)?.[1] ??
+    block.match(/<media:thumbnail[^>]+url=["']([^"']+)["']/i)?.[1] ??
+    block.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]+type=["']image/i)?.[1] ??
+    block.match(/<enclosure[^>]+type=["']image[^"']*["'][^>]+url=["']([^"']+)["']/i)?.[1];
+
+  if (media?.startsWith("http")) return media;
+
+  const descImg = block.match(/<description>[\s\S]*?<img[^>]+src=["']([^"']+)["']/i)?.[1];
+  if (descImg?.startsWith("http")) return descImg;
+
+  return undefined;
+}
+
+function parseRssItems(xml: string): {
+  title: string;
+  link: string;
+  description: string;
+  imageUrl?: string;
+}[] {
+  const items: {
+    title: string;
+    link: string;
+    description: string;
+    imageUrl?: string;
+  }[] = [];
   const blocks = xml.match(/<item>[\s\S]*?<\/item>/gi) ?? [];
   for (const block of blocks.slice(0, 20)) {
     const title = stripHtml(block.match(/<title>([\s\S]*?)<\/title>/i)?.[1] ?? "");
@@ -214,8 +239,9 @@ function parseRssItems(xml: string): { title: string; link: string; description:
     const description = stripHtml(
       block.match(/<description>([\s\S]*?)<\/description>/i)?.[1] ?? ""
     );
+    const imageUrl = extractRssImageUrl(block);
     if (title && link.startsWith("http")) {
-      items.push({ title, link, description });
+      items.push({ title, link, description, imageUrl });
     }
   }
   return items;
@@ -248,7 +274,11 @@ async function fetchGoogleNewsSection(niche: Niche): Promise<NewsCandidate[]> {
   return parseRssItems(xml).map((item, i) => ({
     headline: normalizeTitle(item.title).slice(0, 200),
     summary: item.description.slice(0, 400) || item.title,
-    sources: [{ title: normalizeTitle(item.title).slice(0, 120), url: item.link }],
+    sources: [{
+      title: normalizeTitle(item.title).slice(0, 120),
+      url: item.link,
+      imageUrl: item.imageUrl,
+    }],
     trendingQuery: normalizeTitle(item.title),
     matchedFrom: "google_news_section" as const,
     score: 0,
@@ -270,7 +300,11 @@ async function fetchGoogleNewsSearch(niche: Niche, categoryName: string): Promis
       candidates.push({
         headline: normalizeTitle(item.title).slice(0, 200),
         summary: item.description.slice(0, 400) || item.title,
-        sources: [{ title: normalizeTitle(item.title).slice(0, 120), url: item.link }],
+        sources: [{
+          title: normalizeTitle(item.title).slice(0, 120),
+          url: item.link,
+          imageUrl: item.imageUrl,
+        }],
         trendingQuery: normalizeTitle(item.title),
         matchedFrom: "google_news_search",
         score: 0,
@@ -354,7 +388,7 @@ export async function fetchNewsBrief(
   const pick = ranked[0];
   const relatedTrends = ranked.slice(1, 6).map((c) => c.headline);
 
-  const sourcesMap = new Map<string, { title: string; url: string }>();
+  const sourcesMap = new Map<string, { title: string; url: string; imageUrl?: string }>();
   for (const c of ranked.slice(0, 5)) {
     for (const s of c.sources) {
       if (!sourcesMap.has(s.url)) sourcesMap.set(s.url, s);

@@ -77,7 +77,7 @@ ${newsSources}
 - Soft affiliate mentions only where honest (2–3 max).
 
 ## Hero image
-- "featuredImageSearchQuery" must be a UNIQUE, specific 4–7 word photo search matching THIS article only (not generic "AI technology"). Example: "person budgeting notebook coffee" or "hiking trail mountain sunrise".
+- "featuredImageSearchQuery" must be a UNIQUE, specific 4–7 word photo search tied to the news story and THIS article (use names, places, or objects from the headline — not generic "AI technology"). Example: "federal reserve building economy" or "nvidia gpu chip closeup".
 
 Return ONLY valid JSON (no markdown fences, no "content" field — body is generated separately):
 {

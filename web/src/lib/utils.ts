@@ -37,6 +37,7 @@ export function formatDate(date: Date | string): string {
 import { SITE_URL } from "@/lib/constants";
 
 export function absoluteUrl(path: string, base?: string): string {
+  if (/^https?:\/\//i.test(path)) return path;
   const site = base ?? SITE_URL;
   return `${site.replace(/\/$/, "")}${path.startsWith("/") ? path : `/${path}`}`;
 }

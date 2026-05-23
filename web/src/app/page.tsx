@@ -1,12 +1,11 @@
 import Link from "next/link";
-import Image from "next/image";
+import { FeaturedImage } from "@/components/blog/featured-image";
 import { ArticleCard } from "@/components/blog/article-card";
 import { NewsletterForm } from "@/components/blog/newsletter-form";
 import { getPublishedArticles, getTrendingArticles } from "@/lib/articles";
 import { prisma } from "@/lib/prisma";
 import { SITE_NAME } from "@/lib/constants";
 import { websiteJsonLd } from "@/lib/seo";
-import { resizeImageUrl } from "@/lib/image-utils";
 import { ArrowRight, Sparkles, TrendingUp, Zap, BookOpen, Flame, Clock } from "lucide-react";
 import { Fragment } from "react";
 
@@ -33,21 +32,16 @@ type CompactArticle = {
 };
 
 function CompactStoryCard({ article }: { article: CompactArticle }) {
-  const imageSrc = resizeImageUrl(
-    article.featuredImage ??
-      "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&h=250&fit=crop&q=80",
-    240
-  );
-
   return (
     <Link
       href={`/blog/${article.slug}`}
       className="group flex gap-3 rounded-xl border border-border bg-card/80 p-2.5 transition hover:border-accent/40 hover:bg-card sm:block sm:p-0"
     >
       <div className="relative aspect-[900/560] w-24 shrink-0 overflow-hidden rounded-lg sm:w-full sm:rounded-b-none sm:rounded-t-xl">
-        <Image
-          src={imageSrc}
+        <FeaturedImage
+          src={article.featuredImage}
           alt={article.title}
+          width={240}
           fill
           className="object-cover object-center transition duration-500 group-hover:scale-105"
           sizes="(max-width: 640px) 96px, 240px"

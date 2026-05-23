@@ -82,7 +82,7 @@ export async function generateArticle(input: {
   const settings = await prisma.siteSettings.findUnique({ where: { id: "default" } });
   const model = getGroqModel(settings?.aiModel);
 
-  const [news, recentArticles, usedImages] = await Promise.all([
+  const [fetchedNews, recentArticles, usedImages] = await Promise.all([
     fetchNewsBrief(input.niche, input.categoryName),
     prisma.article.findMany({
       where: { categoryId: input.categoryId },
@@ -93,6 +93,17 @@ export async function generateArticle(input: {
     getUsedImageFingerprints(),
   ]);
 
+  const news = input.topic
+    ? {
+        headline: input.topic.replace(/^Breaking global trend:\s*/i, "").split(".")[0].slice(0, 200),
+        summary: input.topic,
+        sources: fetchedNews?.sources ?? [],
+        trendingQuery: input.topic.slice(0, 120),
+        matchedFrom: "google_trends" as const,
+        traffic: "breaking search trend",
+      }
+    : fetchedNews;
+
   const affiliates = await prisma.affiliateLink.findMany({
     where: { isActive: true, OR: [{ niche: input.niche }, { niche: null }] },
     take: 8,
@@ -101,7 +112,7 @@ export async function generateArticle(input: {
   const keywords = buildKeywordSet({
     niche: input.niche,
     categoryName: input.categoryName,
-    newsHeadline: news?.headline,
+    newsHeadline: news?.headline ?? input.topic,
   });
 
   const prompt = buildArticlePrompt({
@@ -204,12 +215,23 @@ export async function generateArticle(input: {
 
   const imageQuery =
     parsed.featuredImageSearchQuery?.trim() ||
+    news?.headline ||
     `${parsed.title} ${input.categoryName}`.slice(0, 80);
   const featuredImage = await fetchHeroImageUrl({
     niche: input.niche,
     query: imageQuery,
     uniqueSeed: `${parsed.title}-${parsed.slug}-${Date.now()}`,
     excludeUrls: usedImages,
+    news: news
+      ? {
+          headline: news.headline,
+          summary: news.summary,
+          trendingQuery: news.trendingQuery,
+          sources: news.sources,
+        }
+      : null,
+    categoryName: input.categoryName,
+    title: parsed.title,
   });
 
   const baseSlug = slugify(parsed.slug || parsed.title);

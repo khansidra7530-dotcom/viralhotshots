@@ -1,5 +1,5 @@
 /**
- * Reassign featured images for articles that share the same photo.
+ * Reassign featured images for articles with missing or duplicate photos.
  * Usage: npx tsx scripts/fix-duplicate-images.ts
  */
 import "dotenv/config";
@@ -17,7 +17,6 @@ const prisma = new PrismaClient({ adapter: new PrismaPg(pool) });
 
 async function main() {
   const articles = await prisma.article.findMany({
-    where: { featuredImage: { not: null } },
     orderBy: { createdAt: "asc" },
     select: {
       id: true,
@@ -30,24 +29,24 @@ async function main() {
   });
 
   const seen = new Set<string>();
-  const duplicates = articles.filter((a) => {
-    if (!a.featuredImage) return false;
+  const toFix = articles.filter((a) => {
+    if (!a.featuredImage) return true;
     const fp = imageFingerprint(a.featuredImage);
     if (seen.has(fp)) return true;
     seen.add(fp);
     return false;
   });
 
-  if (!duplicates.length) {
-    console.log("No duplicate featured images found.");
+  if (!toFix.length) {
+    console.log("No missing or duplicate featured images found.");
     await prisma.$disconnect();
     await pool.end();
     return;
   }
 
-  console.log(`Fixing ${duplicates.length} article(s) with duplicate images...\n`);
+  console.log(`Fixing ${toFix.length} article(s) with missing or duplicate images...\n`);
 
-  for (const article of duplicates) {
+  for (const article of toFix) {
     const used = await getUsedImageFingerprints();
     const query =
       article.featuredImagePrompt?.trim() ||
@@ -58,13 +57,15 @@ async function main() {
       query,
       uniqueSeed: `fix-${article.slug}-${Date.now()}`,
       excludeUrls: used,
+      categoryName: article.category.name,
+      title: article.title,
     });
 
     used.add(imageFingerprint(newUrl));
 
     await prisma.article.update({
       where: { id: article.id },
-      data: { featuredImage: newUrl },
+      data: { featuredImage: newUrl, featuredImagePrompt: query },
     });
 
     console.log(`✓ ${article.title}`);

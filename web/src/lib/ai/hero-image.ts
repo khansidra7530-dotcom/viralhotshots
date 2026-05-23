@@ -1,5 +1,17 @@
 import { prisma } from "@/lib/prisma";
 import type { Niche } from "@/generated/prisma/client";
+import { imageFingerprint } from "@/lib/image-utils";
+import {
+  buildNewsImageSearchQueries,
+  fetchNewsRelatedImage,
+  type NewsImageContext,
+} from "@/lib/ai/news-image";
+
+export { imageFingerprint } from "@/lib/image-utils";
+export type { NewsImageContext } from "@/lib/ai/news-image";
+
+export const HERO_IMAGE_WIDTH = 1200;
+export const HERO_IMAGE_HEIGHT = 750;
 
 /** Curated Unsplash URLs — multiple per niche; no photo ID repeats across the site. */
 const IMAGE_POOL: Record<Niche, string[]> = {
@@ -69,18 +81,9 @@ const IMAGE_POOL: Record<Niche, string[]> = {
   ],
 };
 
-/** Stable ID for dedup — same Unsplash photo with different ?w= counts as one image. */
-export function imageFingerprint(url: string): string {
-  const unsplash = url.match(/photo-[\d]+-[\da-f]+/i);
-  if (unsplash) return unsplash[0].toLowerCase();
-  const picsum = url.match(/picsum\.photos\/seed\/([^/?]+)/i);
-  if (picsum) return `picsum:${picsum[1]}`;
-  return url.split("?")[0].toLowerCase();
-}
-
-function formatUnsplashUrl(baseUrl: string): string {
+export function formatUnsplashUrl(baseUrl: string): string {
   const base = baseUrl.split("?")[0];
-  return `${base}?w=900&h=560&fit=crop&q=80`;
+  return `${base}?w=${HERO_IMAGE_WIDTH}&h=${HERO_IMAGE_HEIGHT}&fit=crop&q=85&auto=format`;
 }
 
 function hashString(value: string): number {
@@ -146,13 +149,13 @@ function pickFromPool(
 
 function uniquePicsumUrl(seed: string, used: Set<string>): string {
   let attempt = seed;
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 30; i++) {
     const slug = attempt.replace(/[^a-zA-Z0-9-]/g, "-").slice(0, 64);
-    const url = `https://picsum.photos/seed/${slug}/900/560`;
+    const url = `https://picsum.photos/seed/${slug}/${HERO_IMAGE_WIDTH}/${HERO_IMAGE_HEIGHT}`;
     if (!isUsed(url, used)) return url;
     attempt = `${seed}-${i + 1}`;
   }
-  return `https://picsum.photos/seed/${hashString(seed + Date.now())}/900/560`;
+  return `https://picsum.photos/seed/${hashString(seed + Date.now())}/${HERO_IMAGE_WIDTH}/${HERO_IMAGE_HEIGHT}`;
 }
 
 export function getNicheImagePool(niche: Niche): string[] {
@@ -218,8 +221,8 @@ async function searchUnsplash(
   uniqueSeed: string,
   used: Set<string>
 ): Promise<string | null> {
-  const basePage = (hashString(uniqueSeed) % 8) + 1;
-  for (let pageOffset = 0; pageOffset < 5; pageOffset++) {
+  const basePage = (hashString(uniqueSeed) % 10) + 1;
+  for (let pageOffset = 0; pageOffset < 8; pageOffset++) {
     const page = basePage + pageOffset;
     const params = new URLSearchParams({
       query: searchQuery,
@@ -238,7 +241,7 @@ async function searchUnsplash(
     if (!res.ok) continue;
 
     const data = (await res.json()) as {
-      results?: { urls?: { regular?: string } }[];
+      results?: { urls?: { raw?: string; full?: string; regular?: string } }[];
     };
     const results = data.results ?? [];
     if (!results.length) continue;
@@ -246,9 +249,10 @@ async function searchUnsplash(
     const start = hashString(`${uniqueSeed}-${page}`) % results.length;
     for (let i = 0; i < results.length; i++) {
       const photo = results[(start + i) % results.length];
-      const regular = photo?.urls?.regular;
-      if (!regular) continue;
-      const url = formatUnsplashUrl(regular);
+      const base =
+        photo?.urls?.raw ?? photo?.urls?.full ?? photo?.urls?.regular;
+      if (!base) continue;
+      const url = formatUnsplashUrl(base);
       if (!isUsed(url, used)) return url;
     }
   }
@@ -262,43 +266,53 @@ export async function fetchHeroImageUrl(input: {
   uniqueSeed: string;
   /** Set of imageFingerprint() values already used on the site */
   excludeUrls?: Set<string>;
+  /** News context for relevant images from sources + search queries */
+  news?: NewsImageContext | null;
+  categoryName?: string;
+  title?: string;
 }): Promise<string> {
   const used = input.excludeUrls ?? (await getUsedImageFingerprints());
 
-  const searchQuery = input.query.replace(/_/g, " ").trim().slice(0, 80);
-  const accessKey = process.env.UNSPLASH_ACCESS_KEY;
+  try {
+    const fromNews = await fetchNewsRelatedImage(input.news?.sources, used);
+    if (fromNews) return fromNews;
+  } catch {
+    /* fall through */
+  }
 
-  if (accessKey && searchQuery.length > 2) {
-    try {
-      const fromApi = await searchUnsplash(
-        accessKey,
-        searchQuery,
-        input.uniqueSeed,
-        used
-      );
-      if (fromApi) return fromApi;
-    } catch {
-      /* fall through */
+  const searchQueries = buildNewsImageSearchQueries({
+    news: input.news,
+    niche: input.niche,
+    categoryName: input.categoryName,
+    aiQuery: input.query,
+    title: input.title,
+  });
+
+  const accessKey = process.env.UNSPLASH_ACCESS_KEY;
+  if (accessKey) {
+    for (const searchQuery of searchQueries) {
+      if (searchQuery.length < 3) continue;
+      try {
+        const fromApi = await searchUnsplash(
+          accessKey,
+          searchQuery,
+          `${input.uniqueSeed}-${searchQuery}`,
+          used
+        );
+        if (fromApi) return fromApi;
+      } catch {
+        /* try next query */
+      }
     }
   }
 
   const nichePool = IMAGE_POOL[input.niche] ?? IMAGE_POOL.TECH;
-  const fromNiche = pickFromPool(
-    nichePool,
-    `${input.niche}-${input.uniqueSeed}-${searchQuery}`,
-    used
-  );
-  if (fromNiche) return fromNiche;
+  const poolSeed = `${input.niche}-${input.uniqueSeed}-${searchQueries[0] ?? input.query}`;
+  const fromNiche = pickFromPool(nichePool, poolSeed, used);
+  if (fromNiche) return formatUnsplashUrl(fromNiche);
 
-  const fromGlobal = pickFromPool(
-    allPoolUrls(),
-    `global-${input.uniqueSeed}`,
-    used
-  );
-  if (fromGlobal) return fromGlobal;
+  const fromGlobal = pickFromPool(allPoolUrls(), `global-${input.uniqueSeed}`, used);
+  if (fromGlobal) return formatUnsplashUrl(fromGlobal);
 
-  return uniquePicsumUrl(
-    `${input.niche}-${input.uniqueSeed}-${searchQuery}`,
-    used
-  );
+  return uniquePicsumUrl(poolSeed, used);
 }

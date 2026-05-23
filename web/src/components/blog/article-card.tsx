@@ -1,7 +1,8 @@
+"use client";
+
 import Link from "next/link";
-import Image from "next/image";
 import { formatDate } from "@/lib/utils";
-import { resizeImageUrl } from "@/lib/image-utils";
+import { FeaturedImage } from "@/components/blog/featured-image";
 import { Clock, ArrowUpRight } from "lucide-react";
 
 type ArticleCardProps = {
@@ -26,9 +27,6 @@ export function ArticleCard({
   featured,
 }: ArticleCardProps) {
   const imageWidth = featured ? 640 : 384;
-  const fallback =
-    "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=640&h=400&fit=crop&q=80";
-  const imageSrc = resizeImageUrl(featuredImage ?? fallback, imageWidth);
 
   return (
     <article
@@ -40,9 +38,10 @@ export function ArticleCard({
         href={`/blog/${slug}`}
         className="relative block w-full min-h-0 overflow-hidden aspect-[900/560]"
       >
-        <Image
-          src={imageSrc}
+        <FeaturedImage
+          src={featuredImage}
           alt={title}
+          width={imageWidth}
           fill
           className="object-cover object-center transition duration-700 group-hover:scale-105"
           sizes={

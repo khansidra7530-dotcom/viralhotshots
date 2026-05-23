@@ -39,6 +39,8 @@ export async function POST(
     query: imageQuery,
     uniqueSeed: `admin-${article.slug}-${Date.now()}`,
     excludeUrls,
+    categoryName: article.category.name,
+    title: article.title,
   });
 
   return NextResponse.json({ featuredImage, featuredImagePrompt: imageQuery });

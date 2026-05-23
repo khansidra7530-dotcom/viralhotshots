@@ -19,6 +19,11 @@ const nextConfig: NextConfig = {
         destination: "/blog/ai-prompts-for-productivity",
         permanent: true,
       },
+      {
+        source: "/favicon.ico",
+        destination: "/icon",
+        permanent: true,
+      },
     ];
   },
   turbopack: {
@@ -34,6 +39,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "picsum.photos" },
       { protocol: "https", hostname: "ui-avatars.com" },
       { protocol: "https", hostname: "**.amazon.com" },
+      { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
     ],
   },
 };
