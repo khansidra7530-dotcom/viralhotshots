@@ -17,7 +17,7 @@ import { CommentSection } from "@/components/blog/comment-section";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { buildMetadata, articleJsonLd, faqJsonLd, breadcrumbJsonLd, ensureBodyMatchesTitle } from "@/lib/seo";
-import { formatDate, absoluteUrl } from "@/lib/utils";
+import { formatDate, absoluteUrl, slugify, countWords } from "@/lib/utils";
 import { getRelatedArticles, incrementViewCount } from "@/lib/articles";
 import { Clock } from "lucide-react";
 
@@ -80,6 +80,10 @@ export default async function ArticlePage({ params }: Props) {
       datePublished: article.publishedAt?.toISOString() ?? article.createdAt.toISOString(),
       dateModified: article.updatedAt.toISOString(),
       authorName: article.author.name,
+      authorUrl: absoluteUrl(`/author/${slugify(article.author.name)}`),
+      section: article.category.name,
+      keywords: article.tags,
+      wordCount: countWords(articleContent),
     }),
     breadcrumbJsonLd([
       { name: "Home", url: absoluteUrl("/") },

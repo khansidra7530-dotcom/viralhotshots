@@ -4,7 +4,8 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "About Us",
-  description: "Learn about our mission to deliver trustworthy, expert content.",
+  description:
+    "Viral Hotshots is an independent publisher of trending news explainers and expert guides across finance, tech, AI, health, gaming, crypto, business, and travel — written for everyday readers with EEAT standards.",
   path: "/about",
 });
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
+import { ORG_ID, WEBSITE_ID } from "@/lib/aeo/schema-ids";
 import { absoluteUrl } from "@/lib/utils";
 
 /** Absolute URL for Open Graph / Twitter cards — never double-prefixes https URLs. */
@@ -126,22 +127,40 @@ export function articleJsonLd(input: {
   datePublished: string;
   dateModified: string;
   authorName: string;
+  authorUrl?: string;
+  section?: string;
+  keywords?: string[];
+  wordCount?: number;
 }) {
   return {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "NewsArticle",
     headline: normalizeSeoTitle(input.title),
     description: normalizeMetaDescription(input.description),
-    image: input.image ? [resolveSocialImageUrl(input.image)] : [resolveSocialImageUrl(null)],
+    image: [resolveSocialImageUrl(input.image)],
     datePublished: input.datePublished,
     dateModified: input.dateModified,
-    author: { "@type": "Person", name: input.authorName },
+    author: {
+      "@type": "Person",
+      name: input.authorName,
+      ...(input.authorUrl && { url: input.authorUrl }),
+    },
     publisher: {
       "@type": "Organization",
+      "@id": ORG_ID,
       name: SITE_NAME,
       url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/icon`,
+      },
     },
+    isAccessibleForFree: true,
+    isPartOf: { "@id": WEBSITE_ID },
     mainEntityOfPage: { "@type": "WebPage", "@id": input.url },
+    ...(input.section && { articleSection: input.section }),
+    ...(input.keywords?.length && { keywords: input.keywords.join(", ") }),
+    ...(input.wordCount && { wordCount: input.wordCount }),
   };
 }
 
@@ -149,11 +168,13 @@ export function websiteJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": WEBSITE_ID,
     name: SITE_NAME,
     url: SITE_URL,
     description: normalizeMetaDescription(
       "Breaking trends, expert guides, and honest reviews across finance, tech, AI, health, and more."
     ),
+    publisher: { "@id": ORG_ID },
     potentialAction: {
       "@type": "SearchAction",
       target: `${SITE_URL}/search?q={search_term_string}`,
